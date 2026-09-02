@@ -1,7 +1,7 @@
 /* ==========================================================================
    RESIDENT-VERSE : SPIDER-MAN MULTIVERSE MOVIE TITLE ENGINE
-   Features: 3D Mouse Parallax, 4 Page Transitions (Web Shot, Comic Slam, Portal, Web-Swing),
-   Staggered Entrance Animations, Flexbox Logo Flow, Google Sheets Submission.
+   Features: Overlapping Web-Pull Transitions, Hobbies Scene, 3D Parallax,
+   Multi-Layer Cards, Google Sheets Submission.
    ========================================================================== */
 
 // ===== PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE =====
@@ -16,6 +16,7 @@ const residentProfile = {
   year: "",
   classThought: "",
   organizations: "",
+  hobbies: [],
   interests: [],
   otherHobby: "",
   eventPreferences: [],
@@ -23,17 +24,18 @@ const residentProfile = {
   additionalMessage: ""
 };
 
-// Scene Progress Checkpoints
+// Scene Progress Checkpoints (10 Total Scenes: 0 to 9)
 const PROGRESS_MAP = {
-  0: 0,   // Intro
-  1: 20,  // Identity
-  2: 40,  // Academics
-  3: 55,  // Campus Alliances
-  4: 75,  // Select Your Powers
-  5: 90,  // Community Missions
-  6: 95,  // Final Message
-  7: 98,  // Verifying
-  8: 100  // Final Reveal
+  0: 0,   // Intro Landing
+  1: 15,  // Identity
+  2: 30,  // Academics
+  3: 45,  // Campus Alliances
+  4: 60,  // Hobbies & Side Quests (NEW!)
+  5: 75,  // Select Your Powers
+  6: 90,  // Community Missions
+  7: 95,  // Final Message
+  8: 98,  // Verifying
+  9: 100  // Final Reveal
 };
 
 // Transition Variation Counter
@@ -80,6 +82,9 @@ const DOM = {
   // Campus Inputs
   inputOrgs: document.getElementById('input-orgs'),
   netNodes: document.querySelectorAll('.net-node'),
+
+  // Hobbies Inputs (NEW!)
+  gridHobbies: document.getElementById('grid-hobbies'),
   
   // Powers Inputs
   gridInterests: document.getElementById('grid-interests'),
@@ -95,7 +100,7 @@ const DOM = {
   btnSkipMessage: document.getElementById('btn-skip-message'),
   btnFinish: document.getElementById('btn-finish'),
   
-  // Final Ending & Summary (NO ROOM NUMBER!)
+  // Final Ending & Summary
   finalResidentName: document.getElementById('final-resident-name'),
   sumMajor: document.getElementById('sum-major'),
   sumYear: document.getElementById('sum-year'),
@@ -152,7 +157,7 @@ function setupEventListeners() {
   // Intro Start Button
   DOM.btnStart.addEventListener('click', (e) => {
     animateButtonPress(DOM.btnStart);
-    triggerSoundEffect('THWIP!', window.innerWidth / 2 - 60, window.innerHeight / 2);
+    triggerSoundEffect('WHAM!', window.innerWidth / 2 - 60, window.innerHeight / 2);
     transitionToScene(1);
   });
 
@@ -177,6 +182,23 @@ function setupEventListeners() {
       saveAnswersToSession();
     });
   });
+
+  // Hobbies Multi-Select Cards (NEW SCENE 4!)
+  if (DOM.gridHobbies) {
+    DOM.gridHobbies.querySelectorAll('.hobby-chip').forEach(tile => {
+      tile.addEventListener('click', () => {
+        tile.classList.toggle('selected');
+        const val = tile.getAttribute('data-value');
+        if (tile.classList.contains('selected')) {
+          if (!residentProfile.hobbies.includes(val)) residentProfile.hobbies.push(val);
+          triggerSoundEffect('QUEST UNLOCKED!', tile.getBoundingClientRect().left, tile.getBoundingClientRect().top);
+        } else {
+          residentProfile.hobbies = residentProfile.hobbies.filter(item => item !== val);
+        }
+        saveAnswersToSession();
+      });
+    });
+  }
 
   // Interest Multi-Select Cards
   DOM.gridInterests.querySelectorAll('.tile-checkbox').forEach(tile => {
@@ -283,13 +305,7 @@ function handleNextScene(e) {
   
   if (validateScene(currentSceneIndex)) {
     collectCurrentSceneAnswers();
-    if (currentSceneIndex < 6) {
-      const clickX = e && e.clientX ? e.clientX : window.innerWidth / 2;
-      const clickY = e && e.clientY ? e.clientY : window.innerHeight / 2;
-      
-      const soundText = transitionStyleIndex % 2 === 0 ? 'THWIP!' : 'WHAM!';
-      triggerSoundEffect(soundText, clickX, clickY);
-      
+    if (currentSceneIndex < 7) { // 10 total scenes (0 to 9)
       transitionToScene(currentSceneIndex + 1);
     }
   }
@@ -301,23 +317,18 @@ function handleBackScene() {
   transitionToScene(currentSceneIndex - 1, true);
 }
 
-// ===== 4 TRANSITION VARIATIONS ENGINE (inc. Web-Swing) =====
+// ===== 4 OVERLAPPING TRANSITION ENGINE =====
 function transitionToScene(targetSceneIndex, isBack = false) {
   isTransitioning = true;
   triggerImpactFlash();
   
   const currentScene = document.querySelector(`[data-scene-index="${currentSceneIndex}"]`);
-  
-  // Cycle between 4 transition styles: Web Shot, Panel Slam, Portal Scale, Web Swing
+  const targetScene = document.querySelector(`[data-scene-index="${targetSceneIndex}"]`);
+
+  // Cycle between 4 transition styles: Web Pull, Panel Slam, Portal Scale, Web Swing
   const styles = ['web-wipe', 'panel-slam', 'portal-expand', 'web-swing'];
   const currentStyle = styles[transitionStyleIndex % styles.length];
   transitionStyleIndex++;
-
-  if (currentStyle === 'web-swing' && currentScene) {
-    currentScene.classList.add('scene-transition-swing-exit');
-  } else if (currentScene) {
-    currentScene.classList.add('scene-exit');
-  }
 
   if (currentStyle === 'web-wipe') {
     playWebTransition();
@@ -325,12 +336,25 @@ function transitionToScene(targetSceneIndex, isBack = false) {
     triggerScreenShake();
   }
 
+  // 100-350ms: Web strand extends; 250ms: current scene starts sliding out
+  setTimeout(() => {
+    if (currentScene) {
+      if (currentStyle === 'web-swing') {
+        currentScene.classList.add('scene-transition-swing-exit');
+      } else {
+        currentScene.classList.add('scene-exit');
+      }
+    }
+  }, 120);
+
+  // 350-450ms: Target scene is already visible underneath and begins entering
   setTimeout(() => {
     DOM.scenes.forEach(s => {
-      s.classList.remove('active-scene', 'scene-exit', 'scene-enter', 'scene-transition-slam', 'scene-transition-portal', 'scene-transition-swing-exit', 'scene-transition-swing-enter');
+      if (s !== currentScene && s !== targetScene) {
+        s.classList.remove('active-scene', 'scene-exit', 'scene-enter', 'scene-transition-slam', 'scene-transition-portal', 'scene-transition-swing-exit', 'scene-transition-swing-enter');
+      }
     });
     
-    const targetScene = document.querySelector(`[data-scene-index="${targetSceneIndex}"]`);
     if (targetScene) {
       targetScene.classList.add('active-scene');
       if (currentStyle === 'web-swing') {
@@ -346,21 +370,25 @@ function transitionToScene(targetSceneIndex, isBack = false) {
     }
 
     // Top progress bar updates
-    if (targetSceneIndex > 0 && targetSceneIndex < 7) {
+    if (targetSceneIndex > 0 && targetSceneIndex < 8) {
       DOM.progressContainer.classList.remove('hidden');
       updateProgress(PROGRESS_MAP[targetSceneIndex]);
-    } else if (targetSceneIndex === 8) {
+    } else if (targetSceneIndex === 9) {
       DOM.progressContainer.classList.remove('hidden');
       updateProgress(100);
     } else {
       DOM.progressContainer.classList.add('hidden');
     }
+  }, 350);
 
-    setTimeout(() => {
-      DOM.webOverlay.classList.remove('web-wipe-active');
-      isTransitioning = false;
-    }, 300);
-  }, 450);
+  // 750-900ms: Cleanup transition overlays & unlock controls
+  setTimeout(() => {
+    DOM.webOverlay.classList.remove('web-wipe-active');
+    if (currentScene) {
+      currentScene.classList.remove('active-scene', 'scene-exit', 'scene-transition-swing-exit');
+    }
+    isTransitioning = false;
+  }, 750);
 }
 
 function playWebTransition() {
@@ -442,7 +470,7 @@ function triggerFinishMission() {
   DOM.btnFinish.disabled = true;
 
   collectCurrentSceneAnswers();
-  transitionToScene(7); // Verifying scene
+  transitionToScene(8); // Verifying scene
   
   submitResidentProfile(residentProfile);
 }
@@ -500,7 +528,7 @@ function runVerifyingLogSequence(isSuccess) {
     if (isSuccess) {
       triggerImpactFlash();
       renderFinalEnding();
-      transitionToScene(8); // Final reveal
+      transitionToScene(9); // Final reveal scene (Scene 9)
       sessionStorage.removeItem('residentProfileData'); // Clear session on success
     } else {
       DOM.errorModal.classList.remove('hidden-modal');
@@ -513,7 +541,10 @@ function renderFinalEnding() {
   DOM.finalResidentName.textContent = displayName.toUpperCase();
   DOM.sumMajor.textContent = residentProfile.major || 'UNDECIDED';
   DOM.sumYear.textContent = (residentProfile.year || 'HERO').toUpperCase();
-  DOM.sumPowers.textContent = `${residentProfile.interests.length} LOGGED`;
+  
+  const totalLogged = (residentProfile.interests ? residentProfile.interests.length : 0) + 
+                      (residentProfile.hobbies ? residentProfile.hobbies.length : 0);
+  DOM.sumPowers.textContent = `${totalLogged} LOGGED`;
 }
 
 // ===== SESSION STORAGE REFRESH PROTECTION =====
@@ -545,6 +576,12 @@ function restoreAnswersFromSession() {
       if (residentProfile.year) {
         DOM.gridYear.querySelectorAll('.tile-radio').forEach(t => {
           if (t.getAttribute('data-value') === residentProfile.year) t.classList.add('selected');
+        });
+      }
+
+      if (DOM.gridHobbies && Array.isArray(residentProfile.hobbies)) {
+        DOM.gridHobbies.querySelectorAll('.hobby-chip').forEach(t => {
+          if (residentProfile.hobbies.includes(t.getAttribute('data-value'))) t.classList.add('selected');
         });
       }
 

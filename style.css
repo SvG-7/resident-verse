@@ -1,14 +1,14 @@
 /* ==========================================================================
    RESIDENT-VERSE : SPIDER-MAN MULTIVERSE MOVIE TITLE SEQUENCE STYLESHEET
-   Aesthetics: Spider-Verse High-Density 100svh Movie Poster Composition,
-   City Silhouettes, Multi-Ring SVG Portal, 4 Page Transitions (inc. Web-Swing).
+   Aesthetics: Spider-Verse 100svh Movie Poster Layout, Multi-Layer Cards,
+   Hobbies Grid, 4 Overlapping Transitions (Web Shot, Slam, Portal, Web-Swing).
    ========================================================================== */
 
 /* ===== EDIT COLORS & THEME CONSTANTS HERE ===== */
 :root {
   --bg-dark: #07080D;
-  --bg-panel: #11131f;
-  --bg-panel-alt: #181b2c;
+  --bg-panel: #0b0d16;
+  --bg-panel-alt: #141727;
   
   --red-accent: #FF315D;
   --red-glow: rgba(255, 49, 93, 0.45);
@@ -93,8 +93,8 @@ html, body {
   width: 100vw;
   height: 100vh;
   background: 
-    radial-gradient(circle at 65% 45%, rgba(255, 49, 93, 0.22), transparent 38%),
-    radial-gradient(circle at 30% 65%, rgba(0, 221, 235, 0.12), transparent 32%),
+    radial-gradient(circle at 85% 20%, rgba(255, 49, 93, 0.22), transparent 38%),
+    radial-gradient(circle at 15% 80%, rgba(0, 221, 235, 0.12), transparent 32%),
     radial-gradient(circle at center, transparent 35%, rgba(0, 0, 0, 0.88) 100%);
   z-index: -3;
   pointer-events: none;
@@ -157,7 +157,7 @@ html, body {
 .tag-label { letter-spacing: 1px; }
 .tag-status { margin-left: 6px; padding: 1px 4px; background: var(--cyan-accent); color: #000; border-radius: 2px; font-size: 0.6rem; }
 
-/* ==================== DYNAMIC WEB SHOOTER TRANSITION OVERLAY ==================== */
+/* ==================== PURE SVG WEB SHOOTER TRANSITION OVERLAY ==================== */
 
 #web-transition-overlay {
   position: fixed;
@@ -189,20 +189,21 @@ html, body {
 
 .web-strand {
   stroke: #ffffff;
-  stroke-width: 3;
+  stroke-width: 3.5;
   fill: none;
-  stroke-dasharray: 400;
-  stroke-dashoffset: 400;
-  transition: stroke-dashoffset 0.35s ease-out;
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+  transition: stroke-dashoffset 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: drop-shadow(0 0 6px var(--cyan-accent));
 }
 
 .web-ring {
   stroke: var(--cyan-accent);
-  stroke-width: 2;
+  stroke-width: 2.5;
   fill: none;
-  stroke-dasharray: 250;
-  stroke-dashoffset: 250;
-  transition: stroke-dashoffset 0.35s ease-out 0.08s;
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  transition: stroke-dashoffset 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.06s;
 }
 
 #web-transition-overlay.web-wipe-active .web-strand,
@@ -216,39 +217,22 @@ html, body {
   stroke-width: 2;
   transform: scale(0);
   transform-origin: center;
-  transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 #web-transition-overlay.web-wipe-active .web-center-burst {
-  transform: scale(30);
+  transform: scale(32);
 }
 
-.web-thwip-text {
-  position: relative;
-  z-index: 9600;
-  font-family: var(--font-comic);
-  font-size: 4rem;
-  color: var(--yellow-accent);
-  text-shadow: 4px 4px 0px #000, -3px -3px 0px var(--red-accent);
-  opacity: 0;
-  transform: scale(0.3) rotate(-12deg);
-  transition: opacity 0.2s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-#web-transition-overlay.web-wipe-active .web-thwip-text {
-  opacity: 1;
-  transform: scale(1.2) rotate(-5deg);
-}
-
-/* ==================== 4 CINEMATIC PAGE TRANSITION VARIATIONS ==================== */
+/* ==================== 4 OVERLAPPING PAGE TRANSITION VARIATIONS ==================== */
 
 .scene-exit {
-  animation: pageExit 550ms cubic-bezier(.7,0,.2,1) forwards !important;
+  animation: pageExit 550ms cubic-bezier(.16,1,.3,1) forwards !important;
 }
 
 @keyframes pageExit {
-  from { opacity: 1; transform: translateX(0) scale(1); }
-  to { opacity: 0; transform: translateX(-35px) scale(.96); }
+  0% { opacity: 1; transform: translateX(0) rotate(0deg) scale(1); }
+  100% { opacity: 0; transform: translateX(-110vw) rotate(-5deg) scale(.96); }
 }
 
 .scene-enter {
@@ -256,8 +240,8 @@ html, body {
 }
 
 @keyframes pageEnter {
-  from { opacity: 0; transform: translateY(18px) scale(.97); filter: blur(4px); }
-  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  0% { opacity: 0; transform: translateX(40px) translateY(10px) scale(.97); filter: blur(4px); }
+  100% { opacity: 1; transform: translateX(0) translateY(0) scale(1); filter: blur(0); }
 }
 
 /* Variation B: Comic Panel Slam */
@@ -458,7 +442,7 @@ html, body {
   position: absolute;
   top: 0;
   right: 0;
-  width: 10px;
+  width: 100%;
   height: 100%;
   background: #ffffff;
   opacity: 0.8;
@@ -499,7 +483,86 @@ html, body {
 
 .scene-inner { width: 100%; position: relative; }
 
-/* ==================== 100SVH MOVIE POSTER LANDING & PORTAL ==================== */
+/* ==================== SPIDER-THEMED MULTI-LAYER QUESTION CARDS ==================== */
+
+.comic-card {
+  background: 
+    radial-gradient(circle at 85% 20%, rgba(255, 49, 93, 0.18), transparent 35%),
+    radial-gradient(circle at 10% 90%, rgba(0, 221, 235, 0.12), transparent 30%),
+    var(--bg-panel);
+  border: 3px solid #000000;
+  box-shadow: var(--shadow-comic);
+  padding: 24px;
+  position: relative;
+  margin-bottom: 16px;
+  overflow: hidden;
+  clip-path: polygon(0 0, 97% 0, 100% 8%, 100% 100%, 3% 100%, 0 92%);
+}
+
+.offset-print-layer {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 49, 93, 0.15);
+  border: 3px solid var(--red-accent);
+  z-index: -1;
+  pointer-events: none;
+  clip-path: polygon(0 0, 97% 0, 100% 8%, 100% 100%, 3% 100%, 0 92%);
+}
+
+.card-corner-web {
+  position: absolute;
+  width: 130px;
+  height: 130px;
+  pointer-events: none;
+  z-index: 0;
+  animation: cardWebBreathe 8s ease-in-out infinite alternate;
+}
+
+@keyframes cardWebBreathe {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.05); }
+}
+
+.top-right-card-web { top: 0; right: 0; }
+.bottom-left-card-web { bottom: 0; left: 0; }
+
+.bg-section-number {
+  position: absolute;
+  right: -15px;
+  bottom: -40px;
+  font-family: var(--font-comic);
+  font-size: clamp(220px, 38vw, 600px);
+  color: #ffffff;
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 0;
+  line-height: 0.75;
+  user-select: none;
+  letter-spacing: -10px;
+}
+
+.panel-angled {
+  border-top: 4px solid var(--red-accent);
+}
+
+.panel-impact {
+  border-left: 5px solid var(--cyan-accent);
+}
+
+.panel-accent {
+  background: linear-gradient(165deg, var(--bg-panel) 0%, var(--bg-panel-alt) 100%);
+  border-right: 5px solid var(--purple-accent);
+}
+
+.panel-dark {
+  background: #0d0f18;
+  border-bottom: 4px solid var(--yellow-accent);
+}
+
+/* 100SVH MOVIE POSTER LANDING & PORTAL */
 
 .hero-poster-card {
   display: flex;
@@ -509,6 +572,7 @@ html, body {
   padding: 28px 18px;
   min-height: 82vh;
   justify-content: space-between;
+  clip-path: none !important;
 }
 
 .portal-hero-composition {
@@ -646,7 +710,7 @@ html, body {
 .title-layer-cyan { position: absolute; top: 3px; left: -3px; color: var(--cyan-accent); z-index: 3; opacity: 0.9; }
 .title-layer-bg { position: absolute; top: 5px; left: 5px; color: #000000; z-index: 1; }
 
-/* Lower Info & Action Bar (Clean Flexbox Flow, ZERO Overlap!) */
+/* Lower Info & Action Bar */
 .hero-lower-content {
   width: 100%;
   display: flex;
@@ -673,128 +737,6 @@ html, body {
   margin-top: 0;
   margin-bottom: 24px;
   line-height: 1.5;
-}
-
-/* ==================== QUESTION PANELS & BACKGROUND NUMBERS ==================== */
-
-.comic-card {
-  background: var(--bg-panel);
-  border: 3px solid #000000;
-  box-shadow: var(--shadow-comic);
-  padding: 24px;
-  position: relative;
-  margin-bottom: 16px;
-  overflow: hidden;
-}
-
-.bg-section-number {
-  position: absolute;
-  right: -15px;
-  bottom: -40px;
-  font-family: var(--font-comic);
-  font-size: clamp(220px, 38vw, 600px);
-  color: #ffffff;
-  opacity: 0.04;
-  pointer-events: none;
-  z-index: 0;
-  line-height: 0.75;
-  user-select: none;
-  letter-spacing: -10px;
-}
-
-.panel-angled {
-  clip-path: polygon(0 0, 100% 0, 99% 99%, 1% 100%);
-  border-top: 4px solid var(--red-accent);
-}
-
-.panel-impact {
-  clip-path: polygon(0 1%, 100% 0, 99% 100%, 0% 99%);
-  border-left: 5px solid var(--cyan-accent);
-}
-
-.panel-accent {
-  background: linear-gradient(165deg, var(--bg-panel) 0%, var(--bg-panel-alt) 100%);
-  border-right: 5px solid var(--purple-accent);
-}
-
-.panel-dark {
-  background: #0d0f18;
-  border-bottom: 4px solid var(--yellow-accent);
-}
-
-/* Identity Scene */
-.identity-panel-layout { position: relative; }
-
-.spidey-crouch-container {
-  width: 100%;
-  height: 140px;
-  position: relative;
-  overflow: hidden;
-  border: 2px solid #000000;
-  box-shadow: 3px 3px 0px #000000;
-  margin-bottom: 16px;
-  background: #0d0f18;
-  clip-path: polygon(0 0, 100% 0, 98% 90%, 0 100%);
-}
-
-.spidey-crouch-badge {
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 700;
-  background: var(--red-accent);
-  color: #ffffff;
-  padding: 3px 8px;
-  border: 1px solid #000;
-  box-shadow: 2px 2px 0px #000;
-  transform: rotate(-2deg);
-}
-
-/* Academics Scene Backdrop */
-.spidey-city-panel-bg {
-  width: 100%;
-  height: 120px;
-  position: relative;
-  overflow: hidden;
-  border: 2px solid #000;
-  margin-bottom: 14px;
-}
-
-.city-dark-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(180deg, rgba(8, 9, 14, 0.4) 0%, rgba(17, 19, 31, 0.95) 100%);
-}
-
-/* Campus Scene Banner */
-.spidey-comic-banner {
-  width: 100%;
-  height: 110px;
-  position: relative;
-  overflow: hidden;
-  border: 2px solid #000;
-  margin-bottom: 14px;
-  background: #0d0f18;
-}
-
-#network-svg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.spidey-final-emblem {
-  width: 110px;
-  height: 110px;
-  margin: 0 auto 16px auto;
-  filter: drop-shadow(0 0 14px var(--red-glow));
 }
 
 /* Caption Boxes & Titles */
@@ -996,7 +938,7 @@ html, body {
 
 .nav-right-group { display: flex; gap: 8px; }
 
-/* ==================== FORM INPUTS (Font-size >= 16px to prevent Mobile Zoom) ==================== */
+/* ==================== FORM INPUTS & CARDS ==================== */
 
 .form-sequence { display: flex; flex-direction: column; gap: 18px; position: relative; z-index: 1; }
 
@@ -1026,7 +968,7 @@ html, body {
   border: 2.5px solid rgba(255, 255, 255, 0.2);
   color: #ffffff;
   font-family: var(--font-sans);
-  font-size: 16px; /* Prevents mobile iOS auto-zoom */
+  font-size: 16px;
   padding: 12px 14px;
   border-radius: var(--panel-radius);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -1052,15 +994,14 @@ html, body {
 .optional-box { margin-top: 18px; padding-top: 14px; border-top: 1px dashed rgba(255, 255, 255, 0.15); position: relative; z-index: 1; }
 .reassurance-note { font-size: 0.82rem; color: var(--text-muted); margin-top: 10px; position: relative; z-index: 1; }
 
-/* ==================== CARDS & TILES ==================== */
-
 .tile-grid { display: grid; gap: 10px; width: 100%; position: relative; z-index: 1; }
 .year-grid { grid-template-columns: repeat(2, 1fr); margin-bottom: 14px; }
+.hobbies-grid { grid-template-columns: repeat(2, 1fr); max-height: 320px; overflow-y: auto; padding-right: 4px; margin-bottom: 14px; }
 .power-grid { grid-template-columns: repeat(2, 1fr); max-height: 340px; overflow-y: auto; padding-right: 4px; margin-bottom: 14px; }
 .mission-grid { grid-template-columns: repeat(2, 1fr); max-height: 360px; overflow-y: auto; padding-right: 4px; margin-bottom: 14px; }
 
-.power-grid::-webkit-scrollbar, .mission-grid::-webkit-scrollbar { width: 5px; }
-.power-grid::-webkit-scrollbar-thumb { background: var(--red-accent); border-radius: 3px; }
+.hobbies-grid::-webkit-scrollbar, .power-grid::-webkit-scrollbar, .mission-grid::-webkit-scrollbar { width: 5px; }
+.hobbies-grid::-webkit-scrollbar-thumb, .power-grid::-webkit-scrollbar-thumb { background: var(--red-accent); border-radius: 3px; }
 .mission-grid::-webkit-scrollbar-thumb { background: var(--cyan-accent); border-radius: 3px; }
 
 .comic-tile {
@@ -1080,6 +1021,8 @@ html, body {
   min-height: 64px;
   clip-path: polygon(2% 0, 100% 0, 98% 100%, 0 100%);
 }
+
+.hobby-chip { min-height: 52px; padding: 8px 10px; flex-direction: row; align-items: center; gap: 8px; }
 
 .comic-tile:hover { transform: translateY(-3px) rotate(-0.4deg); border-color: rgba(255, 255, 255, 0.4); }
 
@@ -1153,7 +1096,7 @@ html, body {
   box-shadow: 0 0 6px var(--yellow-accent);
 }
 
-/* ==================== VERIFYING SCENE ==================== */
+/* ==================== VERIFYING & ENDING SCENES ==================== */
 
 .verifying-inner { text-align: center; }
 .verifying-card { padding: 32px 18px; }
@@ -1214,8 +1157,6 @@ html, body {
 }
 
 .log-line.log-success .log-status { color: var(--cyan-accent); }
-
-/* ==================== FINAL REVEAL SCENE ==================== */
 
 .final-inner { text-align: center; position: relative; }
 
@@ -1344,11 +1285,10 @@ html, body {
   .resident-word { font-size: clamp(2.5rem, 12vw, 4.8rem); }
   .title-residentverse { font-size: clamp(2rem, 8.5vw, 3.8rem); }
   .scene-title { font-size: 1.6rem; }
-  .year-grid { grid-template-columns: 1fr 1fr; }
+  .year-grid, .hobbies-grid { grid-template-columns: 1fr 1fr; }
   .power-grid, .mission-grid { grid-template-columns: 1fr; max-height: 280px; }
   .main-welcome { font-size: 2.1rem; }
   .name-highlight { font-size: 1.7rem; }
-  .spidey-crouch-container { height: 110px; }
 }
 
 @media (max-width: 350px) {
@@ -1366,5 +1306,5 @@ html, body {
   }
   .screen-shake { animation: none !important; }
   .fx-popup { animation: none !important; opacity: 1; transform: none; }
-  .web-strand, .web-ring, .web-center-burst, .web-thwip-text, .portal-ring, .portal-scan-line { animation: none !important; opacity: 1 !important; }
+  .web-strand, .web-ring, .web-center-burst, .portal-ring, .portal-scan-line { animation: none !important; opacity: 1 !important; }
 }

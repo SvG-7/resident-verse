@@ -70,20 +70,20 @@
   <!-- LAYER 5: Comic Floating Sound Effect Layer -->
   <div id="fx-layer" aria-hidden="true"></div>
 
-  <!-- LAYER 5: Screen Flash & Speedlines Overlay -->
+  <!-- LAYER 5: Screen Flash & Pure SVG Web Shooter Overlay (NO THWIP TEXT!) -->
   <div id="impact-flash" class="hidden"></div>
   
   <div id="web-transition-overlay" class="hidden-web-overlay">
     <svg id="web-transition-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-      <path class="web-strand strand-1" d="M0,0 Q50,50 100,100"/>
-      <path class="web-strand strand-2" d="M100,0 Q50,50 0,100"/>
-      <path class="web-strand strand-3" d="M50,0 Q50,50 50,100"/>
-      <path class="web-strand strand-4" d="M0,50 Q50,50 100,50"/>
-      <circle cx="50" cy="50" r="15" class="web-ring ring-1"/>
-      <circle cx="50" cy="50" r="35" class="web-ring ring-2"/>
+      <path class="web-strand strand-main" d="M0,0 Q50,60 100,100"/>
+      <path class="web-strand strand-sub1" d="M0,0 Q30,40 70,100"/>
+      <path class="web-strand strand-sub2" d="M100,0 Q60,50 0,100"/>
+      <path class="web-strand strand-sub3" d="M50,0 Q50,50 50,100"/>
+      <path class="web-strand strand-sub4" d="M0,50 Q50,50 100,50"/>
+      <circle cx="50" cy="50" r="14" class="web-ring ring-1"/>
+      <circle cx="50" cy="50" r="32" class="web-ring ring-2"/>
       <polygon class="web-center-burst" points="50,20 70,35 70,65 50,80 30,65 30,35"/>
     </svg>
-    <div class="web-thwip-text">THWIP!</div>
   </div>
 
   <!-- Top Fixed Header & Progress System -->
@@ -222,7 +222,7 @@
 
           </div>
 
-          <!-- Lower Info & Action Bar (Clean Flexbox Flow, ZERO Overlap!) -->
+          <!-- Lower Info & Action Bar -->
           <div class="hero-lower-content">
             <div class="card-tag stagger-1">DIMENSION // RESIDENCE HALL</div>
             
@@ -251,13 +251,20 @@
     <!-- ==================== SCENE 1: IDENTITY ==================== -->
     <section id="scene-identity" class="scene" data-scene-index="1">
       <div class="scene-inner">
-        
+        <div class="offset-print-layer"></div>
         <div class="comic-card panel-angled identity-panel-layout">
           <!-- Background Section Number -->
           <div class="bg-section-number">01</div>
+          
+          <!-- Corner SVG Web Pattern -->
+          <div class="card-corner-web top-right-card-web">
+            <svg viewBox="0 0 100 100" width="100%" height="100%">
+              <path d="M 100,0 Q 50,25 0,0 M 100,0 Q 75,50 100,100 M 100,0 L 0,100 M 70,10 Q 50,50 90,30 M 40,20 Q 60,70 80,60" stroke="#00DDEB" stroke-width="1.2" fill="none" opacity="0.18"/>
+            </svg>
+          </div>
 
           <div class="form-content-wrap">
-            <div class="scene-header-badge stagger-1">IDENTITY FILE // ORIGIN STORY</div>
+            <div class="scene-header-badge stagger-1">DIMENSION 01 // ORIGIN STORY</div>
             
             <h2 class="scene-title stagger-1">
               <span class="title-highlight">EVERY HERO</span> HAS AN ORIGIN STORY.
@@ -265,8 +272,6 @@
             <p class="scene-subtitle stagger-2">Let’s start with yours.</p>
 
             <div class="form-sequence stagger-3">
-              
-              <!-- Question 1: Full Name -->
               <div class="mini-step step-active" data-step="1">
                 <label for="input-name" class="input-label">
                   <span class="label-num">01</span> WHAT'S YOUR NAME? <span class="req-star">*</span>
@@ -278,7 +283,6 @@
                 <div class="inline-error hidden-error" id="err-name">WE'RE MISSING THIS PIECE OF THE STORY.</div>
               </div>
 
-              <!-- Question 2: Preferred Name -->
               <div class="mini-step" data-step="2">
                 <label for="input-prefname" class="input-label">
                   <span class="label-num">02</span> WHAT DO YOU PREFER TO BE CALLED? <span class="opt-tag">(OPTIONAL)</span>
@@ -289,7 +293,6 @@
                 </div>
               </div>
 
-              <!-- Question 3: Hometown (NO ROOM NUMBER!) -->
               <div class="mini-step" data-step="3">
                 <label for="input-hometown" class="input-label">
                   <span class="label-num">03</span> WHERE ARE YOU FROM? <span class="req-star">*</span>
@@ -300,10 +303,8 @@
                 </div>
                 <div class="inline-error hidden-error" id="err-hometown">TELL US YOUR HOME UNIVERSE!</div>
               </div>
-
             </div>
 
-            <!-- Scene Controls -->
             <div class="scene-nav stagger-4">
               <button class="btn-comic btn-back" data-action="back">← BACK</button>
               <button class="btn-comic btn-next" data-action="next">
@@ -311,25 +312,28 @@
               </button>
             </div>
           </div>
-
         </div>
-
       </div>
     </section>
 
     <!-- ==================== SCENE 2: ACADEMIC UNIVERSE ==================== -->
     <section id="scene-academics" class="scene" data-scene-index="2">
       <div class="scene-inner">
-
+        <div class="offset-print-layer"></div>
         <div class="comic-card panel-accent academics-panel-layout">
-          <!-- Background Section Number -->
           <div class="bg-section-number">02</div>
+          
+          <div class="card-corner-web bottom-left-card-web">
+            <svg viewBox="0 0 100 100" width="100%" height="100%">
+              <path d="M 0,100 Q 50,75 100,100 M 0,100 Q 25,50 0,0 M 0,100 L 100,0 M 30,90 Q 50,50 10,70" stroke="#FF315D" stroke-width="1.2" fill="none" opacity="0.18"/>
+            </svg>
+          </div>
 
           <div class="caption-box headline-box comic-yellow-box stagger-1">
             <span class="caption-text">ORIGIN SIGNAL DETECTED...</span>
           </div>
 
-          <div class="scene-header-badge stagger-1">ACADEMIC STATUS // FIELD OF STUDY</div>
+          <div class="scene-header-badge stagger-1">DIMENSION 02 // FIELD OF STUDY</div>
           
           <h2 class="scene-title stagger-2">WHAT'S YOUR <span class="title-highlight-cyan">MAJOR?</span> <span class="req-star">*</span></h2>
           <div class="input-wrapper stagger-2">
@@ -375,7 +379,7 @@
 
           <div class="optional-box stagger-4">
             <label for="input-class-thought" class="input-label">
-              IS THERE A CLASS YOU'RE ESPECIALLY EXCITED ABOUT — OR SLIGHTLY WORRIED ABOUT — THIS SEMESTER? <span class="opt-tag">(OPTIONAL)</span>
+              IS THERE A CLASS YOU'RE ESPECIALLY EXCITED ABOUT — OR WORRIED ABOUT? <span class="opt-tag">(OPTIONAL)</span>
             </label>
             <textarea id="input-class-thought" class="comic-textarea" rows="2" placeholder="e.g. Hyped for Organic Chem! / Terrified of Calc III..."></textarea>
           </div>
@@ -386,26 +390,22 @@
               <span class="btn-text">CONTINUE MISSION</span> →
             </button>
           </div>
-
         </div>
-
       </div>
     </section>
 
     <!-- ==================== SCENE 3: CAMPUS CONNECTIONS ==================== -->
     <section id="scene-campus" class="scene" data-scene-index="3">
       <div class="scene-inner">
-
+        <div class="offset-print-layer"></div>
         <div class="comic-card panel-dark">
-          <!-- Background Section Number -->
           <div class="bg-section-number">03</div>
 
-          <div class="scene-header-badge stagger-1">CAMPUS ALLIANCES // TEAMS & CLUBS</div>
+          <div class="scene-header-badge stagger-1">DIMENSION 03 // TEAMS & CLUBS</div>
           
           <h2 class="scene-title stagger-1">EVEN HEROES <span class="title-highlight-purple">NEED A TEAM.</span></h2>
           <p class="scene-subtitle stagger-2">Are you involved in any clubs, organizations, sports, campus jobs, or other groups?</p>
 
-          <!-- Interactive Network SVG Visualizer -->
           <div class="spidey-comic-banner stagger-3">
             <svg id="network-svg" viewBox="0 0 400 90">
               <circle cx="60" cy="45" r="12" class="net-node node-1"/>
@@ -430,142 +430,103 @@
           <div class="scene-nav stagger-4">
             <button class="btn-comic btn-back" data-action="back">← BACK</button>
             <button class="btn-comic btn-next" data-action="next">
-              <span class="btn-text">SCAN INTERESTS</span> →
+              <span class="btn-text">SIDE QUESTS</span> →
             </button>
           </div>
-
         </div>
-
       </div>
     </section>
 
-    <!-- ==================== SCENE 4: SELECT YOUR POWERS ==================== -->
-    <section id="scene-interests" class="scene" data-scene-index="4">
+    <!-- ==================== SCENE 4: HOBBIES & SIDE QUESTS (NEW PAGE!) ==================== -->
+    <section id="scene-hobbies" class="scene" data-scene-index="4">
       <div class="scene-inner">
-
+        <div class="offset-print-layer"></div>
         <div class="comic-card panel-impact">
-          <!-- Background Section Number -->
           <div class="bg-section-number">04</div>
+
+          <div class="card-corner-web top-right-card-web">
+            <svg viewBox="0 0 100 100" width="100%" height="100%">
+              <path d="M 100,0 Q 50,25 0,0 M 100,0 Q 75,50 100,100 M 100,0 L 0,100 M 70,10 Q 50,50 90,30 M 40,20 Q 60,70 80,60" stroke="#00DDEB" stroke-width="1.2" fill="none" opacity="0.18"/>
+            </svg>
+          </div>
+
+          <div class="scene-header-badge stagger-1">DIMENSION 04 // SIDE QUESTS</div>
+          
+          <h2 class="scene-title stagger-1">WHAT DO YOU DO FOR <span class="title-highlight">FUN?</span></h2>
+          <p class="scene-subtitle stagger-2">Every resident has their own side quests. Select all hobbies you're into!</p>
+
+          <div class="tile-grid hobbies-grid stagger-3" id="grid-hobbies">
+            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Gaming"><span class="tile-icon">🎮</span><span class="tile-title">GAMING</span></button>
+            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Sports"><span class="tile-icon">🏀</span><span class="tile-title">SPORTS / GYM</span></button>
+            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Music"><span class="tile-icon">🎵</span><span class="tile-title">MUSIC</span></button>
+            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Movies"><span class="tile-icon">🎬</span><span class="tile-title">MOVIES / TV</span></button>
+            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Anime"><span class="tile-icon">⛩️</span><span class="tile-title">ANIME</span></button>
+            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Reading"><span class="tile-icon">📚</span><span class="tile-title">READING</span></button>
+            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Art"><span class="tile-icon">🎨</span><span class="tile-title">ART / DRAWING</span></button>
+            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Photography"><span class="tile-icon">📸</span><span class="tile-title">PHOTOGRAPHY</span></button>
+            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Cooking"><span class="tile-icon">🍳</span><span class="tile-title">COOKING</span></button>
+            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Coding"><span class="tile-icon">💻</span><span class="tile-title">CODING / TECH</span></button>
+            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Outdoors"><span class="tile-icon">🌿</span><span class="tile-title">OUTDOORS</span></button>
+            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Travel"><span class="tile-icon">✈️</span><span class="tile-title">TRAVELING</span></button>
+            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="BoardGames"><span class="tile-icon">🎲</span><span class="tile-title">BOARD GAMES</span></button>
+            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Fashion"><span class="tile-icon">👟</span><span class="tile-title">FASHION</span></button>
+            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Content"><span class="tile-icon">📹</span><span class="tile-title">CREATION</span></button>
+            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Cars"><span class="tile-icon">🚗</span><span class="tile-title">CARS / MOTORS</span></button>
+          </div>
+
+          <div class="optional-box stagger-4">
+            <label for="input-other-hobby" class="input-label">OTHER HOBBIES OR INTERESTS? <span class="opt-tag">(OPTIONAL)</span></label>
+            <input type="text" id="input-other-hobby" class="comic-input" placeholder="e.g. Cosplay, Skating, Chess, DJing...">
+          </div>
+
+          <div class="scene-nav stagger-4">
+            <button class="btn-comic btn-back" data-action="back">← BACK</button>
+            <button class="btn-comic btn-next" data-action="next">
+              <span class="btn-text">SELECT POWERS</span> →
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SCENE 5: SELECT YOUR POWERS ==================== -->
+    <section id="scene-interests" class="scene" data-scene-index="5">
+      <div class="scene-inner">
+        <div class="offset-print-layer"></div>
+        <div class="comic-card panel-impact">
+          <div class="bg-section-number">05</div>
 
           <div class="caption-box headline-box comic-yellow-box stagger-1">
             <span class="caption-text">SCANNING INTEREST SIGNALS...</span>
           </div>
 
-          <div class="scene-header-badge stagger-1">INTEREST SIGNALS // POWER GRID</div>
+          <div class="scene-header-badge stagger-1">DIMENSION 05 // POWER GRID</div>
           
           <h2 class="scene-title stagger-2">SELECT YOUR <span class="title-highlight">POWERS</span></h2>
           <p class="scene-subtitle stagger-2">Choose everything that sounds like you. Select all that apply!</p>
 
-          <!-- Counter Bar -->
           <div class="power-counter-bar stagger-2">
             <span id="power-count-text">0 POWERS SELECTED</span>
             <span class="power-pulse-indicator"></span>
           </div>
 
-          <!-- 16 Multi-Select Power Tiles Grid -->
           <div class="tile-grid power-grid stagger-3" id="grid-interests">
-            <button type="button" class="comic-tile tile-checkbox" data-value="Gaming">
-              <span class="tile-icon">🎮</span>
-              <span class="tile-title">GAMING</span>
-              <span class="tile-sub">PC / Console / Mobile</span>
-            </button>
-
-            <button type="button" class="comic-tile tile-checkbox" data-value="Sports">
-              <span class="tile-icon">🏀</span>
-              <span class="tile-title">SPORTS</span>
-              <span class="tile-sub">Hoops / Soccer / All</span>
-            </button>
-
-            <button type="button" class="comic-tile tile-checkbox" data-value="Fitness">
-              <span class="tile-icon">🏋️</span>
-              <span class="tile-title">FITNESS / GYM</span>
-              <span class="tile-sub">Lifting / Running</span>
-            </button>
-
-            <button type="button" class="comic-tile tile-checkbox" data-value="Technology">
-              <span class="tile-icon">💻</span>
-              <span class="tile-title">TECH / CODING</span>
-              <span class="tile-sub">Dev / Hardware</span>
-            </button>
-
-            <button type="button" class="comic-tile tile-checkbox" data-value="Music">
-              <span class="tile-icon">🎵</span>
-              <span class="tile-title">MUSIC</span>
-              <span class="tile-sub">Playing / Listening</span>
-            </button>
-
-            <button type="button" class="comic-tile tile-checkbox" data-value="Movies">
-              <span class="tile-icon">🎬</span>
-              <span class="tile-title">MOVIES / TV</span>
-              <span class="tile-sub">Anime / Sci-Fi / Drama</span>
-            </button>
-
-            <button type="button" class="comic-tile tile-checkbox" data-value="Reading">
-              <span class="tile-icon">📚</span>
-              <span class="tile-title">READING</span>
-              <span class="tile-sub">Comics / Books / Manga</span>
-            </button>
-
-            <button type="button" class="comic-tile tile-checkbox" data-value="Art">
-              <span class="tile-icon">🎨</span>
-              <span class="tile-title">ART / CREATIVE</span>
-              <span class="tile-sub">Drawing / Design</span>
-            </button>
-
-            <button type="button" class="comic-tile tile-checkbox" data-value="Photography">
-              <span class="tile-icon">📸</span>
-              <span class="tile-title">PHOTOGRAPHY</span>
-              <span class="tile-sub">Digital / Film</span>
-            </button>
-
-            <button type="button" class="comic-tile tile-checkbox" data-value="Cooking">
-              <span class="tile-icon">🍳</span>
-              <span class="tile-title">COOKING / FOOD</span>
-              <span class="tile-sub">Baking / Foodie</span>
-            </button>
-
-            <button type="button" class="comic-tile tile-checkbox" data-value="Travel">
-              <span class="tile-icon">✈️</span>
-              <span class="tile-title">TRAVEL</span>
-              <span class="tile-sub">Road trips / Exploring</span>
-            </button>
-
-            <button type="button" class="comic-tile tile-checkbox" data-value="BoardGames">
-              <span class="tile-icon">🎲</span>
-              <span class="tile-title">BOARD GAMES</span>
-              <span class="tile-sub">Tabletop / Cards</span>
-            </button>
-
-            <button type="button" class="comic-tile tile-checkbox" data-value="Outdoors">
-              <span class="tile-icon">🌿</span>
-              <span class="tile-title">OUTDOORS</span>
-              <span class="tile-sub">Hiking / Camping</span>
-            </button>
-
-            <button type="button" class="comic-tile tile-checkbox" data-value="Podcasts">
-              <span class="tile-icon">🎧</span>
-              <span class="tile-title">PODCASTS</span>
-              <span class="tile-sub">True Crime / Lore</span>
-            </button>
-
-            <button type="button" class="comic-tile tile-checkbox" data-value="Cars">
-              <span class="tile-icon">🚗</span>
-              <span class="tile-title">CARS / MOTORS</span>
-              <span class="tile-sub">Auto / Racing</span>
-            </button>
-
-            <button type="button" class="comic-tile tile-checkbox" data-value="Fashion">
-              <span class="tile-icon">👟</span>
-              <span class="tile-title">FASHION</span>
-              <span class="tile-sub">Sneakers / Fits</span>
-            </button>
-          </div>
-
-          <div class="optional-box stagger-4">
-            <label for="input-other-hobby" class="input-label">
-              GOT A HOBBY WE MISSED? <span class="opt-tag">(OPTIONAL)</span>
-            </label>
-            <input type="text" id="input-other-hobby" class="comic-input" placeholder="e.g. Cosplay, Skating, Chess, DJing...">
+            <button type="button" class="comic-tile tile-checkbox" data-value="Gaming"><span class="tile-icon">🎮</span><span class="tile-title">GAMING</span><span class="tile-sub">PC / Console / Mobile</span></button>
+            <button type="button" class="comic-tile tile-checkbox" data-value="Sports"><span class="tile-icon">🏀</span><span class="tile-title">SPORTS</span><span class="tile-sub">Hoops / Soccer / All</span></button>
+            <button type="button" class="comic-tile tile-checkbox" data-value="Fitness"><span class="tile-icon">🏋️</span><span class="tile-title">FITNESS / GYM</span><span class="tile-sub">Lifting / Running</span></button>
+            <button type="button" class="comic-tile tile-checkbox" data-value="Technology"><span class="tile-icon">💻</span><span class="tile-title">TECH / CODING</span><span class="tile-sub">Dev / Hardware</span></button>
+            <button type="button" class="comic-tile tile-checkbox" data-value="Music"><span class="tile-icon">🎵</span><span class="tile-title">MUSIC</span><span class="tile-sub">Playing / Listening</span></button>
+            <button type="button" class="comic-tile tile-checkbox" data-value="Movies"><span class="tile-icon">🎬</span><span class="tile-title">MOVIES / TV</span><span class="tile-sub">Anime / Sci-Fi / Drama</span></button>
+            <button type="button" class="comic-tile tile-checkbox" data-value="Reading"><span class="tile-icon">📚</span><span class="tile-title">READING</span><span class="tile-sub">Comics / Books / Manga</span></button>
+            <button type="button" class="comic-tile tile-checkbox" data-value="Art"><span class="tile-icon">🎨</span><span class="tile-title">ART / CREATIVE</span><span class="tile-sub">Drawing / Design</span></button>
+            <button type="button" class="comic-tile tile-checkbox" data-value="Photography"><span class="tile-icon">📸</span><span class="tile-title">PHOTOGRAPHY</span><span class="tile-sub">Digital / Film</span></button>
+            <button type="button" class="comic-tile tile-checkbox" data-value="Cooking"><span class="tile-icon">🍳</span><span class="tile-title">COOKING / FOOD</span><span class="tile-sub">Baking / Foodie</span></button>
+            <button type="button" class="comic-tile tile-checkbox" data-value="Travel"><span class="tile-icon">✈️</span><span class="tile-title">TRAVEL</span><span class="tile-sub">Road trips / Exploring</span></button>
+            <button type="button" class="comic-tile tile-checkbox" data-value="BoardGames"><span class="tile-icon">🎲</span><span class="tile-title">BOARD GAMES</span><span class="tile-sub">Tabletop / Cards</span></button>
+            <button type="button" class="comic-tile tile-checkbox" data-value="Outdoors"><span class="tile-icon">🌿</span><span class="tile-title">OUTDOORS</span><span class="tile-sub">Hiking / Camping</span></button>
+            <button type="button" class="comic-tile tile-checkbox" data-value="Podcasts"><span class="tile-icon">🎧</span><span class="tile-title">PODCASTS</span><span class="tile-sub">True Crime / Lore</span></button>
+            <button type="button" class="comic-tile tile-checkbox" data-value="Cars"><span class="tile-icon">🚗</span><span class="tile-title">CARS / MOTORS</span><span class="tile-sub">Auto / Racing</span></button>
+            <button type="button" class="comic-tile tile-checkbox" data-value="Fashion"><span class="tile-icon">👟</span><span class="tile-title">FASHION</span><span class="tile-sub">Sneakers / Fits</span></button>
           </div>
 
           <div class="scene-nav stagger-4">
@@ -574,116 +535,41 @@
               <span class="btn-text">COMMUNITY MISSIONS</span> →
             </button>
           </div>
-
         </div>
-
       </div>
     </section>
 
-    <!-- ==================== SCENE 5: COMMUNITY MISSION ==================== -->
-    <section id="scene-events" class="scene" data-scene-index="5">
+    <!-- ==================== SCENE 6: COMMUNITY MISSION ==================== -->
+    <section id="scene-events" class="scene" data-scene-index="6">
       <div class="scene-inner">
-
+        <div class="offset-print-layer"></div>
         <div class="comic-card panel-angled">
-          <!-- Background Section Number -->
-          <div class="bg-section-number">05</div>
+          <div class="bg-section-number">06</div>
 
           <div class="caption-box headline-box comic-yellow-box stagger-1">
             <span class="caption-text">MISSION PREFERENCES...</span>
           </div>
 
-          <div class="scene-header-badge stagger-1">MISSION PREFERENCES // FLOOR EVENTS</div>
+          <div class="scene-header-badge stagger-1">DIMENSION 06 // FLOOR EVENTS</div>
           
           <h2 class="scene-title stagger-2">
             WHAT WOULD ACTUALLY GET YOU <span class="title-highlight">OUT OF YOUR ROOM? 👀</span>
           </h2>
           <p class="scene-subtitle stagger-2">Pick all events you'd show up for!</p>
 
-          <!-- Mission Event Cards Grid -->
           <div class="tile-grid mission-grid stagger-3" id="grid-events">
-            <button type="button" class="comic-tile mission-tile" data-value="Food Events">
-              <span class="mission-stamp">ACCEPTED</span>
-              <span class="tile-icon">🍕</span>
-              <span class="tile-title">FOOD EVENTS</span>
-              <span class="tile-sub">Free Pizza / Boba / Snacks</span>
-            </button>
-
-            <button type="button" class="comic-tile mission-tile" data-value="Game Nights">
-              <span class="mission-stamp">ACCEPTED</span>
-              <span class="tile-icon">🎮</span>
-              <span class="tile-title">GAME NIGHTS</span>
-              <span class="tile-sub">Smash / Mario Kart / LAN</span>
-            </button>
-
-            <button type="button" class="comic-tile mission-tile" data-value="Movie Nights">
-              <span class="mission-stamp">ACCEPTED</span>
-              <span class="tile-icon">🎬</span>
-              <span class="tile-title">MOVIE NIGHTS</span>
-              <span class="tile-sub">Popcorn & Watch Parties</span>
-            </button>
-
-            <button type="button" class="comic-tile mission-tile" data-value="Sports / Active">
-              <span class="mission-stamp">ACCEPTED</span>
-              <span class="tile-icon">🏀</span>
-              <span class="tile-title">SPORTS / ACTIVE</span>
-              <span class="tile-sub">Volleyball / Turf Tourneys</span>
-            </button>
-
-            <button type="button" class="comic-tile mission-tile" data-value="Chill Hangouts">
-              <span class="mission-stamp">ACCEPTED</span>
-              <span class="tile-icon">☕</span>
-              <span class="tile-title">CHILL HANGOUTS</span>
-              <span class="tile-sub">Lounge Talks / Study Breaks</span>
-            </button>
-
-            <button type="button" class="comic-tile mission-tile" data-value="Study Sessions">
-              <span class="mission-stamp">ACCEPTED</span>
-              <span class="tile-icon">📚</span>
-              <span class="tile-title">STUDY SESSIONS</span>
-              <span class="tile-sub">Midterm Cram & Donuts</span>
-            </button>
-
-            <button type="button" class="comic-tile mission-tile" data-value="Competitions">
-              <span class="mission-stamp">ACCEPTED</span>
-              <span class="tile-icon">🏆</span>
-              <span class="tile-title">COMPETITIONS</span>
-              <span class="tile-sub">Trivia / Door Decorating</span>
-            </button>
-
-            <button type="button" class="comic-tile mission-tile" data-value="Creative Activities">
-              <span class="mission-stamp">ACCEPTED</span>
-              <span class="tile-icon">🎨</span>
-              <span class="tile-title">CREATIVE NIGHTS</span>
-              <span class="tile-sub">Paint / DIY / Crafts</span>
-            </button>
-
-            <button type="button" class="comic-tile mission-tile" data-value="Off-Campus">
-              <span class="mission-stamp">ACCEPTED</span>
-              <span class="tile-icon">🚗</span>
-              <span class="tile-title">OFF-CAMPUS TRIPS</span>
-              <span class="tile-sub">Boba Run / Ice Skating</span>
-            </button>
-
-            <button type="button" class="comic-tile mission-tile" data-value="Karaoke / Music">
-              <span class="mission-stamp">ACCEPTED</span>
-              <span class="tile-icon">🎤</span>
-              <span class="tile-title">KARAOKE / MUSIC</span>
-              <span class="tile-sub">Open Mic / Sing-along</span>
-            </button>
-
-            <button type="button" class="comic-tile mission-tile" data-value="Board Games">
-              <span class="mission-stamp">ACCEPTED</span>
-              <span class="tile-icon">🎲</span>
-              <span class="tile-title">BOARD GAMES</span>
-              <span class="tile-sub">Catan / Uno / Secret Hitler</span>
-            </button>
-
-            <button type="button" class="comic-tile mission-tile" data-value="Late-Night Events">
-              <span class="mission-stamp">ACCEPTED</span>
-              <span class="tile-icon">🌙</span>
-              <span class="tile-title">LATE-NIGHT EVENTS</span>
-              <span class="tile-sub">Pancake Midnight Run</span>
-            </button>
+            <button type="button" class="comic-tile mission-tile" data-value="Food Events"><span class="mission-stamp">ACCEPTED</span><span class="tile-icon">🍕</span><span class="tile-title">FOOD EVENTS</span><span class="tile-sub">Free Pizza / Boba / Snacks</span></button>
+            <button type="button" class="comic-tile mission-tile" data-value="Game Nights"><span class="mission-stamp">ACCEPTED</span><span class="tile-icon">🎮</span><span class="tile-title">GAME NIGHTS</span><span class="tile-sub">Smash / Mario Kart / LAN</span></button>
+            <button type="button" class="comic-tile mission-tile" data-value="Movie Nights"><span class="mission-stamp">ACCEPTED</span><span class="tile-icon">🎬</span><span class="tile-title">MOVIE NIGHTS</span><span class="tile-sub">Popcorn & Watch Parties</span></button>
+            <button type="button" class="comic-tile mission-tile" data-value="Sports / Active"><span class="mission-stamp">ACCEPTED</span><span class="tile-icon">🏀</span><span class="tile-title">SPORTS / ACTIVE</span><span class="tile-sub">Volleyball / Turf Tourneys</span></button>
+            <button type="button" class="comic-tile mission-tile" data-value="Chill Hangouts"><span class="mission-stamp">ACCEPTED</span><span class="tile-icon">☕</span><span class="tile-title">CHILL HANGOUTS</span><span class="tile-sub">Lounge Talks / Study Breaks</span></button>
+            <button type="button" class="comic-tile mission-tile" data-value="Study Sessions"><span class="mission-stamp">ACCEPTED</span><span class="tile-icon">📚</span><span class="tile-title">STUDY SESSIONS</span><span class="tile-sub">Midterm Cram & Donuts</span></button>
+            <button type="button" class="comic-tile mission-tile" data-value="Competitions"><span class="mission-stamp">ACCEPTED</span><span class="tile-icon">🏆</span><span class="tile-title">COMPETITIONS</span><span class="tile-sub">Trivia / Door Decorating</span></button>
+            <button type="button" class="comic-tile mission-tile" data-value="Creative Activities"><span class="mission-stamp">ACCEPTED</span><span class="tile-icon">🎨</span><span class="tile-title">CREATIVE NIGHTS</span><span class="tile-sub">Paint / DIY / Crafts</span></button>
+            <button type="button" class="comic-tile mission-tile" data-value="Off-Campus"><span class="mission-stamp">ACCEPTED</span><span class="tile-icon">🚗</span><span class="tile-title">OFF-CAMPUS TRIPS</span><span class="tile-sub">Boba Run / Ice Skating</span></button>
+            <button type="button" class="comic-tile mission-tile" data-value="Karaoke / Music"><span class="mission-stamp">ACCEPTED</span><span class="tile-icon">🎤</span><span class="tile-title">KARAOKE / MUSIC</span><span class="tile-sub">Open Mic / Sing-along</span></button>
+            <button type="button" class="comic-tile mission-tile" data-value="Board Games"><span class="mission-stamp">ACCEPTED</span><span class="tile-icon">🎲</span><span class="tile-title">BOARD GAMES</span><span class="tile-sub">Catan / Uno / Secret Hitler</span></button>
+            <button type="button" class="comic-tile mission-tile" data-value="Late-Night Events"><span class="mission-stamp">ACCEPTED</span><span class="tile-icon">🌙</span><span class="tile-title">LATE-NIGHT EVENTS</span><span class="tile-sub">Pancake Midnight Run</span></button>
           </div>
 
           <div class="optional-box stagger-4">
@@ -699,18 +585,17 @@
               <span class="btn-text">FINAL QUESTION</span> →
             </button>
           </div>
-
         </div>
-
       </div>
     </section>
 
-    <!-- ==================== SCENE 6: FINAL OPTIONAL MESSAGE ==================== -->
-    <section id="scene-message" class="scene" data-scene-index="6">
+    <!-- ==================== SCENE 7: FINAL OPTIONAL MESSAGE ==================== -->
+    <section id="scene-message" class="scene" data-scene-index="7">
       <div class="scene-inner">
-
+        <div class="offset-print-layer"></div>
         <div class="comic-card panel-dark">
-          <div class="scene-header-badge stagger-1">FINAL TRANSMISSION // ONE LAST THING</div>
+          <div class="bg-section-number">07</div>
+          <div class="scene-header-badge stagger-1">DIMENSION 07 // ONE LAST THING</div>
           
           <h2 class="scene-title stagger-1">ONE LAST <span class="title-highlight-cyan">THING...</span></h2>
           <p class="scene-subtitle stagger-2">ANYTHING ELSE YOU'D LIKE YOUR RA TO KNOW?</p>
@@ -731,16 +616,13 @@
               </button>
             </div>
           </div>
-
         </div>
-
       </div>
     </section>
 
-    <!-- ==================== SCENE 7: VERIFYING SEQUENCE ==================== -->
-    <section id="scene-verifying" class="scene" data-scene-index="7">
+    <!-- ==================== SCENE 8: VERIFYING SEQUENCE ==================== -->
+    <section id="scene-verifying" class="scene" data-scene-index="8">
       <div class="scene-inner verifying-inner">
-
         <div class="comic-card panel-impact verifying-card">
           <div class="verifying-spinner-box">
             <div class="radar-sweep"></div>
@@ -750,41 +632,26 @@
           <h2 class="verifying-title">SYNCHRONIZING RESIDENT PROFILE...</h2>
 
           <div class="verification-log">
-            <div class="log-line" id="log-1">
-              <span class="log-status">[PENDING]</span> ANALYZING PROFILE...
-            </div>
-            <div class="log-line" id="log-2">
-              <span class="log-status">[PENDING]</span> IDENTITY VERIFIED ✓
-            </div>
-            <div class="log-line" id="log-3">
-              <span class="log-status">[PENDING]</span> ACADEMIC SIGNAL FOUND ✓
-            </div>
-            <div class="log-line" id="log-4">
-              <span class="log-status">[PENDING]</span> INTERESTS LOGGED ✓
-            </div>
-            <div class="log-line" id="log-5">
-              <span class="log-status">[PENDING]</span> PROFILE TRANSMITTED ✓
-            </div>
-            <div class="log-line" id="log-6">
-              <span class="log-status">[PENDING]</span> CONNECTION ESTABLISHED ✓
-            </div>
+            <div class="log-line" id="log-1"><span class="log-status">[PENDING]</span> ANALYZING PROFILE...</div>
+            <div class="log-line" id="log-2"><span class="log-status">[PENDING]</span> IDENTITY VERIFIED ✓</div>
+            <div class="log-line" id="log-3"><span class="log-status">[PENDING]</span> ACADEMIC SIGNAL FOUND ✓</div>
+            <div class="log-line" id="log-4"><span class="log-status">[PENDING]</span> HOBBIES & INTERESTS LOGGED ✓</div>
+            <div class="log-line" id="log-5"><span class="log-status">[PENDING]</span> PROFILE TRANSMITTED ✓</div>
+            <div class="log-line" id="log-6"><span class="log-status">[PENDING]</span> CONNECTION ESTABLISHED ✓</div>
           </div>
         </div>
-
       </div>
     </section>
 
-    <!-- ==================== SCENE 8: FINAL MOVIE ENDING ==================== -->
-    <section id="scene-final" class="scene" data-scene-index="8">
+    <!-- ==================== SCENE 9: FINAL MOVIE ENDING ==================== -->
+    <section id="scene-final" class="scene" data-scene-index="9">
       <div class="scene-inner final-inner">
-
         <div id="final-burst-graphic" aria-hidden="true">
           <div class="ray-spin"></div>
           <div class="halftone-burst"></div>
         </div>
 
         <div class="comic-card panel-impact final-hero-card">
-          
           <div class="mission-complete-badge stagger-1">
             <span>MISSION COMPLETE ✓ 100%</span>
           </div>
@@ -809,7 +676,6 @@
             <span class="cta-text">SEE YOU AROUND THE FLOOR</span>
           </div>
 
-          <!-- Summary Badges (NO ROOM NUMBER!) -->
           <div class="profile-summary-grid stagger-4">
             <div class="sum-badge">
               <span class="sum-label">MAJOR</span>
@@ -828,15 +694,13 @@
           <button id="btn-restart" class="btn-comic btn-secondary stagger-4">
             <span>↺ EDIT / VIEW PROFILE</span>
           </button>
-
         </div>
-
       </div>
     </section>
 
   </main>
 
-  <!-- Submission Dimensional Error Modal (Themed Failure Recovery) -->
+  <!-- Submission Dimensional Error Modal -->
   <div id="dimensional-error-modal" class="modal-overlay hidden-modal">
     <div class="comic-card panel-impact error-modal-card">
       <div class="error-icon-box">⚡</div>
