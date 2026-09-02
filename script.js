@@ -1,8 +1,8 @@
 /* ==========================================================================
    RESIDENT-VERSE : SPIDER-MAN MULTIVERSE MOVIE TITLE ENGINE
-   Features: 4 Overlapping Transition Families (Pull, Mask, Camera, Swing),
-   Required Hobbies & Event Availability Scenes, 3D Parallax,
-   Multi-Layer Cards, Production Google Sheets Submission System.
+   Features: 4–8 PM Connected Timeline Track, Reactive Clock & Web Arc,
+   5 Overlapping Transition Families (Pull, Camera, Mask, Swing, Tunnel),
+   Required Hobbies & Event Window Scenes, Production Google Sheets Submission.
    ========================================================================== */
 
 // ===== REAL GOOGLE APPS SCRIPT WEB APP URL =====
@@ -19,7 +19,7 @@ const residentProfile = {
   organizations: "",
   hobbies: [],
   eventAvailability: [],
-  otherAvailability: "",
+  availabilityNotes: "",
   interests: [],
   otherHobby: "",
   eventPreferences: [],
@@ -34,7 +34,7 @@ const PROGRESS_MAP = {
   2: 28,  // Academics
   3: 42,  // Campus Alliances
   4: 55,  // Hobbies & Side Quests (REQUIRED)
-  5: 68,  // Event Availability (NEW REQUIRED!)
+  5: 68,  // 4-8 PM Event Window (REQUIRED!)
   6: 80,  // Select Your Powers
   7: 90,  // Community Missions
   8: 95,  // Final Message
@@ -90,10 +90,14 @@ const DOM = {
   gridHobbies: document.getElementById('grid-hobbies'),
   errHobbies: document.getElementById('err-hobbies'),
   
-  // Availability Inputs (NEW REQUIRED!)
+  // 4-8 PM Timeline Inputs (REQUIRED!)
   gridAvailability: document.getElementById('grid-availability'),
-  inputOtherAvailability: document.getElementById('input-other-availability'),
+  inputAvailabilityNotes: document.getElementById('input-availability-notes'),
   errAvailability: document.getElementById('err-availability'),
+  timelineGlowPath: document.getElementById('timeline-glow-path'),
+  clockHandLine: document.getElementById('clock-hand-line'),
+  clockWebArc: document.getElementById('clock-web-arc'),
+  timelineNodes: document.querySelectorAll('.timeline-node'),
 
   // Powers Inputs
   gridInterests: document.getElementById('grid-interests'),
@@ -212,25 +216,41 @@ function setupEventListeners() {
     });
   }
 
-  // Availability Multi-Select Cards (NEW REQUIRED!)
-  if (DOM.gridAvailability) {
-    DOM.gridAvailability.querySelectorAll('.availability-tile').forEach(tile => {
-      tile.addEventListener('click', () => {
-        tile.classList.toggle('selected');
-        const val = tile.getAttribute('data-value');
-        if (tile.classList.contains('selected')) {
+  // 4-8 PM Timeline Multi-Select Segments (REQUIRED!)
+  document.querySelectorAll('.timeline-segment').forEach(seg => {
+    seg.addEventListener('click', (e) => {
+      seg.classList.toggle('selected');
+      const val = seg.getAttribute('data-value');
+      
+      if (val === 'Schedule Varies') {
+        if (seg.classList.contains('selected')) {
+          document.querySelectorAll('.timeline-segment[data-start]').forEach(s => s.classList.remove('selected'));
+          residentProfile.eventAvailability = ['Schedule Varies'];
+        } else {
+          residentProfile.eventAvailability = [];
+        }
+      } else {
+        const variesSeg = document.querySelector('.segment-varies');
+        if (variesSeg) variesSeg.classList.remove('selected');
+        residentProfile.eventAvailability = residentProfile.eventAvailability.filter(item => item !== 'Schedule Varies');
+
+        if (seg.classList.contains('selected')) {
           if (!residentProfile.eventAvailability.includes(val)) residentProfile.eventAvailability.push(val);
-          triggerSoundEffect('TIME SYNCED!', tile.getBoundingClientRect().left, tile.getBoundingClientRect().top);
         } else {
           residentProfile.eventAvailability = residentProfile.eventAvailability.filter(item => item !== val);
         }
-        if (residentProfile.eventAvailability.length > 0 && DOM.errAvailability) {
-          DOM.errAvailability.classList.add('hidden-error');
-        }
-        saveAnswersToSession();
-      });
+      }
+
+      updateTimelineVisualState();
+      spawnMicroParticles(e.clientX, e.clientY);
+      triggerSoundEffect('TIME SYNCED!', seg.getBoundingClientRect().left, seg.getBoundingClientRect().top);
+
+      if (residentProfile.eventAvailability.length > 0 && DOM.errAvailability) {
+        DOM.errAvailability.classList.add('hidden-error');
+      }
+      saveAnswersToSession();
     });
-  }
+  });
 
   // Interest Multi-Select Cards
   DOM.gridInterests.querySelectorAll('.tile-checkbox').forEach(tile => {
@@ -320,9 +340,76 @@ function setupEventListeners() {
   DOM.inputClassThought.addEventListener('input', saveAnswersToSession);
   DOM.inputOrgs.addEventListener('input', saveAnswersToSession);
   DOM.inputOtherHobby.addEventListener('input', saveAnswersToSession);
-  if (DOM.inputOtherAvailability) DOM.inputOtherAvailability.addEventListener('input', saveAnswersToSession);
+  if (DOM.inputAvailabilityNotes) DOM.inputAvailabilityNotes.addEventListener('input', saveAnswersToSession);
   DOM.inputEventSuggestion.addEventListener('input', saveAnswersToSession);
   DOM.inputMessage.addEventListener('input', saveAnswersToSession);
+}
+
+// ===== UPDATE TIMELINE CONNECTED VISUAL & REACTIVE CLOCK =====
+function updateTimelineVisualState() {
+  const activeHours = new Set();
+  const selectedSegments = Array.from(document.querySelectorAll('.timeline-segment.selected[data-start]'));
+
+  selectedSegments.forEach(seg => {
+    activeHours.add(parseInt(seg.getAttribute('data-start')));
+    activeHours.add(parseInt(seg.getAttribute('data-end')));
+  });
+
+  // Update nodes active state
+  DOM.timelineNodes.forEach(node => {
+    const hr = parseInt(node.getAttribute('data-hour'));
+    if (activeHours.has(hr)) {
+      node.classList.add('active-node');
+    } else {
+      node.classList.remove('active-node');
+    }
+  });
+
+  // Calculate connected SVG glowing track range
+  if (activeHours.size > 0 && DOM.timelineGlowPath) {
+    const minHr = Math.min(...Array.from(activeHours));
+    const maxHr = Math.max(...Array.from(activeHours));
+    
+    // Map hour 4..8 to X 20..380
+    const startX = 20 + ((minHr - 4) / 4) * 360;
+    const endX = 20 + ((maxHr - 4) / 4) * 360;
+
+    DOM.timelineGlowPath.setAttribute('x1', startX);
+    DOM.timelineGlowPath.setAttribute('x2', endX);
+
+    // Rotate clock scanner hand toward average hour
+    const avgHr = (minHr + maxHr) / 2;
+    const angleMap = { 4: 0, 5: 35, 6: 90, 7: 145, 8: 180 };
+    const targetAngle = angleMap[avgHr] !== undefined ? angleMap[avgHr] : ((avgHr - 4) / 4) * 180;
+
+    if (DOM.clockHandLine) {
+      DOM.clockHandLine.style.transform = `rotate(${targetAngle}deg)`;
+    }
+    if (DOM.clockWebArc) {
+      DOM.clockWebArc.style.opacity = '0.7';
+    }
+  } else if (DOM.timelineGlowPath) {
+    DOM.timelineGlowPath.setAttribute('x1', '20');
+    DOM.timelineGlowPath.setAttribute('x2', '20');
+    if (DOM.clockHandLine) DOM.clockHandLine.style.transform = 'rotate(0deg)';
+    if (DOM.clockWebArc) DOM.clockWebArc.style.opacity = '0.25';
+  }
+}
+
+// ===== SPAWN MICRO PARTICLES FOR SELECTION =====
+function spawnMicroParticles(x, y) {
+  for (let i = 0; i < 4; i++) {
+    const p = document.createElement('div');
+    p.className = 'micro-particle';
+    p.style.left = `${x}px`;
+    p.style.top = `${y}px`;
+    const dx = (Math.random() - 0.5) * 40;
+    const dy = (Math.random() - 0.5) * 40;
+    p.style.setProperty('--dx', `${dx}px`);
+    p.style.setProperty('--dy', `${dy}px`);
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 360);
+  }
 }
 
 // ===== BUTTON COMPRESSION MICROINTERACTION =====
@@ -350,7 +437,7 @@ function handleBackScene() {
   transitionToScene(currentSceneIndex - 1, true);
 }
 
-// ===== 4 OVERLAPPING TRANSITION FAMILIES ENGINE =====
+// ===== 5 OVERLAPPING TRANSITION FAMILIES ENGINE =====
 function transitionToScene(targetSceneIndex, isBack = false) {
   isTransitioning = true;
   triggerImpactFlash();
@@ -358,11 +445,11 @@ function transitionToScene(targetSceneIndex, isBack = false) {
   const currentScene = document.querySelector(`[data-scene-index="${currentSceneIndex}"]`);
   const targetScene = document.querySelector(`[data-scene-index="${targetSceneIndex}"]`);
 
-  // Map scene transitions to 4 distinct families
-  const transitionFamilies = ['pull', 'camera', 'mask', 'swing'];
+  // Map scene transitions to 5 distinct families (Pull, Camera, Mask, Swing, Tunnel)
+  const transitionFamilies = ['pull', 'camera', 'mask', 'swing', 'tunnel'];
   const family = transitionFamilies[targetSceneIndex % transitionFamilies.length];
 
-  if (family === 'mask') {
+  if (family === 'mask' || family === 'tunnel') {
     playWebTransition();
   } else {
     triggerScreenShake();
@@ -379,6 +466,8 @@ function transitionToScene(targetSceneIndex, isBack = false) {
         currentScene.classList.add('scene-transition-camera-exit');
       } else if (family === 'swing') {
         currentScene.classList.add('scene-transition-swing-exit');
+      } else if (family === 'tunnel') {
+        currentScene.classList.add('scene-transition-tunnel-exit');
       }
     }
   }, 120);
@@ -401,8 +490,14 @@ function transitionToScene(targetSceneIndex, isBack = false) {
         targetScene.classList.add('scene-transition-camera-enter');
       } else if (family === 'swing') {
         targetScene.classList.add('scene-transition-swing-enter');
+      } else if (family === 'tunnel') {
+        targetScene.classList.add('scene-transition-tunnel-enter');
       }
       currentSceneIndex = targetSceneIndex;
+
+      if (targetSceneIndex === 5) {
+        updateTimelineVisualState();
+      }
     }
 
     if (targetSceneIndex > 0 && targetSceneIndex < 9) {
@@ -479,7 +574,7 @@ function validateScene(sceneIndex) {
     }
   }
 
-  // Scene 5: Event Availability MUST be required!
+  // Scene 5: 4-8 PM Event Window MUST be required!
   if (sceneIndex === 5) {
     if (!residentProfile.eventAvailability || residentProfile.eventAvailability.length === 0) {
       if (DOM.errAvailability) DOM.errAvailability.classList.remove('hidden-error');
@@ -502,7 +597,7 @@ function collectCurrentSceneAnswers() {
   residentProfile.classThought = DOM.inputClassThought.value.trim();
   residentProfile.organizations = DOM.inputOrgs.value.trim();
   residentProfile.otherHobby = DOM.inputOtherHobby.value.trim();
-  if (DOM.inputOtherAvailability) residentProfile.otherAvailability = DOM.inputOtherAvailability.value.trim();
+  if (DOM.inputAvailabilityNotes) residentProfile.availabilityNotes = DOM.inputAvailabilityNotes.value.trim();
   residentProfile.eventSuggestion = DOM.inputEventSuggestion.value.trim();
   residentProfile.additionalMessage = DOM.inputMessage.value.trim();
   
@@ -663,7 +758,7 @@ function restoreAnswersFromSession() {
       DOM.inputClassThought.value = residentProfile.classThought || '';
       DOM.inputOrgs.value = residentProfile.organizations || '';
       DOM.inputOtherHobby.value = residentProfile.otherHobby || '';
-      if (DOM.inputOtherAvailability) DOM.inputOtherAvailability.value = residentProfile.otherAvailability || '';
+      if (DOM.inputAvailabilityNotes) DOM.inputAvailabilityNotes.value = residentProfile.availabilityNotes || '';
       DOM.inputEventSuggestion.value = residentProfile.eventSuggestion || '';
       DOM.inputMessage.value = residentProfile.additionalMessage || '';
 
@@ -679,10 +774,11 @@ function restoreAnswersFromSession() {
         });
       }
 
-      if (DOM.gridAvailability && Array.isArray(residentProfile.eventAvailability)) {
-        DOM.gridAvailability.querySelectorAll('.availability-tile').forEach(t => {
+      if (Array.isArray(residentProfile.eventAvailability)) {
+        document.querySelectorAll('.timeline-segment').forEach(t => {
           if (residentProfile.eventAvailability.includes(t.getAttribute('data-value'))) t.classList.add('selected');
         });
+        updateTimelineVisualState();
       }
 
       if (Array.isArray(residentProfile.interests)) {

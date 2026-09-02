@@ -49,11 +49,9 @@ function doPost(e) {
     // Safely format multi-select array/string fields
     const hobbies = Array.isArray(data.hobbies) ? data.hobbies.join(", ") : sanitize(data.hobbies);
     
-    // Event Availability (NEW FIELD!)
-    let availabilityStr = Array.isArray(data.eventAvailability) ? data.eventAvailability.join(", ") : sanitize(data.eventAvailability);
-    if (data.otherAvailability && sanitize(data.otherAvailability)) {
-      availabilityStr += (availabilityStr ? " | Other: " : "Other: ") + sanitize(data.otherAvailability);
-    }
+    // 4-8 PM Event Availability
+    const availabilityStr = Array.isArray(data.eventAvailability) ? data.eventAvailability.join(", ") : sanitize(data.eventAvailability);
+    const availabilityNotes = sanitize(data.availabilityNotes || data.otherAvailability);
 
     const interests = Array.isArray(data.interests) ? data.interests.join(", ") : sanitize(data.interests);
     const otherHobby = sanitize(data.otherHobby);
@@ -73,6 +71,7 @@ function doPost(e) {
       organizations,
       hobbies,
       availabilityStr,
+      availabilityNotes,
       interests,
       otherHobby,
       eventPreferences,
@@ -114,6 +113,7 @@ function getOrCreateSheet() {
       "Clubs / Orgs / Sports / Jobs",
       "Hobbies",
       "Event Availability",
+      "Availability Notes",
       "Powers / Interests",
       "Other Hobbies",
       "Preferred Community Events",

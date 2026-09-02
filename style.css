@@ -1,7 +1,7 @@
 /* ==========================================================================
    RESIDENT-VERSE : SPIDER-MAN MULTIVERSE MOVIE TITLE SEQUENCE STYLESHEET
    Aesthetics: Spider-Verse 100svh Movie Poster Layout, Multi-Layer Cards,
-   Clock/Radar Widget, 4 Overlapping Transition Families (Pull, Mask, Camera, Swing).
+   4–8 PM Connected Timeline Track, Reactive Clock, 5 Transition Families.
    ========================================================================== */
 
 /* ===== EDIT COLORS & THEME CONSTANTS HERE ===== */
@@ -79,12 +79,12 @@ html, body {
   z-index: -4;
   pointer-events: none;
   opacity: 0.65;
-  animation: floatHalftone 20s ease-in-out infinite alternate;
+  animation: floatHalftone 16s ease-in-out infinite alternate;
 }
 
 @keyframes floatHalftone {
   0% { transform: translate(0, 0); }
-  100% { transform: translate(15px, 10px); }
+  100% { transform: translate(12px, 8px); }
 }
 
 .vignette-overlay {
@@ -118,12 +118,12 @@ html, body {
   height: 240px;
   z-index: -1;
   pointer-events: none;
-  animation: webBreathe 6s ease-in-out infinite alternate;
+  animation: webBreathe 10s ease-in-out infinite alternate;
 }
 
 @keyframes webBreathe {
   0% { transform: scale(1) rotate(0deg); opacity: 0.25; }
-  100% { transform: scale(1.06) rotate(3deg); opacity: 0.4; }
+  100% { transform: scale(1.03) rotate(1.5deg); opacity: 0.38; }
 }
 
 .top-left-web { top: -20px; left: -20px; }
@@ -225,7 +225,25 @@ html, body {
   transform: scale(32);
 }
 
-/* ==================== 4 OVERLAPPING TRANSITION FAMILIES ==================== */
+/* Micro Particle Energy Burst */
+.micro-particle {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: var(--cyan-accent);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--cyan-accent);
+  pointer-events: none;
+  z-index: 9999;
+  animation: particleFly 0.35s ease-out forwards;
+}
+
+@keyframes particleFly {
+  0% { opacity: 1; transform: translate(0, 0) scale(1); }
+  100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.2); }
+}
+
+/* ==================== 5 OVERLAPPING TRANSITION FAMILIES ==================== */
 
 /* FAMILY A: WEB PULL (NEXT) */
 .scene-transition-pull-exit {
@@ -316,6 +334,25 @@ html, body {
 @keyframes swingEnter {
   0% { opacity: 0; transform: rotate(18deg) translate3d(80vw, -30vh, 0); }
   100% { opacity: 1; transform: rotate(0deg) translate3d(0, 0, 0); }
+}
+
+/* FAMILY E (NEW): WEB-TUNNEL TRANSITION */
+.scene-transition-tunnel-exit {
+  animation: tunnelExit 800ms var(--ease-smooth) forwards !important;
+}
+@keyframes tunnelExit {
+  0% { opacity: 1; transform: scale(1); filter: blur(0); }
+  40% { transform: scale(1.05); }
+  100% { opacity: 0; transform: scale(1.4); filter: blur(12px); }
+}
+
+.scene-transition-tunnel-enter {
+  animation: tunnelEnter 850ms var(--ease-smooth) both !important;
+}
+@keyframes tunnelEnter {
+  0% { opacity: 0; transform: scale(0.7); filter: blur(10px); }
+  75% { transform: scale(1.02); filter: blur(0); }
+  100% { opacity: 1; transform: scale(1); filter: blur(0); }
 }
 
 /* Staggered entrance delays */
@@ -589,24 +626,151 @@ html, body {
 .panel-accent { background: linear-gradient(165deg, var(--bg-panel) 0%, var(--bg-panel-alt) 100%); border-right: 5px solid var(--purple-accent); }
 .panel-dark { background: #0d0f18; border-bottom: 4px solid var(--yellow-accent); }
 
-/* CLOCK / RADAR SVG WIDGET FOR SCENE 5 EVENT AVAILABILITY */
+/* ==================== 4-8 PM CONNECTED VISUAL TIMELINE TRACK ==================== */
 
 .availability-panel-layout { position: relative; }
 
 .clock-radar-widget {
   position: absolute;
-  top: -10px;
-  right: -15px;
-  width: 160px;
-  height: 160px;
+  top: -15px;
+  right: -20px;
+  width: 190px;
+  height: 190px;
   pointer-events: none;
   z-index: 0;
 }
 
 .clock-scanner-line {
-  transform-origin: 100px 100px;
-  animation: spinPortalCw 20s linear infinite;
+  transform-origin: 110px 110px;
+  transition: transform 0.6s var(--ease-smooth);
 }
+
+.timeline-container {
+  position: relative;
+  width: 100%;
+  margin: 20px 0 16px 0;
+  z-index: 1;
+}
+
+.timeline-track-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 14px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--cyan-accent);
+  margin-bottom: 8px;
+}
+
+.timeline-track-wrapper {
+  position: relative;
+  width: 100%;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.timeline-track-svg {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  width: 100%;
+  height: 24px;
+  pointer-events: none;
+}
+
+.timeline-nodes-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 14px;
+  pointer-events: none;
+}
+
+.timeline-node {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(18, 20, 32, 0.9);
+  border: 2.5px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s var(--ease-smooth);
+  z-index: 2;
+}
+
+.node-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  transition: background 0.2s ease;
+}
+
+.timeline-node.active-node {
+  border-color: var(--cyan-accent);
+  background: #000000;
+  box-shadow: 0 0 12px var(--cyan-glow), 0 0 0 4px var(--red-glow);
+  transform: scale(1.25);
+}
+
+.timeline-node.active-node .node-dot {
+  background: var(--red-accent);
+}
+
+.timeline-segments-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.timeline-segment {
+  background: rgba(18, 20, 32, 0.9);
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--panel-radius);
+  padding: 10px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  text-align: center;
+  transition: transform var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+  user-select: none;
+  min-height: 60px;
+  clip-path: polygon(0 0, 96% 0, 100% 12%, 100% 100%, 4% 100%, 0 88%);
+}
+
+.timeline-segment:hover {
+  transform: translateY(-3px) scale(1.02);
+  border-color: var(--cyan-accent);
+}
+
+.timeline-segment.selected {
+  background: linear-gradient(135deg, rgba(0, 221, 235, 0.3) 0%, rgba(17, 19, 31, 0.95) 100%);
+  border: 2.5px solid var(--cyan-accent);
+  box-shadow: 0 0 14px var(--cyan-glow), 4px 4px 0px #000000;
+  animation: segmentSelect 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes segmentSelect { 0% { transform: scale(0.95); } 50% { transform: scale(1.04); } 100% { transform: scale(1); } }
+
+.segment-icon { font-size: 1.2rem; }
+.segment-title { font-family: var(--font-comic); font-size: 1rem; letter-spacing: 0.8px; color: #ffffff; }
+
+.varies-button-row { width: 100%; }
+.segment-varies { width: 100%; min-height: 48px; flex-direction: row; gap: 8px; justify-content: center; clip-path: none !important; border-radius: var(--panel-radius); }
+.segment-varies.selected { background: linear-gradient(135deg, rgba(255, 49, 93, 0.3) 0%, rgba(17, 19, 31, 0.95) 100%); border-color: var(--red-accent); box-shadow: 0 0 14px var(--red-glow), 4px 4px 0px #000000; }
 
 /* 100SVH MOVIE POSTER LANDING & PORTAL */
 
@@ -800,12 +964,11 @@ html, body {
 .tile-grid { display: grid; gap: 10px; width: 100%; position: relative; z-index: 1; }
 .year-grid { grid-template-columns: repeat(2, 1fr); margin-bottom: 14px; }
 .hobbies-grid { grid-template-columns: repeat(2, 1fr); max-height: 320px; overflow-y: auto; padding-right: 4px; margin-bottom: 14px; }
-.availability-grid { grid-template-columns: repeat(2, 1fr); max-height: 320px; overflow-y: auto; padding-right: 4px; margin-bottom: 14px; }
 .power-grid { grid-template-columns: repeat(2, 1fr); max-height: 340px; overflow-y: auto; padding-right: 4px; margin-bottom: 14px; }
 .mission-grid { grid-template-columns: repeat(2, 1fr); max-height: 360px; overflow-y: auto; padding-right: 4px; margin-bottom: 14px; }
 
-.hobbies-grid::-webkit-scrollbar, .availability-grid::-webkit-scrollbar, .power-grid::-webkit-scrollbar, .mission-grid::-webkit-scrollbar { width: 5px; }
-.hobbies-grid::-webkit-scrollbar-thumb, .availability-grid::-webkit-scrollbar-thumb, .power-grid::-webkit-scrollbar-thumb { background: var(--red-accent); border-radius: 3px; }
+.hobbies-grid::-webkit-scrollbar, .power-grid::-webkit-scrollbar, .mission-grid::-webkit-scrollbar { width: 5px; }
+.hobbies-grid::-webkit-scrollbar-thumb, .power-grid::-webkit-scrollbar-thumb { background: var(--red-accent); border-radius: 3px; }
 .mission-grid::-webkit-scrollbar-thumb { background: var(--cyan-accent); border-radius: 3px; }
 
 .comic-tile {
@@ -826,7 +989,7 @@ html, body {
   clip-path: polygon(2% 0, 100% 0, 98% 100%, 0 100%);
 }
 
-.hobby-chip, .availability-tile { min-height: 52px; padding: 8px 10px; flex-direction: row; align-items: center; gap: 8px; }
+.hobby-chip { min-height: 52px; padding: 8px 10px; flex-direction: row; align-items: center; gap: 8px; }
 
 .comic-tile:hover { transform: translateY(-3px) rotate(-0.4deg); border-color: rgba(255, 255, 255, 0.4); }
 
@@ -910,12 +1073,14 @@ html, body {
   .title-residentverse { font-size: clamp(2.4rem, 8.5vw, 5rem); }
   .floating-ui-tag { font-size: 0.6rem; padding: 2px 6px; }
   .tag-mid-left, .tag-mid-right { display: none; }
+  .clock-radar-widget { width: 140px; height: 140px; right: -10px; top: -10px; }
 }
 
 @media (max-width: 600px) {
   .btn-hero { width: 100%; font-size: 1.2rem; padding: 12px 18px; }
   .hero-description { margin-bottom: 20px; }
   .dimensional-portal-container { width: 170px; height: 170px; }
+  .timeline-segments-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 430px) {
@@ -924,10 +1089,11 @@ html, body {
   .resident-word { font-size: clamp(2.5rem, 12vw, 4.8rem); }
   .title-residentverse { font-size: clamp(2rem, 8.5vw, 3.8rem); }
   .scene-title { font-size: 1.6rem; }
-  .year-grid, .hobbies-grid, .availability-grid { grid-template-columns: 1fr 1fr; }
+  .year-grid, .hobbies-grid { grid-template-columns: 1fr 1fr; }
   .power-grid, .mission-grid { grid-template-columns: 1fr; max-height: 280px; }
   .main-welcome { font-size: 2.1rem; }
   .name-highlight { font-size: 1.7rem; }
+  .timeline-track-header { font-size: 0.72rem; }
 }
 
 @media (max-width: 350px) {
