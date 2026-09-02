@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#08090e"/>
+      <stop offset="60%" stop-color="#181b2c"/>
+      <stop offset="100%" stop-color="#ff2a5f" stop-opacity="0.5"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="600" height="300" fill="url(#skyGrad)"/>
+
+  <!-- City Skyline Silhouette -->
+  <path d="M 0 300 L 0 180 L 40 180 L 40 140 L 70 140 L 70 180 L 100 180 L 100 90 L 140 90 L 140 300 L 180 300 L 180 120 L 220 120 L 220 160 L 260 160 L 260 70 L 310 70 L 310 300 L 350 300 L 350 150 L 400 150 L 400 110 L 440 110 L 440 190 L 490 190 L 490 80 L 540 80 L 540 300 Z" fill="#0b0c14" stroke="#000000" stroke-width="4"/>
+
+  <!-- Lit Building Windows (Cyan / Yellow) -->
+  <g fill="#00f0ff" opacity="0.8">
+    <rect x="110" y="110" width="8" height="12"/>
+    <rect x="124" y="110" width="8" height="12"/>
+    <rect x="110" y="130" width="8" height="12"/>
+    <rect x="124" y="150" width="8" height="12"/>
+    
+    <rect x="270" y="90" width="10" height="14"/>
+    <rect x="290" y="90" width="10" height="14"/>
+    <rect x="270" y="120" width="10" height="14"/>
+    <rect x="290" y="150" width="10" height="14"/>
+  </g>
+
+  <g fill="#ffd000" opacity="0.8">
+    <rect x="500" y="100" width="12" height="14"/>
+    <rect x="518" y="100" width="12" height="14"/>
+    <rect x="500" y="130" width="12" height="14"/>
+    <rect x="518" y="160" width="12" height="14"/>
+  </g>
+
+  <!-- Web Network Connecting Across Skyline -->
+  <path d="M 0 50 Q 150 180, 300 60 Q 450 190, 600 40" stroke="#ffffff" stroke-width="3" fill="none" opacity="0.5"/>
+  <path d="M 100 90 L 300 60 M 300 60 L 490 80 M 260 160 L 300 60" stroke="#00f0ff" stroke-width="1.5" stroke-dasharray="6 4"/>
+</svg>

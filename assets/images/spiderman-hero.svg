@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <radialGradient id="heroGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff2a5f" stop-opacity="0.8"/>
+      <stop offset="60%" stop-color="#00f0ff" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#08090e" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="dotHalftone" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
+      <circle cx="6" cy="6" r="2" fill="#ff2a5f" opacity="0.3"/>
+    </pattern>
+  </defs>
+
+  <!-- Background Glow & Halftone -->
+  <rect width="500" height="500" fill="url(#heroGlow)"/>
+  <rect width="500" height="500" fill="url(#dotHalftone)"/>
+
+  <!-- Geometric Web Vector Backing -->
+  <g stroke="#00f0ff" stroke-width="1.5" opacity="0.4" fill="none">
+    <path d="M 250,250 L 0,0 M 250,250 L 500,0 M 250,250 L 500,500 M 250,250 L 0,500 M 250,250 L 250,0 M 250,250 L 500,250 M 250,250 L 250,500 M 250,250 L 0,250"/>
+    <polygon points="250,150 320,180 350,250 320,320 250,350 180,320 150,250 180,180"/>
+    <polygon points="250,80 370,120 420,250 370,380 250,420 130,380 80,250 130,120"/>
+  </g>
+
+  <!-- Spider Mask & Eyes Silhouette Composition -->
+  <g transform="translate(100, 80)">
+    <!-- Head Outline -->
+    <path d="M 150 30 C 230 30, 270 90, 260 210 C 250 310, 180 350, 150 350 C 120 350, 50 310, 40 210 C 30 90, 70 30, 150 30 Z" fill="#ff2a5f" stroke="#000000" stroke-width="8"/>
+    
+    <!-- Mask Webbing Lines -->
+    <g stroke="#000000" stroke-width="3" fill="none" opacity="0.75">
+      <path d="M 150 30 L 150 350 M 40 210 L 260 210 M 70 90 L 230 310 M 230 90 L 70 310"/>
+      <path d="M 150 90 Q 180 120 210 120 M 150 90 Q 120 120 90 120"/>
+      <path d="M 150 150 Q 200 180 240 180 M 150 150 Q 100 180 60 180"/>
+      <path d="M 150 240 Q 200 270 240 250 M 150 240 Q 100 270 60 250"/>
+    </g>
+
+    <!-- Iconic Spider Eyes (Large Expressive Angles) -->
+    <!-- Left Eye -->
+    <path d="M 75 140 C 95 130, 140 170, 140 215 C 140 235, 100 245, 70 210 C 60 190, 60 160, 75 140 Z" fill="#ffffff" stroke="#000000" stroke-width="10"/>
+    <path d="M 80 148 C 98 138, 134 172, 134 210 C 134 228, 102 236, 76 206 C 68 188, 68 165, 80 148 Z" fill="#ffffff"/>
+    
+    <!-- Right Eye -->
+    <path d="M 225 140 C 205 130, 160 170, 160 215 C 160 235, 200 245, 230 210 C 240 190, 240 160, 225 140 Z" fill="#ffffff" stroke="#000000" stroke-width="10"/>
+    <path d="M 220 148 C 202 138, 166 172, 166 210 C 166 228, 198 236, 224 206 C 232 188, 232 165, 220 148 Z" fill="#ffffff"/>
+  </g>
+
+  <!-- Chromatic Offset Accent Lines -->
+  <path d="M 10 480 L 490 480" stroke="#00f0ff" stroke-width="4" stroke-dasharray="12 6"/>
+  <path d="M 20 490 L 480 490" stroke="#ff2a5f" stroke-width="3"/>
+</svg>

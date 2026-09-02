@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>RESIDENT-VERSE | Origin Story Mission</title>
+  
+  <!-- Google Fonts: Comic & Sans Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Outfit:wght@400;600;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- TEMPORARY DEPLOYMENT TEST BANNER (DO NOT REMOVE UNTIL USER CONFIRMS LIVE VIEW) -->
+  <div style="position: fixed; top: 0; left: 0; z-index: 99999; background: yellow; color: black; font-size: 32px; padding: 15px; font-weight: bold; width: 100%; text-align: center; border-bottom: 4px solid black;">
+    DEPLOYMENT TEST 12345
+  </div>
+
+  <!-- LAYER 1: Dynamic Canvas & Halftone Overlays -->
+  <canvas id="bg-canvas"></canvas>
+  <div class="halftone-overlay"></div>
+  <div class="noise-overlay"></div>
+  <div class="vignette-overlay"></div>
+  
+  <!-- LAYER 2: Foreground Web Corner Graphics -->
+  <div class="fg-web-corner top-left-web" aria-hidden="true">
+    <svg viewBox="0 0 200 200" width="100%" height="100%">
+      <path d="M 0,0 Q 100,50 200,0 M 0,0 Q 50,100 0,200 M 0,0 Q 80,80 150,150 M 50,20 Q 70,70 20,50 M 100,30 Q 130,100 30,100" stroke="#00DDEB" stroke-width="1.5" fill="none" opacity="0.25"/>
+    </svg>
+  </div>
+  <div class="fg-web-corner bottom-right-web" aria-hidden="true">
+    <svg viewBox="0 0 200 200" width="100%" height="100%">
+      <path d="M 200,200 Q 100,150 0,200 M 200,200 Q 150,100 200,0 M 200,200 Q 120,120 50,50 M 150,180 Q 130,130 180,150" stroke="#FF315D" stroke-width="1.5" fill="none" opacity="0.25"/>
+    </svg>
+  </div>
+
+  <!-- LAYER 5: Comic Floating Sound Effect Layer -->
+  <div id="fx-layer" aria-hidden="true"></div>
+
+  <!-- LAYER 5: Screen Flash & Web Shooter Transition Overlay -->
+  <div id="impact-flash" class="hidden"></div>
+  
+  <div id="web-transition-overlay" class="hidden-web-overlay">
+    <svg id="web-transition-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <path class="web-strand strand-1" d="M0,0 Q50,50 100,100"/>
+      <path class="web-strand strand-2" d="M100,0 Q50,50 0,100"/>
+      <path class="web-strand strand-3" d="M50,0 Q50,50 50,100"/>
+      <path class="web-strand strand-4" d="M0,50 Q50,50 100,50"/>
+      <circle cx="50" cy="50" r="15" class="web-ring ring-1"/>
+      <circle cx="50" cy="50" r="35" class="web-ring ring-2"/>
+      <polygon class="web-center-burst" points="50,20 70,35 70,65 50,80 30,65 30,35"/>
+    </svg>
+    <div class="web-thwip-text">THWIP!</div>
+  </div>
+
+  <!-- Top Fixed Header & Progress System -->
+  <header id="top-bar">
+    <div class="logo-badge">
+      <span class="badge-dot"></span>
+      <span class="badge-text">RESIDENT-VERSE // RA MISSION</span>
+    </div>
+    
+    <div id="progress-container" class="hidden" aria-label="Mission Progress">
+      <div class="progress-label">
+        <span id="progress-text">MISSION STATUS</span>
+        <span id="progress-percent">0%</span>
+      </div>
+      <div class="progress-track">
+        <div id="progress-fill" style="width: 0%;"></div>
+        <div id="progress-glitch-bar"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Cinematic Experience Wrapper -->
+  <main id="app-container">
+
+    <!-- ==================== SCENE 0: INTRO MOVIE POSTER LANDING ==================== -->
+    <section id="scene-intro" class="scene active-scene" data-scene-index="0">
+      <div class="scene-inner intro-inner">
+
+        <!-- Sequential Cinematic Transmission Lines -->
+        <div id="intro-sequence">
+          <div class="transmission-line line-1 hidden-step">
+            <span class="blink-tag">[SIGNAL DETECTED]</span>
+          </div>
+          <div class="transmission-line line-2 hidden-step">
+            <span class="glitch-word" data-text="UNKNOWN RESIDENT SIGNATURE">UNKNOWN RESIDENT SIGNATURE</span>
+          </div>
+          <div class="transmission-line line-3 hidden-step">
+            <span class="impact-word">INCOMING TRANSMISSION...</span>
+          </div>
+        </div>
+
+        <!-- Movie Poster 100svh Hero Card -->
+        <div id="intro-hero-card" class="comic-card panel-impact hero-poster-card hidden-step">
+          
+          <!-- Original Dimensional Portal & Giant Stacked Typography Composition -->
+          <div class="portal-hero-composition">
+            
+            <!-- Layer A: Background Giant Word "RESIDENT" -->
+            <div class="resident-bg-typo parallax-layer" data-depth="0.15">
+              <span class="resident-word word-ghost">RESIDENT</span>
+              <span class="resident-word word-solid">RESIDENT</span>
+            </div>
+
+            <!-- Layer B: Central Original SVG Dimensional Portal Object -->
+            <div class="dimensional-portal-container parallax-layer" data-depth="0.3">
+              <svg class="portal-svg" viewBox="0 0 400 400">
+                <defs>
+                  <radialGradient id="portalCoreGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#FF315D" stop-opacity="0.95"/>
+                    <stop offset="50%" stop-color="#00DDEB" stop-opacity="0.4"/>
+                    <stop offset="100%" stop-color="#07080D" stop-opacity="0"/>
+                  </radialGradient>
+                  <filter id="cyanGlow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="6" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                  </filter>
+                </defs>
+
+                <!-- Outer Glowing Rings -->
+                <circle cx="200" cy="200" r="185" fill="url(#portalCoreGlow)"/>
+                <circle cx="200" cy="200" r="170" stroke="#FF315D" stroke-width="3" stroke-dasharray="12 6" fill="none" class="portal-ring ring-outer"/>
+                <circle cx="200" cy="200" r="140" stroke="#00DDEB" stroke-width="2" stroke-dasharray="24 12" fill="none" class="portal-ring ring-mid" filter="url(#cyanGlow)"/>
+                <circle cx="200" cy="200" r="105" stroke="#FFD21F" stroke-width="1.5" stroke-dasharray="8 8" fill="none" class="portal-ring ring-inner"/>
+
+                <!-- Web Geometry Mesh inside Portal -->
+                <g stroke="#ffffff" stroke-width="1.2" opacity="0.3" fill="none">
+                  <path d="M 200,200 L 40,40 M 200,200 L 360,40 M 200,200 L 360,360 M 200,200 L 40,360 M 200,200 L 200,15 M 200,200 L 385,200 M 200,200 L 200,385 M 200,200 L 15,200"/>
+                  <polygon points="200,120 255,145 280,200 255,255 200,280 145,255 120,200 145,145"/>
+                  <polygon points="200,60 300,100 340,200 300,300 200,340 100,300 60,200 100,100"/>
+                </g>
+
+                <!-- Central Floating Resident Silhouette Graphic -->
+                <g class="resident-silhouette-group" transform="translate(100, 60)">
+                  <path d="M 100 30 C 140 30, 160 60, 155 120 C 150 170, 120 190, 100 190 C 80 190, 50 170, 45 120 C 40 60, 60 30, 100 30 Z" fill="#07080D" stroke="#FF315D" stroke-width="4"/>
+                  <!-- Glowing Mask Eyes -->
+                  <polygon points="65,95 90,115 60,125" fill="#FFFFFF" stroke="#00DDEB" stroke-width="2"/>
+                  <polygon points="135,95 110,115 140,125" fill="#FFFFFF" stroke="#00DDEB" stroke-width="2"/>
+                </g>
+
+                <!-- Scanning Radial Beam -->
+                <line x1="200" y1="200" x2="370" y2="200" stroke="#00DDEB" stroke-width="3" opacity="0.8" class="portal-scan-line"/>
+              </svg>
+            </div>
+
+            <!-- Layer C: Foreground Word "VERSE" -->
+            <div class="verse-fg-typo parallax-layer" data-depth="0.45">
+              <h1 class="title-residentverse glitch-title" data-text="VERSE">
+                <span class="title-layer-bg">VERSE</span>
+                <span class="title-layer-red">VERSE</span>
+                <span class="title-layer-cyan">VERSE</span>
+                <span class="title-layer-main">VERSE</span>
+              </h1>
+            </div>
+
+          </div>
+
+          <!-- Lower Info & Action Bar (Clean Flexbox Flow, ZERO Overlap!) -->
+          <div class="hero-lower-content">
+            <div class="card-tag stagger-1">DIMENSION // RESIDENCE HALL</div>
+            
+            <div class="caption-box stagger-1">
+              <span class="caption-text">A NEW RESIDENT HAS ENTERED THE DIMENSION</span>
+            </div>
+
+            <p class="intro-subtext hero-description stagger-2">Your RA wants to get to know the people who make this floor what it is. Take 2 minutes to initialize your origin signature.</p>
+
+            <button id="btn-start" class="btn-comic btn-hero stagger-3">
+              <span class="btn-text">ENTER THE RESIDENT-VERSE</span>
+              <span class="btn-arrow">→</span>
+              <span class="btn-bg-glitch"></span>
+            </button>
+
+            <div class="intro-footer-note stagger-4">
+              <span>NO BORING FORMS</span> • <span>2-3 MIN MISSION</span> • <span>MOBILE FIRST</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== SCENE 1: IDENTITY ==================== -->
+    <section id="scene-identity" class="scene" data-scene-index="1">
+      <div class="scene-inner">
+        
+        <div class="comic-card panel-angled identity-panel-layout">
+          <!-- Background Section Number -->
+          <div class="bg-section-number">01</div>
+
+          <div class="form-content-wrap">
+            <div class="scene-header-badge stagger-1">IDENTITY FILE // ORIGIN STORY</div>
+            
+            <h2 class="scene-title stagger-1">
+              <span class="title-highlight">EVERY HERO</span> HAS AN ORIGIN STORY.
+            </h2>
+            <p class="scene-subtitle stagger-2">Let’s start with yours.</p>
+
+            <div class="form-sequence stagger-3">
+              
+              <!-- Question 1: Full Name -->
+              <div class="mini-step step-active" data-step="1">
+                <label for="input-name" class="input-label">
+                  <span class="label-num">01</span> WHAT'S YOUR NAME? <span class="req-star">*</span>
+                </label>
+                <div class="input-wrapper">
+                  <input type="text" id="input-name" class="comic-input" placeholder="e.g. Alex Rivera" autocomplete="name" required>
+                  <div class="input-glow-line"></div>
+                </div>
+                <div class="inline-error hidden-error" id="err-name">WE'RE MISSING THIS PIECE OF THE STORY.</div>
+              </div>
+
+              <!-- Question 2: Preferred Name -->
+              <div class="mini-step" data-step="2">
+                <label for="input-prefname" class="input-label">
+                  <span class="label-num">02</span> WHAT DO YOU PREFER TO BE CALLED? <span class="opt-tag">(OPTIONAL)</span>
+                </label>
+                <div class="input-wrapper">
+                  <input type="text" id="input-prefname" class="comic-input" placeholder="Nickname, alias, or preferred name">
+                  <div class="input-glow-line"></div>
+                </div>
+              </div>
+
+              <!-- Question 3: Hometown (NO ROOM NUMBER!) -->
+              <div class="mini-step" data-step="3">
+                <label for="input-hometown" class="input-label">
+                  <span class="label-num">03</span> WHERE ARE YOU FROM? <span class="req-star">*</span>
+                </label>
+                <div class="input-wrapper">
+                  <input type="text" id="input-hometown" class="comic-input" placeholder="City, State, Country — whatever you prefer" required>
+                  <div class="input-glow-line"></div>
+                </div>
+                <div class="inline-error hidden-error" id="err-hometown">TELL US YOUR HOME UNIVERSE!</div>
+              </div>
+
+            </div>
+
+            <!-- Scene Controls -->
+            <div class="scene-nav stagger-4">
+              <button class="btn-comic btn-back" data-action="back">← BACK</button>
+              <button class="btn-comic btn-next" data-action="next">
+                <span class="btn-text">LOCK IN IDENTITY</span> →
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== SCENE 2: ACADEMIC UNIVERSE ==================== -->
+    <section id="scene-academics" class="scene" data-scene-index="2">
+      <div class="scene-inner">
+
+        <div class="comic-card panel-accent academics-panel-layout">
+          <!-- Background Section Number -->
+          <div class="bg-section-number">02</div>
+
+          <div class="caption-box headline-box stagger-1">
+            <span class="caption-text">ORIGIN SIGNAL DETECTED...</span>
+          </div>
+
+          <div class="scene-header-badge stagger-1">ACADEMIC STATUS // FIELD OF STUDY</div>
+          
+          <h2 class="scene-title stagger-2">WHAT'S YOUR <span class="title-highlight-cyan">MAJOR?</span> <span class="req-star">*</span></h2>
+          <div class="input-wrapper stagger-2">
+            <input type="text" id="input-major" class="comic-input" placeholder="Computer Science, Graphic Design, Undecided..." required>
+            <div class="input-glow-line"></div>
+          </div>
+          <div class="inline-error hidden-error" id="err-major">EVERY HERO HAS A FIELD OF EXPERTISE!</div>
+
+          <h3 class="section-subtitle stagger-3">WHAT YEAR ARE YOU? <span class="req-star">*</span></h3>
+          <div class="tile-grid year-grid stagger-3" id="grid-year">
+            <button type="button" class="comic-tile tile-radio" data-value="Freshman">
+              <span class="tile-badge">YR 1</span>
+              <span class="tile-icon">🌱</span>
+              <span class="tile-title">FRESHMAN</span>
+            </button>
+            <button type="button" class="comic-tile tile-radio" data-value="Sophomore">
+              <span class="tile-badge">YR 2</span>
+              <span class="tile-icon">⚡</span>
+              <span class="tile-title">SOPHOMORE</span>
+            </button>
+            <button type="button" class="comic-tile tile-radio" data-value="Junior">
+              <span class="tile-badge">YR 3</span>
+              <span class="tile-icon">🔥</span>
+              <span class="tile-title">JUNIOR</span>
+            </button>
+            <button type="button" class="comic-tile tile-radio" data-value="Senior">
+              <span class="tile-badge">YR 4</span>
+              <span class="tile-icon">👑</span>
+              <span class="tile-title">SENIOR</span>
+            </button>
+            <button type="button" class="comic-tile tile-radio" data-value="Graduate">
+              <span class="tile-badge">ADV</span>
+              <span class="tile-icon">🎓</span>
+              <span class="tile-title">GRADUATE</span>
+            </button>
+            <button type="button" class="comic-tile tile-radio" data-value="Other">
+              <span class="tile-badge">ALT</span>
+              <span class="tile-icon">🌀</span>
+              <span class="tile-title">OTHER</span>
+            </button>
+          </div>
+          <div class="inline-error hidden-error" id="err-year">SELECT YOUR CURRENT ACADEMIC RANK.</div>
+
+          <div class="optional-box stagger-4">
+            <label for="input-class-thought" class="input-label">
+              IS THERE A CLASS YOU'RE ESPECIALLY EXCITED ABOUT — OR SLIGHTLY WORRIED ABOUT — THIS SEMESTER? <span class="opt-tag">(OPTIONAL)</span>
+            </label>
+            <textarea id="input-class-thought" class="comic-textarea" rows="2" placeholder="e.g. Hyped for Organic Chem! / Terrified of Calc III..."></textarea>
+          </div>
+
+          <div class="scene-nav stagger-4">
+            <button class="btn-comic btn-back" data-action="back">← BACK</button>
+            <button class="btn-comic btn-next" data-action="next">
+              <span class="btn-text">CONTINUE MISSION</span> →
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== SCENE 3: CAMPUS CONNECTIONS ==================== -->
+    <section id="scene-campus" class="scene" data-scene-index="3">
+      <div class="scene-inner">
+
+        <div class="comic-card panel-dark">
+          <!-- Background Section Number -->
+          <div class="bg-section-number">03</div>
+
+          <div class="scene-header-badge stagger-1">CAMPUS ALLIANCES // TEAMS & CLUBS</div>
+          
+          <h2 class="scene-title stagger-1">EVEN HEROES <span class="title-highlight-purple">NEED A TEAM.</span></h2>
+          <p class="scene-subtitle stagger-2">Are you involved in any clubs, organizations, sports, campus jobs, or other groups?</p>
+
+          <!-- Interactive Network SVG Visualizer -->
+          <div class="spidey-comic-banner stagger-3">
+            <svg id="network-svg" viewBox="0 0 400 90">
+              <circle cx="60" cy="45" r="12" class="net-node node-1"/>
+              <circle cx="200" cy="25" r="16" class="net-node node-2"/>
+              <circle cx="340" cy="45" r="12" class="net-node node-3"/>
+              <circle cx="130" cy="70" r="10" class="net-node node-4"/>
+              <circle cx="270" cy="70" r="10" class="net-node node-5"/>
+              <line x1="60" y1="45" x2="200" y2="25" class="net-link"/>
+              <line x1="200" y1="25" x2="340" y2="45" class="net-link"/>
+              <line x1="60" y1="45" x2="130" y2="70" class="net-link"/>
+              <line x1="340" y1="45" x2="270" y2="70" class="net-link"/>
+            </svg>
+          </div>
+
+          <div class="input-wrapper stagger-3">
+            <textarea id="input-orgs" class="comic-textarea" rows="3" placeholder="IEEE, Soccer Club, Campus Rec, Student Gov, Intramurals... (or leave blank!)"></textarea>
+            <div class="input-glow-line"></div>
+          </div>
+
+          <p class="reassurance-note stagger-4">💡 Not involved in anything yet? Totally fine! You're just starting your arc.</p>
+
+          <div class="scene-nav stagger-4">
+            <button class="btn-comic btn-back" data-action="back">← BACK</button>
+            <button class="btn-comic btn-next" data-action="next">
+              <span class="btn-text">SCAN INTERESTS</span> →
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== SCENE 4: SELECT YOUR POWERS ==================== -->
+    <section id="scene-interests" class="scene" data-scene-index="4">
+      <div class="scene-inner">
+
+        <div class="comic-card panel-impact">
+          <!-- Background Section Number -->
+          <div class="bg-section-number">04</div>
+
+          <div class="caption-box headline-box stagger-1">
+            <span class="caption-text">SCANNING INTEREST SIGNALS...</span>
+          </div>
+
+          <div class="scene-header-badge stagger-1">INTEREST SIGNALS // POWER GRID</div>
+          
+          <h2 class="scene-title stagger-2">SELECT YOUR <span class="title-highlight">POWERS</span></h2>
+          <p class="scene-subtitle stagger-2">Choose everything that sounds like you. Select all that apply!</p>
+
+          <!-- Counter Bar -->
+          <div class="power-counter-bar stagger-2">
+            <span id="power-count-text">0 POWERS SELECTED</span>
+            <span class="power-pulse-indicator"></span>
+          </div>
+
+          <!-- 16 Multi-Select Power Tiles Grid -->
+          <div class="tile-grid power-grid stagger-3" id="grid-interests">
+            <button type="button" class="comic-tile tile-checkbox" data-value="Gaming">
+              <span class="tile-icon">🎮</span>
+              <span class="tile-title">GAMING</span>
+              <span class="tile-sub">PC / Console / Mobile</span>
+            </button>
+
+            <button type="button" class="comic-tile tile-checkbox" data-value="Sports">
+              <span class="tile-icon">🏀</span>
+              <span class="tile-title">SPORTS</span>
+              <span class="tile-sub">Hoops / Soccer / All</span>
+            </button>
+
+            <button type="button" class="comic-tile tile-checkbox" data-value="Fitness">
+              <span class="tile-icon">🏋️</span>
+              <span class="tile-title">FITNESS / GYM</span>
+              <span class="tile-sub">Lifting / Running</span>
+            </button>
+
+            <button type="button" class="comic-tile tile-checkbox" data-value="Technology">
+              <span class="tile-icon">💻</span>
+              <span class="tile-title">TECH / CODING</span>
+              <span class="tile-sub">Dev / Hardware</span>
+            </button>
+
+            <button type="button" class="comic-tile tile-checkbox" data-value="Music">
+              <span class="tile-icon">🎵</span>
+              <span class="tile-title">MUSIC</span>
+              <span class="tile-sub">Playing / Listening</span>
+            </button>
+
+            <button type="button" class="comic-tile tile-checkbox" data-value="Movies">
+              <span class="tile-icon">🎬</span>
+              <span class="tile-title">MOVIES / TV</span>
+              <span class="tile-sub">Anime / Sci-Fi / Drama</span>
+            </button>
+
+            <button type="button" class="comic-tile tile-checkbox" data-value="Reading">
+              <span class="tile-icon">📚</span>
+              <span class="tile-title">READING</span>
+              <span class="tile-sub">Comics / Books / Manga</span>
+            </button>
+
+            <button type="button" class="comic-tile tile-checkbox" data-value="Art">
+              <span class="tile-icon">🎨</span>
+              <span class="tile-title">ART / CREATIVE</span>
+              <span class="tile-sub">Drawing / Design</span>
+            </button>
+
+            <button type="button" class="comic-tile tile-checkbox" data-value="Photography">
+              <span class="tile-icon">📸</span>
+              <span class="tile-title">PHOTOGRAPHY</span>
+              <span class="tile-sub">Digital / Film</span>
+            </button>
+
+            <button type="button" class="comic-tile tile-checkbox" data-value="Cooking">
+              <span class="tile-icon">🍳</span>
+              <span class="tile-title">COOKING / FOOD</span>
+              <span class="tile-sub">Baking / Foodie</span>
+            </button>
+
+            <button type="button" class="comic-tile tile-checkbox" data-value="Travel">
+              <span class="tile-icon">✈️</span>
+              <span class="tile-title">TRAVEL</span>
+              <span class="tile-sub">Road trips / Exploring</span>
+            </button>
+
+            <button type="button" class="comic-tile tile-checkbox" data-value="BoardGames">
+              <span class="tile-icon">🎲</span>
+              <span class="tile-title">BOARD GAMES</span>
+              <span class="tile-sub">Tabletop / Cards</span>
+            </button>
+
+            <button type="button" class="comic-tile tile-checkbox" data-value="Outdoors">
+              <span class="tile-icon">🌿</span>
+              <span class="tile-title">OUTDOORS</span>
+              <span class="tile-sub">Hiking / Camping</span>
+            </button>
+
+            <button type="button" class="comic-tile tile-checkbox" data-value="Podcasts">
+              <span class="tile-icon">🎧</span>
+              <span class="tile-title">PODCASTS</span>
+              <span class="tile-sub">True Crime / Lore</span>
+            </button>
+
+            <button type="button" class="comic-tile tile-checkbox" data-value="Cars">
+              <span class="tile-icon">🚗</span>
+              <span class="tile-title">CARS / MOTORS</span>
+              <span class="tile-sub">Auto / Racing</span>
+            </button>
+
+            <button type="button" class="comic-tile tile-checkbox" data-value="Fashion">
+              <span class="tile-icon">👟</span>
+              <span class="tile-title">FASHION</span>
+              <span class="tile-sub">Sneakers / Fits</span>
+            </button>
+          </div>
+
+          <div class="optional-box stagger-4">
+            <label for="input-other-hobby" class="input-label">
+              GOT A HOBBY WE MISSED? <span class="opt-tag">(OPTIONAL)</span>
+            </label>
+            <input type="text" id="input-other-hobby" class="comic-input" placeholder="e.g. Cosplay, Skating, Chess, DJing...">
+          </div>
+
+          <div class="scene-nav stagger-4">
+            <button class="btn-comic btn-back" data-action="back">← BACK</button>
+            <button class="btn-comic btn-next" data-action="next">
+              <span class="btn-text">COMMUNITY MISSIONS</span> →
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== SCENE 5: COMMUNITY MISSION ==================== -->
+    <section id="scene-events" class="scene" data-scene-index="5">
+      <div class="scene-inner">
+
+        <div class="comic-card panel-angled">
+          <!-- Background Section Number -->
+          <div class="bg-section-number">05</div>
+
+          <div class="caption-box headline-box stagger-1">
+            <span class="caption-text">MISSION PREFERENCES...</span>
+          </div>
+
+          <div class="scene-header-badge stagger-1">MISSION PREFERENCES // FLOOR EVENTS</div>
+          
+          <h2 class="scene-title stagger-2">
+            WHAT WOULD ACTUALLY GET YOU <span class="title-highlight">OUT OF YOUR ROOM? 👀</span>
+          </h2>
+          <p class="scene-subtitle stagger-2">Pick all events you'd show up for!</p>
+
+          <!-- Mission Event Cards Grid -->
+          <div class="tile-grid mission-grid stagger-3" id="grid-events">
+            <button type="button" class="comic-tile mission-tile" data-value="Food Events">
+              <span class="mission-stamp">ACCEPTED</span>
+              <span class="tile-icon">🍕</span>
+              <span class="tile-title">FOOD EVENTS</span>
+              <span class="tile-sub">Free Pizza / Boba / Snacks</span>
+            </button>
+
+            <button type="button" class="comic-tile mission-tile" data-value="Game Nights">
+              <span class="mission-stamp">ACCEPTED</span>
+              <span class="tile-icon">🎮</span>
+              <span class="tile-title">GAME NIGHTS</span>
+              <span class="tile-sub">Smash / Mario Kart / LAN</span>
+            </button>
+
+            <button type="button" class="comic-tile mission-tile" data-value="Movie Nights">
+              <span class="mission-stamp">ACCEPTED</span>
+              <span class="tile-icon">🎬</span>
+              <span class="tile-title">MOVIE NIGHTS</span>
+              <span class="tile-sub">Popcorn & Watch Parties</span>
+            </button>
+
+            <button type="button" class="comic-tile mission-tile" data-value="Sports / Active">
+              <span class="mission-stamp">ACCEPTED</span>
+              <span class="tile-icon">🏀</span>
+              <span class="tile-title">SPORTS / ACTIVE</span>
+              <span class="tile-sub">Volleyball / Turf Tourneys</span>
+            </button>
+
+            <button type="button" class="comic-tile mission-tile" data-value="Chill Hangouts">
+              <span class="mission-stamp">ACCEPTED</span>
+              <span class="tile-icon">☕</span>
+              <span class="tile-title">CHILL HANGOUTS</span>
+              <span class="tile-sub">Lounge Talks / Study Breaks</span>
+            </button>
+
+            <button type="button" class="comic-tile mission-tile" data-value="Study Sessions">
+              <span class="mission-stamp">ACCEPTED</span>
+              <span class="tile-icon">📚</span>
+              <span class="tile-title">STUDY SESSIONS</span>
+              <span class="tile-sub">Midterm Cram & Donuts</span>
+            </button>
+
+            <button type="button" class="comic-tile mission-tile" data-value="Competitions">
+              <span class="mission-stamp">ACCEPTED</span>
+              <span class="tile-icon">🏆</span>
+              <span class="tile-title">COMPETITIONS</span>
+              <span class="tile-sub">Trivia / Door Decorating</span>
+            </button>
+
+            <button type="button" class="comic-tile mission-tile" data-value="Creative Activities">
+              <span class="mission-stamp">ACCEPTED</span>
+              <span class="tile-icon">🎨</span>
+              <span class="tile-title">CREATIVE NIGHTS</span>
+              <span class="tile-sub">Paint / DIY / Crafts</span>
+            </button>
+
+            <button type="button" class="comic-tile mission-tile" data-value="Off-Campus">
+              <span class="mission-stamp">ACCEPTED</span>
+              <span class="tile-icon">🚗</span>
+              <span class="tile-title">OFF-CAMPUS TRIPS</span>
+              <span class="tile-sub">Boba Run / Ice Skating</span>
+            </button>
+
+            <button type="button" class="comic-tile mission-tile" data-value="Karaoke / Music">
+              <span class="mission-stamp">ACCEPTED</span>
+              <span class="tile-icon">🎤</span>
+              <span class="tile-title">KARAOKE / MUSIC</span>
+              <span class="tile-sub">Open Mic / Sing-along</span>
+            </button>
+
+            <button type="button" class="comic-tile mission-tile" data-value="Board Games">
+              <span class="mission-stamp">ACCEPTED</span>
+              <span class="tile-icon">🎲</span>
+              <span class="tile-title">BOARD GAMES</span>
+              <span class="tile-sub">Catan / Uno / Secret Hitler</span>
+            </button>
+
+            <button type="button" class="comic-tile mission-tile" data-value="Late-Night Events">
+              <span class="mission-stamp">ACCEPTED</span>
+              <span class="tile-icon">🌙</span>
+              <span class="tile-title">LATE-NIGHT EVENTS</span>
+              <span class="tile-sub">Pancake Midnight Run</span>
+            </button>
+          </div>
+
+          <div class="optional-box stagger-4">
+            <label for="input-event-suggestion" class="input-label">
+              IF YOU COULD MAKE YOUR RA ORGANIZE ONE THING THIS SEMESTER, WHAT WOULD IT BE? <span class="opt-tag">(OPTIONAL)</span>
+            </label>
+            <input type="text" id="input-event-suggestion" class="comic-input" placeholder="e.g. Floor Smash Bros Tournament with Chipotle prizes">
+          </div>
+
+          <div class="scene-nav stagger-4">
+            <button class="btn-comic btn-back" data-action="back">← BACK</button>
+            <button class="btn-comic btn-next" data-action="next">
+              <span class="btn-text">FINAL QUESTION</span> →
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== SCENE 6: FINAL OPTIONAL MESSAGE ==================== -->
+    <section id="scene-message" class="scene" data-scene-index="6">
+      <div class="scene-inner">
+
+        <div class="comic-card panel-dark">
+          <div class="scene-header-badge stagger-1">FINAL TRANSMISSION // ONE LAST THING</div>
+          
+          <h2 class="scene-title stagger-1">ONE LAST <span class="title-highlight-cyan">THING...</span></h2>
+          <p class="scene-subtitle stagger-2">ANYTHING ELSE YOU'D LIKE YOUR RA TO KNOW?</p>
+
+          <div class="input-wrapper stagger-3">
+            <textarea id="input-message" class="comic-textarea" rows="4" placeholder="Could be something about you, an idea, a goal, a roomie note, a concern, or absolutely nothing!"></textarea>
+            <div class="input-glow-line"></div>
+          </div>
+
+          <p class="reassurance-note stagger-4">🔒 Only your RA will see private notes.</p>
+
+          <div class="scene-nav stagger-4">
+            <button class="btn-comic btn-back" data-action="back">← BACK</button>
+            <div class="nav-right-group">
+              <button class="btn-comic btn-skip" id="btn-skip-message">SKIP →</button>
+              <button class="btn-comic btn-hero" id="btn-finish">
+                <span class="btn-text">FINISH MISSION</span> ⚡
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== SCENE 7: VERIFYING SEQUENCE ==================== -->
+    <section id="scene-verifying" class="scene" data-scene-index="7">
+      <div class="scene-inner verifying-inner">
+
+        <div class="comic-card panel-impact verifying-card">
+          <div class="verifying-spinner-box">
+            <div class="radar-sweep"></div>
+            <span class="spinner-icon">⚡</span>
+          </div>
+
+          <h2 class="verifying-title">SYNCHRONIZING RESIDENT PROFILE...</h2>
+
+          <div class="verification-log">
+            <div class="log-line" id="log-1">
+              <span class="log-status">[PENDING]</span> ANALYZING PROFILE...
+            </div>
+            <div class="log-line" id="log-2">
+              <span class="log-status">[PENDING]</span> IDENTITY VERIFIED ✓
+            </div>
+            <div class="log-line" id="log-3">
+              <span class="log-status">[PENDING]</span> ACADEMIC SIGNAL FOUND ✓
+            </div>
+            <div class="log-line" id="log-4">
+              <span class="log-status">[PENDING]</span> INTERESTS LOGGED ✓
+            </div>
+            <div class="log-line" id="log-5">
+              <span class="log-status">[PENDING]</span> PROFILE TRANSMITTED ✓
+            </div>
+            <div class="log-line" id="log-6">
+              <span class="log-status">[PENDING]</span> CONNECTION ESTABLISHED ✓
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== SCENE 8: FINAL MOVIE ENDING ==================== -->
+    <section id="scene-final" class="scene" data-scene-index="8">
+      <div class="scene-inner final-inner">
+
+        <div id="final-burst-graphic" aria-hidden="true">
+          <div class="ray-spin"></div>
+          <div class="halftone-burst"></div>
+        </div>
+
+        <div class="comic-card panel-impact final-hero-card">
+          
+          <div class="mission-complete-badge stagger-1">
+            <span>MISSION COMPLETE ✓ 100%</span>
+          </div>
+
+          <div class="caption-box stagger-1">
+            <span class="caption-text">TRANSMISSION CONFIRMED</span>
+          </div>
+
+          <h1 class="welcome-heading stagger-2">
+            <span class="sub-welcome">WELCOME TO THE</span>
+            <span class="main-welcome glitch-title" data-text="RESIDENT-VERSE">RESIDENT-VERSE</span>
+            <span id="final-resident-name" class="name-highlight">HERO</span>
+          </h1>
+
+          <div class="final-body-text stagger-3">
+            <p class="final-p1">Your Resident-Verse profile is officially locked in.</p>
+            <p class="final-p2">Thanks for letting your RA get to know you a little better.</p>
+          </div>
+
+          <div class="final-cta-box stagger-3">
+            <span class="cta-emoji">👀</span>
+            <span class="cta-text">SEE YOU AROUND THE FLOOR</span>
+          </div>
+
+          <!-- Summary Badges (NO ROOM NUMBER!) -->
+          <div class="profile-summary-grid stagger-4">
+            <div class="sum-badge">
+              <span class="sum-label">MAJOR</span>
+              <span class="sum-val" id="sum-major">---</span>
+            </div>
+            <div class="sum-badge">
+              <span class="sum-label">YEAR</span>
+              <span class="sum-val" id="sum-year">---</span>
+            </div>
+            <div class="sum-badge">
+              <span class="sum-label">POWERS</span>
+              <span class="sum-val" id="sum-powers">0 LOGGED</span>
+            </div>
+          </div>
+
+          <button id="btn-restart" class="btn-comic btn-secondary stagger-4">
+            <span>↺ EDIT / VIEW PROFILE</span>
+          </button>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Submission Dimensional Error Modal (Themed Failure Recovery) -->
+  <div id="dimensional-error-modal" class="modal-overlay hidden-modal">
+    <div class="comic-card panel-impact error-modal-card">
+      <div class="error-icon-box">⚡</div>
+      <h3 class="error-modal-title">DIMENSIONAL CONNECTION LOST</h3>
+      <p class="error-modal-text">We couldn't transmit your profile to your RA's hub just yet. Don't worry — your answers are safely saved!</p>
+      
+      <div class="modal-actions">
+        <button id="btn-retry-submit" class="btn-comic btn-hero">
+          <span>TRY AGAIN</span> →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
