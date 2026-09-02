@@ -1,7 +1,7 @@
 /* ==========================================================================
    RESIDENT-VERSE : SPIDER-MAN MULTIVERSE MOVIE TITLE SEQUENCE STYLESHEET
-   Aesthetics: Spider-Verse 100svh Movie Poster Layout, Original SVG Portal,
-   Giant Stacked Typography, 5-Layer Depth, Web Shooter Transitions (320px-1440px).
+   Aesthetics: Spider-Verse High-Density 100svh Movie Poster Composition,
+   City Silhouettes, Multi-Ring SVG Portal, 4 Page Transitions (inc. Web-Swing).
    ========================================================================== */
 
 /* ===== EDIT COLORS & THEME CONSTANTS HERE ===== */
@@ -78,6 +78,12 @@ html, body {
   z-index: -4;
   pointer-events: none;
   opacity: 0.65;
+  animation: floatHalftone 20s ease-in-out infinite alternate;
+}
+
+@keyframes floatHalftone {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(15px, 10px); }
 }
 
 .vignette-overlay {
@@ -94,27 +100,62 @@ html, body {
   pointer-events: none;
 }
 
-.bg-stencil-logo {
+.city-silhouette-bg {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(1.3);
-  width: 500px;
-  height: 500px;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 160px;
   z-index: -2;
   pointer-events: none;
-  opacity: 0.05;
+  opacity: 0.85;
 }
 
 .fg-web-corner {
   position: fixed;
-  width: 220px;
-  height: 220px;
+  width: 240px;
+  height: 240px;
   z-index: -1;
   pointer-events: none;
+  animation: webBreathe 6s ease-in-out infinite alternate;
 }
-.top-left-web { top: 0; left: 0; }
-.bottom-right-web { bottom: 0; right: 0; }
+
+@keyframes webBreathe {
+  0% { transform: scale(1) rotate(0deg); opacity: 0.25; }
+  100% { transform: scale(1.06) rotate(3deg); opacity: 0.4; }
+}
+
+.top-left-web { top: -20px; left: -20px; }
+.bottom-right-web { bottom: -20px; right: -20px; }
+
+/* Floating UI Metadata Corner Labels */
+.floating-ui-tag {
+  position: absolute;
+  z-index: 10;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: rgba(7, 8, 13, 0.85);
+  border: 1.5px solid var(--cyan-accent);
+  color: var(--cyan-accent);
+  padding: 4px 10px;
+  box-shadow: 3px 3px 0px #000000;
+  pointer-events: none;
+  animation: tagFloat 5s ease-in-out infinite alternate;
+}
+
+@keyframes tagFloat {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-6px); }
+}
+
+.tag-top-left { top: -10px; left: 10px; }
+.tag-top-right { top: -10px; right: 10px; border-color: var(--red-accent); color: var(--red-accent); }
+.tag-mid-left { top: 40%; left: -15px; transform: rotate(-90deg); }
+.tag-mid-right { top: 45%; right: -15px; transform: rotate(90deg); border-color: var(--yellow-accent); color: var(--yellow-accent); }
+
+.tag-label { letter-spacing: 1px; }
+.tag-status { margin-left: 6px; padding: 1px 4px; background: var(--cyan-accent); color: #000; border-radius: 2px; font-size: 0.6rem; }
 
 /* ==================== DYNAMIC WEB SHOOTER TRANSITION OVERLAY ==================== */
 
@@ -199,21 +240,15 @@ html, body {
   transform: scale(1.2) rotate(-5deg);
 }
 
-/* ==================== PAGE EXIT & STAGGERED ENTRANCE ANIMATIONS ==================== */
+/* ==================== 4 CINEMATIC PAGE TRANSITION VARIATIONS ==================== */
 
 .scene-exit {
   animation: pageExit 550ms cubic-bezier(.7,0,.2,1) forwards !important;
 }
 
 @keyframes pageExit {
-  from {
-    opacity: 1;
-    transform: translateX(0) scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: translateX(-30px) scale(.96);
-  }
+  from { opacity: 1; transform: translateX(0) scale(1); }
+  to { opacity: 0; transform: translateX(-35px) scale(.96); }
 }
 
 .scene-enter {
@@ -221,16 +256,52 @@ html, body {
 }
 
 @keyframes pageEnter {
-  from {
-    opacity: 0;
-    transform: translateY(18px) scale(.97);
-    filter: blur(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-  }
+  from { opacity: 0; transform: translateY(18px) scale(.97); filter: blur(4px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+/* Variation B: Comic Panel Slam */
+.scene-transition-slam {
+  animation: panelSlam 0.65s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes panelSlam {
+  0% { opacity: 0; transform: translate3d(60px, -60px, 0) rotate(4deg) scale(0.9); }
+  70% { opacity: 1; transform: translate3d(-5px, 5px, 0) rotate(-1deg) scale(1.02); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+}
+
+/* Variation C: Portal Expansion Mask */
+.scene-transition-portal {
+  animation: portalExpand 0.7s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+}
+
+@keyframes portalExpand {
+  0% { opacity: 0; transform: scale(0.4) rotate(-10deg); filter: blur(10px); }
+  60% { opacity: 1; transform: scale(1.05) rotate(2deg); filter: blur(0); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+/* Variation D: Web-Swing Hanging Panel Exit & Entrance */
+.scene-transition-swing-exit {
+  animation: webSwingExit 0.75s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards !important;
+  transform-origin: top right;
+}
+
+@keyframes webSwingExit {
+  0% { opacity: 1; transform: rotate(0deg) translate3d(0, 0, 0); }
+  30% { transform: rotate(-8deg) translate3d(-20px, 10px, 0); }
+  100% { opacity: 0; transform: rotate(-25deg) translate3d(-100vw, 80vh, 0); }
+}
+
+.scene-transition-swing-enter {
+  animation: webSwingEnter 0.75s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
+  transform-origin: top left;
+}
+
+@keyframes webSwingEnter {
+  0% { opacity: 0; transform: rotate(20deg) translate3d(100vw, -40vh, 0); }
+  100% { opacity: 1; transform: rotate(0deg) translate3d(0, 0, 0); }
 }
 
 /* Staggered entrance delays */
@@ -242,26 +313,6 @@ html, body {
 @keyframes comicEnter {
   from { opacity: 0; transform: translateY(14px) scale(.97); }
   to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-/* 3 Transition Variations */
-.scene-transition-slam {
-  animation: panelSlam 0.65s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-}
-
-@keyframes panelSlam {
-  0% { opacity: 0; transform: translate3d(60px, -60px, 0) rotate(4deg) scale(0.9); }
-  70% { opacity: 1; transform: translate3d(-5px, 5px, 0) rotate(-1deg) scale(1.02); }
-  100% { opacity: 1; transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
-}
-
-.scene-transition-pull {
-  animation: webPull 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes webPull {
-  0% { opacity: 0; transform: translate3d(-100vw, 0, 0) skewX(-10deg); }
-  100% { opacity: 1; transform: translate3d(0, 0, 0) skewX(0deg); }
 }
 
 /* Sound Effect Popups Container */
@@ -446,7 +497,7 @@ html, body {
   transform: translateY(0) scale(1);
 }
 
-.scene-inner { width: 100%; }
+.scene-inner { width: 100%; position: relative; }
 
 /* ==================== 100SVH MOVIE POSTER LANDING & PORTAL ==================== */
 
@@ -455,15 +506,15 @@ html, body {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 24px 18px;
-  min-height: 80vh;
+  padding: 28px 18px;
+  min-height: 82vh;
   justify-content: space-between;
 }
 
 .portal-hero-composition {
   position: relative;
   width: 100%;
-  min-height: 280px;
+  min-height: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -474,7 +525,7 @@ html, body {
 /* Layer A: Giant Background Typography "RESIDENT" */
 .resident-bg-typo {
   position: absolute;
-  top: 15px;
+  top: 10px;
   width: 100%;
   text-align: center;
   z-index: 1;
@@ -483,7 +534,7 @@ html, body {
 
 .resident-word {
   font-family: var(--font-comic);
-  font-size: clamp(3.8rem, 12vw, 9.5rem);
+  font-size: clamp(4.5rem, 14vw, 11rem);
   font-weight: 900;
   line-height: 0.8;
   letter-spacing: -0.04em;
@@ -492,8 +543,8 @@ html, body {
 }
 
 .word-solid {
-  color: rgba(255, 49, 93, 0.18);
-  text-shadow: -2px 0 var(--red-accent), 0 2px var(--cyan-accent);
+  color: rgba(255, 49, 93, 0.22);
+  text-shadow: -3px 0 var(--red-accent), 0 3px var(--cyan-accent);
 }
 
 .word-ghost {
@@ -502,36 +553,44 @@ html, body {
   left: 50%;
   transform: translateX(-50%);
   color: transparent;
-  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.12);
+  -webkit-text-stroke: 2.5px rgba(255, 255, 255, 0.15);
 }
 
-/* Layer B: Central Original SVG Dimensional Portal Object */
+.word-dark {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(0, 0, 0, 0.6);
+  z-index: -1;
+}
+
+/* Layer B: Central Original SVG Multi-Ring Dimensional Portal Object */
 .dimensional-portal-container {
   position: relative;
-  width: 220px;
-  height: 220px;
-  margin: 15px auto;
+  width: 230px;
+  height: 230px;
+  margin: 20px auto;
   z-index: 2;
 }
 
 .portal-svg {
   width: 100%;
   height: 100%;
-  filter: drop-shadow(0 0 20px var(--red-glow));
+  filter: drop-shadow(0 0 24px var(--red-glow));
 }
 
-.portal-ring {
-  transform-origin: center;
-}
-.ring-outer { animation: spinPortal 20s linear infinite; }
-.ring-mid { animation: spinPortal 12s linear infinite reverse; }
-.ring-inner { animation: spinPortal 8s linear infinite; }
+.portal-ring { transform-origin: center; }
+.ring-outer { animation: spinPortalCw 20s linear infinite; }
+.ring-mid { animation: spinPortalCcw 12s linear infinite; }
+.ring-inner { animation: spinPortalCw 8s linear infinite; }
 
-@keyframes spinPortal { to { transform: rotate(360deg); } }
+@keyframes spinPortalCw { to { transform: rotate(360deg); } }
+@keyframes spinPortalCcw { to { transform: rotate(-360deg); } }
 
 .portal-scan-line {
   transform-origin: 200px 200px;
-  animation: pulseScan 3s linear infinite;
+  animation: pulseScan 3.5s linear infinite;
 }
 
 @keyframes pulseScan { to { transform: rotate(360deg); } }
@@ -542,19 +601,37 @@ html, body {
 
 @keyframes pulseSilhouette {
   0% { transform: translate(100px, 60px) scale(0.98); }
-  100% { transform: translate(100px, 56px) scale(1.02); }
+  100% { transform: translate(100px, 55px) scale(1.03); }
+}
+
+.radar-scanner-widget {
+  position: absolute;
+  bottom: -15px;
+  right: -25px;
+  width: 75px;
+  height: 75px;
+  pointer-events: none;
+}
+
+.radar-beam-line {
+  transform-origin: 50px 50px;
+  animation: spinPortalCw 4s linear infinite;
+}
+
+.radar-target-dot {
+  animation: blink 0.6s infinite alternate;
 }
 
 /* Layer C: Foreground Word "VERSE" */
 .verse-fg-typo {
   position: relative;
   z-index: 3;
-  margin-top: -30px;
+  margin-top: -35px;
 }
 
 .title-residentverse {
   font-family: var(--font-comic);
-  font-size: clamp(3rem, 9vw, 6.5rem);
+  font-size: clamp(3.2rem, 10vw, 7rem);
   line-height: 0.95;
   letter-spacing: 2px;
   position: relative;
@@ -578,6 +655,15 @@ html, body {
   margin-top: 10px;
 }
 
+.comic-yellow-box {
+  background: var(--yellow-accent) !important;
+  color: #000000 !important;
+  border: 2.5px solid #000000 !important;
+  box-shadow: 4px 4px 0px #000000 !important;
+  transform: rotate(-1.8deg) !important;
+  padding: 6px 14px !important;
+}
+
 .hero-description {
   position: relative;
   z-index: 5;
@@ -595,7 +681,7 @@ html, body {
   background: var(--bg-panel);
   border: 3px solid #000000;
   box-shadow: var(--shadow-comic);
-  padding: 22px;
+  padding: 24px;
   position: relative;
   margin-bottom: 16px;
   overflow: hidden;
@@ -603,16 +689,17 @@ html, body {
 
 .bg-section-number {
   position: absolute;
-  right: -10px;
-  bottom: -30px;
+  right: -15px;
+  bottom: -40px;
   font-family: var(--font-comic);
-  font-size: clamp(8rem, 30vw, 20rem);
+  font-size: clamp(220px, 38vw, 600px);
   color: #ffffff;
-  opacity: 0.035;
+  opacity: 0.04;
   pointer-events: none;
   z-index: 0;
-  line-height: 0.8;
+  line-height: 0.75;
   user-select: none;
+  letter-spacing: -10px;
 }
 
 .panel-angled {
@@ -852,13 +939,13 @@ html, body {
 }
 
 .btn-comic:hover, .btn-comic:focus-visible {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 6px 6px 0px #000000;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 7px 7px 0px #000000;
   outline: none;
 }
 
 .btn-comic:active {
-  transform: translateY(1px) scale(.97);
+  transform: translateY(1px) scale(.95);
   box-shadow: 2px 2px 0px #000000;
 }
 
@@ -1238,15 +1325,17 @@ html, body {
 /* ==================== STRICT MOBILE & RESPONSIVE BREAKPOINTS (320px - 1440px) ==================== */
 
 @media (max-width: 768px) {
-  .dimensional-portal-container { width: 180px; height: 180px; }
+  .dimensional-portal-container { width: 190px; height: 190px; }
   .resident-word { font-size: clamp(3rem, 11vw, 7.5rem); }
   .title-residentverse { font-size: clamp(2.4rem, 8.5vw, 5rem); }
+  .floating-ui-tag { font-size: 0.6rem; padding: 2px 6px; }
+  .tag-mid-left, .tag-mid-right { display: none; }
 }
 
 @media (max-width: 600px) {
   .btn-hero { width: 100%; font-size: 1.2rem; padding: 12px 18px; }
   .hero-description { margin-bottom: 20px; }
-  .dimensional-portal-container { width: 160px; height: 160px; }
+  .dimensional-portal-container { width: 170px; height: 170px; }
 }
 
 @media (max-width: 430px) {

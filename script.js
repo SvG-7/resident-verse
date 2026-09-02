@@ -1,6 +1,6 @@
 /* ==========================================================================
    RESIDENT-VERSE : SPIDER-MAN MULTIVERSE MOVIE TITLE ENGINE
-   Features: 3D Mouse Parallax, 3 Web Shooter Transitions (Web Shot, Web Pull, Comic Slam),
+   Features: 3D Mouse Parallax, 4 Page Transitions (Web Shot, Comic Slam, Portal, Web-Swing),
    Staggered Entrance Animations, Flexbox Logo Flow, Google Sheets Submission.
    ========================================================================== */
 
@@ -140,8 +140,8 @@ function setup3DParallax() {
 
     layers.forEach(layer => {
       const depth = parseFloat(layer.getAttribute('data-depth')) || 0.2;
-      const moveX = dx * depth * 22;
-      const moveY = dy * depth * 22;
+      const moveX = dx * depth * 24;
+      const moveY = dy * depth * 24;
       layer.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
     });
   });
@@ -301,20 +301,23 @@ function handleBackScene() {
   transitionToScene(currentSceneIndex - 1, true);
 }
 
-// ===== 3 TRANSITION VARIATIONS ENGINE =====
+// ===== 4 TRANSITION VARIATIONS ENGINE (inc. Web-Swing) =====
 function transitionToScene(targetSceneIndex, isBack = false) {
   isTransitioning = true;
   triggerImpactFlash();
   
   const currentScene = document.querySelector(`[data-scene-index="${currentSceneIndex}"]`);
-  if (currentScene) {
-    currentScene.classList.add('scene-exit');
-  }
-
-  // Cycle between 3 transition styles: Web Shot, Web Pull, Comic Slam
-  const styles = ['web-wipe', 'web-pull', 'panel-slam'];
+  
+  // Cycle between 4 transition styles: Web Shot, Panel Slam, Portal Scale, Web Swing
+  const styles = ['web-wipe', 'panel-slam', 'portal-expand', 'web-swing'];
   const currentStyle = styles[transitionStyleIndex % styles.length];
   transitionStyleIndex++;
+
+  if (currentStyle === 'web-swing' && currentScene) {
+    currentScene.classList.add('scene-transition-swing-exit');
+  } else if (currentScene) {
+    currentScene.classList.add('scene-exit');
+  }
 
   if (currentStyle === 'web-wipe') {
     playWebTransition();
@@ -324,14 +327,21 @@ function transitionToScene(targetSceneIndex, isBack = false) {
 
   setTimeout(() => {
     DOM.scenes.forEach(s => {
-      s.classList.remove('active-scene', 'scene-exit', 'scene-enter', 'scene-transition-slam', 'scene-transition-pull');
+      s.classList.remove('active-scene', 'scene-exit', 'scene-enter', 'scene-transition-slam', 'scene-transition-portal', 'scene-transition-swing-exit', 'scene-transition-swing-enter');
     });
     
     const targetScene = document.querySelector(`[data-scene-index="${targetSceneIndex}"]`);
     if (targetScene) {
-      targetScene.classList.add('active-scene', 'scene-enter');
-      if (currentStyle === 'panel-slam') targetScene.classList.add('scene-transition-slam');
-      if (currentStyle === 'web-pull') targetScene.classList.add('scene-transition-pull');
+      targetScene.classList.add('active-scene');
+      if (currentStyle === 'web-swing') {
+        targetScene.classList.add('scene-transition-swing-enter');
+      } else if (currentStyle === 'panel-slam') {
+        targetScene.classList.add('scene-transition-slam');
+      } else if (currentStyle === 'portal-expand') {
+        targetScene.classList.add('scene-transition-portal');
+      } else {
+        targetScene.classList.add('scene-enter');
+      }
       currentSceneIndex = targetSceneIndex;
     }
 
@@ -589,7 +599,8 @@ function initCanvasBackground() {
     height = DOM.canvas.height = window.innerHeight;
   });
 
-  const particles = Array.from({ length: 28 }, () => ({
+  const particleCount = window.innerWidth < 600 ? 12 : 25;
+  const particles = Array.from({ length: particleCount }, () => ({
     x: Math.random() * width,
     y: Math.random() * height,
     size: Math.random() * 2 + 1,
