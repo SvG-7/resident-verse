@@ -5,7 +5,7 @@
    ========================================================================== */
 
 // ===== PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE =====
-const RESPONSE_ENDPOINT = "PASTE_GOOGLE_APPS_SCRIPT_URL_HERE";
+const RESPONSE_ENDPOINT = "https://script.google.com/macros/s/AKfycbxmywRGxAtE8SxkXS8H-DfiLpEpWKvp9DrBQoSDmRi9cEfthiqLASf5Fw_zqRgUqjQD/exec";
 
 // ===== STATE MANAGEMENT (NO ROOM NUMBER!) =====
 const residentProfile = {
