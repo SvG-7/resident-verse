@@ -23,7 +23,6 @@
   <!-- LAYER 2: Background City Silhouettes & Perspective Lines -->
   <div class="city-silhouette-bg parallax-layer" data-depth="0.08" aria-hidden="true">
     <svg viewBox="0 0 1200 180" preserveAspectRatio="none" width="100%" height="100%">
-      <!-- Building Shadows -->
       <polygon points="0,180 0,90 60,90 60,180" fill="#0b0d14"/>
       <polygon points="65,180 65,40 140,40 140,180" fill="#0f111d"/>
       <polygon points="145,180 145,110 210,110 210,180" fill="#0a0c12"/>
@@ -37,7 +36,6 @@
       <polygon points="865,180 865,95 930,95 930,180" fill="#090a10"/>
       <polygon points="935,180 935,25 1040,25 1040,180" fill="#151829"/>
       <polygon points="1045,180 1045,85 1200,85 1200,180" fill="#0b0d14"/>
-      <!-- Cyan Windows & Red Rim Highlights -->
       <rect x="80" y="60" width="8" height="12" fill="#00DDEB" opacity="0.8"/>
       <rect x="110" y="90" width="8" height="12" fill="#00DDEB" opacity="0.6"/>
       <rect x="235" y="40" width="10" height="14" fill="#00DDEB" opacity="0.9"/>
@@ -47,7 +45,6 @@
       <rect x="630" y="90" width="12" height="16" fill="#00DDEB" opacity="0.6"/>
       <rect x="790" y="65" width="9" height="14" fill="#00DDEB" opacity="0.75"/>
       <rect x="960" y="45" width="10" height="14" fill="#00DDEB" opacity="0.8"/>
-      <!-- Top Red Rim Lines -->
       <line x1="65" y1="40" x2="140" y2="40" stroke="#FF315D" stroke-width="2" opacity="0.8"/>
       <line x1="215" y1="20" x2="310" y2="20" stroke="#FF315D" stroke-width="2.5" opacity="0.9"/>
       <line x1="565" y1="30" x2="670" y2="30" stroke="#FF315D" stroke-width="2.5" opacity="0.9"/>
@@ -70,7 +67,7 @@
   <!-- LAYER 5: Comic Floating Sound Effect Layer -->
   <div id="fx-layer" aria-hidden="true"></div>
 
-  <!-- LAYER 5: Screen Flash & Pure SVG Web Shooter Overlay (NO THWIP TEXT!) -->
+  <!-- LAYER 5: Screen Flash & Pure SVG Web Shooter Overlay -->
   <div id="impact-flash" class="hidden"></div>
   
   <div id="web-transition-overlay" class="hidden-web-overlay">
@@ -147,17 +144,13 @@
         <!-- Movie Poster 100svh Hero Card -->
         <div id="intro-hero-card" class="comic-card panel-impact hero-poster-card hidden-step">
           
-          <!-- Original Dimensional Portal & Giant Stacked Typography Composition -->
           <div class="portal-hero-composition">
-            
-            <!-- Layer A: Background Giant Word "RESIDENT" -->
             <div class="resident-bg-typo parallax-layer" data-depth="0.15">
               <span class="resident-word word-ghost">RESIDENT</span>
               <span class="resident-word word-solid">RESIDENT</span>
               <span class="resident-word word-dark">RESIDENT</span>
             </div>
 
-            <!-- Layer B: Central Original SVG Multi-Ring Dimensional Portal Object -->
             <div class="dimensional-portal-container parallax-layer" data-depth="0.3">
               <svg class="portal-svg" viewBox="0 0 400 400">
                 <defs>
@@ -172,32 +165,26 @@
                   </filter>
                 </defs>
 
-                <!-- Outer Glowing Rings -->
                 <circle cx="200" cy="200" r="185" fill="url(#portalCoreGlow)"/>
                 <circle cx="200" cy="200" r="172" stroke="#FF315D" stroke-width="3.5" stroke-dasharray="14 7" fill="none" class="portal-ring ring-outer"/>
                 <circle cx="200" cy="200" r="138" stroke="#00DDEB" stroke-width="2.5" stroke-dasharray="24 12" fill="none" class="portal-ring ring-mid" filter="url(#cyanGlow)"/>
                 <circle cx="200" cy="200" r="102" stroke="#FFD21F" stroke-width="2" stroke-dasharray="8 8" fill="none" class="portal-ring ring-inner"/>
 
-                <!-- Web Geometry Mesh inside Portal -->
                 <g stroke="#ffffff" stroke-width="1.2" opacity="0.35" fill="none">
                   <path d="M 200,200 L 40,40 M 200,200 L 360,40 M 200,200 L 360,360 M 200,200 L 40,360 M 200,200 L 200,15 M 200,200 L 385,200 M 200,200 L 200,385 M 200,200 L 15,200"/>
                   <polygon points="200,120 255,145 280,200 255,255 200,280 145,255 120,200 145,145"/>
                   <polygon points="200,60 300,100 340,200 300,300 200,340 100,300 60,200 100,100"/>
                 </g>
 
-                <!-- Central Floating Resident Silhouette Graphic -->
                 <g class="resident-silhouette-group" transform="translate(100, 60)">
                   <path d="M 100 30 C 140 30, 160 60, 155 120 C 150 170, 120 190, 100 190 C 80 190, 50 170, 45 120 C 40 60, 60 30, 100 30 Z" fill="#07080D" stroke="#FF315D" stroke-width="4"/>
-                  <!-- Glowing Mask Eyes -->
                   <polygon points="65,95 90,115 60,125" fill="#FFFFFF" stroke="#00DDEB" stroke-width="2.5"/>
                   <polygon points="135,95 110,115 140,125" fill="#FFFFFF" stroke="#00DDEB" stroke-width="2.5"/>
                 </g>
 
-                <!-- Scanning Radial Beam -->
                 <line x1="200" y1="200" x2="370" y2="200" stroke="#00DDEB" stroke-width="3" opacity="0.8" class="portal-scan-line"/>
               </svg>
 
-              <!-- Rotating Radar Scanner Widget -->
               <div class="radar-scanner-widget" aria-hidden="true">
                 <svg viewBox="0 0 100 100" width="100%" height="100%">
                   <circle cx="50" cy="50" r="45" stroke="#00DDEB" stroke-width="1.5" fill="none" opacity="0.4"/>
@@ -210,7 +197,6 @@
               </div>
             </div>
 
-            <!-- Layer C: Foreground Word "VERSE" -->
             <div class="verse-fg-typo parallax-layer" data-depth="0.45">
               <h1 class="title-residentverse glitch-title" data-text="VERSE">
                 <span class="title-layer-bg">VERSE</span>
@@ -219,10 +205,8 @@
                 <span class="title-layer-main">VERSE</span>
               </h1>
             </div>
-
           </div>
 
-          <!-- Lower Info & Action Bar -->
           <div class="hero-lower-content">
             <div class="card-tag stagger-1">DIMENSION // RESIDENCE HALL</div>
             
@@ -242,21 +226,25 @@
               <span>NO BORING FORMS</span> • <span>2-3 MIN MISSION</span> • <span>MOBILE FIRST</span>
             </div>
           </div>
-
         </div>
-
       </div>
     </section>
 
-    <!-- ==================== SCENE 1: IDENTITY ==================== -->
+    <!-- ==================== SCENE 1: IDENTITY (SPIDER PLACEHOLDERS!) ==================== -->
     <section id="scene-identity" class="scene" data-scene-index="1">
       <div class="scene-inner">
         <div class="offset-print-layer"></div>
         <div class="comic-card panel-angled identity-panel-layout">
-          <!-- Background Section Number -->
           <div class="bg-section-number">01</div>
           
-          <!-- Corner SVG Web Pattern -->
+          <!-- Background SVG Illustration: City Skyline + Moon -->
+          <div class="card-art-bg city-moon-art">
+            <svg viewBox="0 0 400 180" width="100%" height="100%">
+              <circle cx="340" cy="40" r="28" fill="#FFD21F" opacity="0.08"/>
+              <path d="M 0,180 L 0,120 L 50,120 L 50,180 M 55,180 L 55,80 L 130,80 L 130,180 M 135,180 L 135,140 L 200,140 L 200,180 M 205,180 L 205,60 L 290,60 L 290,180 M 295,180 L 295,100 L 400,100 L 400,180" fill="#00DDEB" opacity="0.06"/>
+            </svg>
+          </div>
+
           <div class="card-corner-web top-right-card-web">
             <svg viewBox="0 0 100 100" width="100%" height="100%">
               <path d="M 100,0 Q 50,25 0,0 M 100,0 Q 75,50 100,100 M 100,0 L 0,100 M 70,10 Q 50,50 90,30 M 40,20 Q 60,70 80,60" stroke="#00DDEB" stroke-width="1.2" fill="none" opacity="0.18"/>
@@ -277,7 +265,7 @@
                   <span class="label-num">01</span> WHAT'S YOUR NAME? <span class="req-star">*</span>
                 </label>
                 <div class="input-wrapper">
-                  <input type="text" id="input-name" class="comic-input" placeholder="e.g. Alex Rivera" autocomplete="name" required>
+                  <input type="text" id="input-name" class="comic-input" placeholder="e.g. Peter Parker" autocomplete="name" required>
                   <div class="input-glow-line"></div>
                 </div>
                 <div class="inline-error hidden-error" id="err-name">WE'RE MISSING THIS PIECE OF THE STORY.</div>
@@ -288,7 +276,7 @@
                   <span class="label-num">02</span> WHAT DO YOU PREFER TO BE CALLED? <span class="opt-tag">(OPTIONAL)</span>
                 </label>
                 <div class="input-wrapper">
-                  <input type="text" id="input-prefname" class="comic-input" placeholder="Nickname, alias, or preferred name">
+                  <input type="text" id="input-prefname" class="comic-input" placeholder="e.g. Spider-Man">
                   <div class="input-glow-line"></div>
                 </div>
               </div>
@@ -298,7 +286,7 @@
                   <span class="label-num">03</span> WHERE ARE YOU FROM? <span class="req-star">*</span>
                 </label>
                 <div class="input-wrapper">
-                  <input type="text" id="input-hometown" class="comic-input" placeholder="City, State, Country — whatever you prefer" required>
+                  <input type="text" id="input-hometown" class="comic-input" placeholder="e.g. Queens, New York" required>
                   <div class="input-glow-line"></div>
                 </div>
                 <div class="inline-error hidden-error" id="err-hometown">TELL US YOUR HOME UNIVERSE!</div>
@@ -437,12 +425,23 @@
       </div>
     </section>
 
-    <!-- ==================== SCENE 4: HOBBIES & SIDE QUESTS (NEW PAGE!) ==================== -->
+    <!-- ==================== SCENE 4: HOBBIES & SIDE QUESTS (NOW REQUIRED!) ==================== -->
     <section id="scene-hobbies" class="scene" data-scene-index="4">
       <div class="scene-inner">
         <div class="offset-print-layer"></div>
         <div class="comic-card panel-impact">
           <div class="bg-section-number">04</div>
+
+          <!-- Background Comic Collage SVG Illustration -->
+          <div class="card-art-bg collage-bg-art">
+            <svg viewBox="0 0 400 240" width="100%" height="100%" opacity="0.10">
+              <rect x="20" y="20" width="40" height="25" rx="5" stroke="#00DDEB" stroke-width="2" fill="none"/>
+              <circle cx="100" cy="40" r="16" stroke="#FF315D" stroke-width="2" fill="none"/>
+              <polygon points="180,20 200,50 160,50" stroke="#FFD21F" stroke-width="2" fill="none"/>
+              <rect x="260" y="25" width="30" height="30" stroke="#00DDEB" stroke-width="2" fill="none"/>
+              <circle cx="340" cy="40" r="14" stroke="#FF315D" stroke-width="2" fill="none"/>
+            </svg>
+          </div>
 
           <div class="card-corner-web top-right-card-web">
             <svg viewBox="0 0 100 100" width="100%" height="100%">
@@ -452,31 +451,88 @@
 
           <div class="scene-header-badge stagger-1">DIMENSION 04 // SIDE QUESTS</div>
           
-          <h2 class="scene-title stagger-1">WHAT DO YOU DO FOR <span class="title-highlight">FUN?</span></h2>
-          <p class="scene-subtitle stagger-2">Every resident has their own side quests. Select all hobbies you're into!</p>
+          <h2 class="scene-title stagger-1">WHAT DO YOU DO FOR <span class="title-highlight">FUN?</span> <span class="req-star">*</span></h2>
+          <p class="scene-subtitle stagger-2">Every resident has their own side quests. Select at least one hobby you're into!</p>
 
           <div class="tile-grid hobbies-grid stagger-3" id="grid-hobbies">
             <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Gaming"><span class="tile-icon">🎮</span><span class="tile-title">GAMING</span></button>
-            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Sports"><span class="tile-icon">🏀</span><span class="tile-title">SPORTS / GYM</span></button>
+            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Sports / Fitness"><span class="tile-icon">🏀</span><span class="tile-title">SPORTS / GYM</span></button>
             <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Music"><span class="tile-icon">🎵</span><span class="tile-title">MUSIC</span></button>
-            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Movies"><span class="tile-icon">🎬</span><span class="tile-title">MOVIES / TV</span></button>
+            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Movies / TV"><span class="tile-icon">🎬</span><span class="tile-title">MOVIES / TV</span></button>
             <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Anime"><span class="tile-icon">⛩️</span><span class="tile-title">ANIME</span></button>
             <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Reading"><span class="tile-icon">📚</span><span class="tile-title">READING</span></button>
-            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Art"><span class="tile-icon">🎨</span><span class="tile-title">ART / DRAWING</span></button>
+            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Art / Drawing"><span class="tile-icon">🎨</span><span class="tile-title">ART / DRAWING</span></button>
             <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Photography"><span class="tile-icon">📸</span><span class="tile-title">PHOTOGRAPHY</span></button>
-            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Cooking"><span class="tile-icon">🍳</span><span class="tile-title">COOKING</span></button>
-            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Coding"><span class="tile-icon">💻</span><span class="tile-title">CODING / TECH</span></button>
+            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Cooking / Baking"><span class="tile-icon">🍳</span><span class="tile-title">COOKING</span></button>
+            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Coding / Tech"><span class="tile-icon">💻</span><span class="tile-title">CODING / TECH</span></button>
             <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Outdoors"><span class="tile-icon">🌿</span><span class="tile-title">OUTDOORS</span></button>
-            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Travel"><span class="tile-icon">✈️</span><span class="tile-title">TRAVELING</span></button>
-            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="BoardGames"><span class="tile-icon">🎲</span><span class="tile-title">BOARD GAMES</span></button>
+            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Traveling"><span class="tile-icon">✈️</span><span class="tile-title">TRAVELING</span></button>
+            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Board Games"><span class="tile-icon">🎲</span><span class="tile-title">BOARD GAMES</span></button>
             <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Fashion"><span class="tile-icon">👟</span><span class="tile-title">FASHION</span></button>
-            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Content"><span class="tile-icon">📹</span><span class="tile-title">CREATION</span></button>
+            <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Content Creation"><span class="tile-icon">📹</span><span class="tile-title">CREATION</span></button>
             <button type="button" class="comic-tile tile-checkbox hobby-chip" data-value="Cars"><span class="tile-icon">🚗</span><span class="tile-title">CARS / MOTORS</span></button>
           </div>
+          <div class="inline-error hidden-error" id="err-hobbies">SELECT AT LEAST ONE SIDE QUEST TO CONTINUE!</div>
 
           <div class="optional-box stagger-4">
             <label for="input-other-hobby" class="input-label">OTHER HOBBIES OR INTERESTS? <span class="opt-tag">(OPTIONAL)</span></label>
             <input type="text" id="input-other-hobby" class="comic-input" placeholder="e.g. Cosplay, Skating, Chess, DJing...">
+          </div>
+
+          <div class="scene-nav stagger-4">
+            <button class="btn-comic btn-back" data-action="back">← BACK</button>
+            <button class="btn-comic btn-next" data-action="next">
+              <span class="btn-text">EVENT WINDOW</span> →
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SCENE 5: EVENT AVAILABILITY (NEW REQUIRED PAGE!) ==================== -->
+    <section id="scene-availability" class="scene" data-scene-index="5">
+      <div class="scene-inner">
+        <div class="offset-print-layer"></div>
+        <div class="comic-card panel-accent availability-panel-layout">
+          <div class="bg-section-number">05</div>
+
+          <!-- Stylized Concentric Clock / Radar Background Graphic -->
+          <div class="clock-radar-widget" aria-hidden="true">
+            <svg viewBox="0 0 200 200" width="100%" height="100%">
+              <circle cx="100" cy="100" r="90" stroke="#00DDEB" stroke-width="1.5" fill="none" opacity="0.25"/>
+              <circle cx="100" cy="100" r="65" stroke="#FF315D" stroke-width="1" stroke-dasharray="6 6" fill="none" opacity="0.35"/>
+              <circle cx="100" cy="100" r="40" stroke="#FFD21F" stroke-width="1" fill="none" opacity="0.2"/>
+              <line x1="100" y1="10" x2="100" y2="190" stroke="#00DDEB" stroke-width="1" opacity="0.2"/>
+              <line x1="10" y1="100" x2="190" y2="100" stroke="#00DDEB" stroke-width="1" opacity="0.2"/>
+              <!-- Numerals 12, 3, 6, 9 -->
+              <text x="100" y="24" fill="#00DDEB" font-family="Space Grotesk" font-size="12" font-weight="700" text-anchor="middle" opacity="0.6">12</text>
+              <text x="180" y="104" fill="#00DDEB" font-family="Space Grotesk" font-size="12" font-weight="700" text-anchor="middle" opacity="0.6">3</text>
+              <text x="100" y="184" fill="#00DDEB" font-family="Space Grotesk" font-size="12" font-weight="700" text-anchor="middle" opacity="0.6">6</text>
+              <text x="20" y="104" fill="#00DDEB" font-family="Space Grotesk" font-size="12" font-weight="700" text-anchor="middle" opacity="0.6">9</text>
+              <!-- Rotating Scanner Hand -->
+              <line x1="100" y1="100" x2="160" y2="40" stroke="#FF315D" stroke-width="2.5" class="clock-scanner-line"/>
+            </svg>
+          </div>
+
+          <div class="scene-header-badge stagger-1">DIMENSION 05 // EVENT WINDOW</div>
+          
+          <h2 class="scene-title stagger-1">WHEN CAN WE <span class="title-highlight-cyan">CATCH YOU?</span> <span class="req-star">*</span></h2>
+          <p class="scene-subtitle stagger-2">Even heroes need to sync their schedules. Select all times you're usually free for floor events!</p>
+
+          <div class="tile-grid availability-grid stagger-3" id="grid-availability">
+            <button type="button" class="comic-tile tile-checkbox availability-tile" data-value="Morning (8 AM – 12 PM)"><span class="tile-icon">🌅</span><span class="tile-title">MORNING</span><span class="tile-sub">8 AM – 12 PM</span></button>
+            <button type="button" class="comic-tile tile-checkbox availability-tile" data-value="Afternoon (12 PM – 4 PM)"><span class="tile-icon">☀️</span><span class="tile-title">AFTERNOON</span><span class="tile-sub">12 PM – 4 PM</span></button>
+            <button type="button" class="comic-tile tile-checkbox availability-tile" data-value="Early Evening (4 PM – 7 PM)"><span class="tile-icon">🌆</span><span class="tile-title">EARLY EVENING</span><span class="tile-sub">4 PM – 7 PM</span></button>
+            <button type="button" class="comic-tile tile-checkbox availability-tile" data-value="Evening (7 PM – 10 PM)"><span class="tile-icon">🌙</span><span class="tile-title">EVENING</span><span class="tile-sub">7 PM – 10 PM</span></button>
+            <button type="button" class="comic-tile tile-checkbox availability-tile" data-value="Late Night (After 10 PM)"><span class="tile-icon">🌌</span><span class="tile-title">LATE NIGHT</span><span class="tile-sub">After 10 PM</span></button>
+            <button type="button" class="comic-tile tile-checkbox availability-tile" data-value="Weekends Are Best"><span class="tile-icon">📅</span><span class="tile-title">WEEKENDS</span><span class="tile-sub">Best for trips</span></button>
+            <button type="button" class="comic-tile tile-checkbox availability-tile" data-value="My Schedule Varies"><span class="tile-icon">🌀</span><span class="tile-title">SCHEDULE VARIES</span><span class="tile-sub">Changes weekly</span></button>
+          </div>
+          <div class="inline-error hidden-error" id="err-availability">WE NEED A TIME WINDOW BEFORE CONTINUING!</div>
+
+          <div class="optional-box stagger-4">
+            <label for="input-other-availability" class="input-label">OTHER AVAILABILITY NOTES? <span class="opt-tag">(OPTIONAL)</span></label>
+            <input type="text" id="input-other-availability" class="comic-input" placeholder="e.g. Free Tuesdays after 6 PM, Busy Thursdays...">
           </div>
 
           <div class="scene-nav stagger-4">
@@ -489,18 +545,18 @@
       </div>
     </section>
 
-    <!-- ==================== SCENE 5: SELECT YOUR POWERS ==================== -->
-    <section id="scene-interests" class="scene" data-scene-index="5">
+    <!-- ==================== SCENE 6: SELECT YOUR POWERS ==================== -->
+    <section id="scene-interests" class="scene" data-scene-index="6">
       <div class="scene-inner">
         <div class="offset-print-layer"></div>
         <div class="comic-card panel-impact">
-          <div class="bg-section-number">05</div>
+          <div class="bg-section-number">06</div>
 
           <div class="caption-box headline-box comic-yellow-box stagger-1">
             <span class="caption-text">SCANNING INTEREST SIGNALS...</span>
           </div>
 
-          <div class="scene-header-badge stagger-1">DIMENSION 05 // POWER GRID</div>
+          <div class="scene-header-badge stagger-1">DIMENSION 06 // POWER GRID</div>
           
           <h2 class="scene-title stagger-2">SELECT YOUR <span class="title-highlight">POWERS</span></h2>
           <p class="scene-subtitle stagger-2">Choose everything that sounds like you. Select all that apply!</p>
@@ -539,18 +595,18 @@
       </div>
     </section>
 
-    <!-- ==================== SCENE 6: COMMUNITY MISSION ==================== -->
-    <section id="scene-events" class="scene" data-scene-index="6">
+    <!-- ==================== SCENE 7: COMMUNITY MISSION ==================== -->
+    <section id="scene-events" class="scene" data-scene-index="7">
       <div class="scene-inner">
         <div class="offset-print-layer"></div>
         <div class="comic-card panel-angled">
-          <div class="bg-section-number">06</div>
+          <div class="bg-section-number">07</div>
 
           <div class="caption-box headline-box comic-yellow-box stagger-1">
             <span class="caption-text">MISSION PREFERENCES...</span>
           </div>
 
-          <div class="scene-header-badge stagger-1">DIMENSION 06 // FLOOR EVENTS</div>
+          <div class="scene-header-badge stagger-1">DIMENSION 07 // FLOOR EVENTS</div>
           
           <h2 class="scene-title stagger-2">
             WHAT WOULD ACTUALLY GET YOU <span class="title-highlight">OUT OF YOUR ROOM? 👀</span>
@@ -589,13 +645,13 @@
       </div>
     </section>
 
-    <!-- ==================== SCENE 7: FINAL OPTIONAL MESSAGE ==================== -->
-    <section id="scene-message" class="scene" data-scene-index="7">
+    <!-- ==================== SCENE 8: FINAL OPTIONAL MESSAGE ==================== -->
+    <section id="scene-message" class="scene" data-scene-index="8">
       <div class="scene-inner">
         <div class="offset-print-layer"></div>
         <div class="comic-card panel-dark">
-          <div class="bg-section-number">07</div>
-          <div class="scene-header-badge stagger-1">DIMENSION 07 // ONE LAST THING</div>
+          <div class="bg-section-number">08</div>
+          <div class="scene-header-badge stagger-1">DIMENSION 08 // ONE LAST THING</div>
           
           <h2 class="scene-title stagger-1">ONE LAST <span class="title-highlight-cyan">THING...</span></h2>
           <p class="scene-subtitle stagger-2">ANYTHING ELSE YOU'D LIKE YOUR RA TO KNOW?</p>
@@ -620,8 +676,8 @@
       </div>
     </section>
 
-    <!-- ==================== SCENE 8: VERIFYING SEQUENCE ==================== -->
-    <section id="scene-verifying" class="scene" data-scene-index="8">
+    <!-- ==================== SCENE 9: VERIFYING SEQUENCE ==================== -->
+    <section id="scene-verifying" class="scene" data-scene-index="9">
       <div class="scene-inner verifying-inner">
         <div class="comic-card panel-impact verifying-card">
           <div class="verifying-spinner-box">
@@ -635,7 +691,7 @@
             <div class="log-line" id="log-1"><span class="log-status">[PENDING]</span> ANALYZING PROFILE...</div>
             <div class="log-line" id="log-2"><span class="log-status">[PENDING]</span> IDENTITY VERIFIED ✓</div>
             <div class="log-line" id="log-3"><span class="log-status">[PENDING]</span> ACADEMIC SIGNAL FOUND ✓</div>
-            <div class="log-line" id="log-4"><span class="log-status">[PENDING]</span> HOBBIES & INTERESTS LOGGED ✓</div>
+            <div class="log-line" id="log-4"><span class="log-status">[PENDING]</span> HOBBIES & AVAILABILITY LOGGED ✓</div>
             <div class="log-line" id="log-5"><span class="log-status">[PENDING]</span> PROFILE TRANSMITTED ✓</div>
             <div class="log-line" id="log-6"><span class="log-status">[PENDING]</span> CONNECTION ESTABLISHED ✓</div>
           </div>
@@ -643,8 +699,8 @@
       </div>
     </section>
 
-    <!-- ==================== SCENE 9: FINAL MOVIE ENDING ==================== -->
-    <section id="scene-final" class="scene" data-scene-index="9">
+    <!-- ==================== SCENE 10: FINAL MOVIE ENDING ==================== -->
+    <section id="scene-final" class="scene" data-scene-index="10">
       <div class="scene-inner final-inner">
         <div id="final-burst-graphic" aria-hidden="true">
           <div class="ray-spin"></div>

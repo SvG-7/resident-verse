@@ -1,6 +1,7 @@
 /* ==========================================================================
    RESIDENT-VERSE : SPIDER-MAN MULTIVERSE MOVIE TITLE ENGINE
-   Features: Overlapping Web-Pull Transitions, Hobbies Scene, 3D Parallax,
+   Features: 4 Overlapping Transition Families (Pull, Mask, Camera, Swing),
+   Required Hobbies & Event Availability Scenes, 3D Parallax,
    Multi-Layer Cards, Production Google Sheets Submission System.
    ========================================================================== */
 
@@ -17,6 +18,8 @@ const residentProfile = {
   classThought: "",
   organizations: "",
   hobbies: [],
+  eventAvailability: [],
+  otherAvailability: "",
   interests: [],
   otherHobby: "",
   eventPreferences: [],
@@ -24,22 +27,22 @@ const residentProfile = {
   additionalMessage: ""
 };
 
-// Scene Progress Checkpoints (10 Total Scenes: 0 to 9)
+// Scene Progress Checkpoints (11 Total Scenes: 0 to 10)
 const PROGRESS_MAP = {
   0: 0,   // Intro Landing
   1: 15,  // Identity
-  2: 30,  // Academics
-  3: 45,  // Campus Alliances
-  4: 60,  // Hobbies & Side Quests
-  5: 75,  // Select Your Powers
-  6: 90,  // Community Missions
-  7: 95,  // Final Message
-  8: 98,  // Verifying
-  9: 100  // Final Reveal
+  2: 28,  // Academics
+  3: 42,  // Campus Alliances
+  4: 55,  // Hobbies & Side Quests (REQUIRED)
+  5: 68,  // Event Availability (NEW REQUIRED!)
+  6: 80,  // Select Your Powers
+  7: 90,  // Community Missions
+  8: 95,  // Final Message
+  9: 98,  // Verifying
+  10: 100 // Final Reveal
 };
 
 // Transition Variation Counter
-let transitionStyleIndex = 0;
 let currentSceneIndex = 0;
 let isTransitioning = false;
 let submissionInProgress = false;
@@ -65,7 +68,7 @@ const DOM = {
   introHeroCard: document.getElementById('intro-hero-card'),
   btnStart: document.getElementById('btn-start'),
   
-  // Identity Inputs (NO ROOM NUMBER!)
+  // Identity Inputs
   inputName: document.getElementById('input-name'),
   inputPrefName: document.getElementById('input-prefname'),
   inputHometown: document.getElementById('input-hometown'),
@@ -83,9 +86,15 @@ const DOM = {
   inputOrgs: document.getElementById('input-orgs'),
   netNodes: document.querySelectorAll('.net-node'),
 
-  // Hobbies Inputs
+  // Hobbies Inputs (REQUIRED!)
   gridHobbies: document.getElementById('grid-hobbies'),
+  errHobbies: document.getElementById('err-hobbies'),
   
+  // Availability Inputs (NEW REQUIRED!)
+  gridAvailability: document.getElementById('grid-availability'),
+  inputOtherAvailability: document.getElementById('input-other-availability'),
+  errAvailability: document.getElementById('err-availability'),
+
   // Powers Inputs
   gridInterests: document.getElementById('grid-interests'),
   powerCountText: document.getElementById('power-count-text'),
@@ -134,7 +143,7 @@ function playIntroCinematicSequence() {
 
 // ===== DESKTOP 3D MOUSE PARALLAX =====
 function setup3DParallax() {
-  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return; // Disable on touch devices
+  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
 
   const layers = document.querySelectorAll('.parallax-layer');
   window.addEventListener('mousemove', (e) => {
@@ -183,7 +192,7 @@ function setupEventListeners() {
     });
   });
 
-  // Hobbies Multi-Select Cards
+  // Hobbies Multi-Select Cards (REQUIRED!)
   if (DOM.gridHobbies) {
     DOM.gridHobbies.querySelectorAll('.hobby-chip').forEach(tile => {
       tile.addEventListener('click', () => {
@@ -194,6 +203,29 @@ function setupEventListeners() {
           triggerSoundEffect('QUEST UNLOCKED!', tile.getBoundingClientRect().left, tile.getBoundingClientRect().top);
         } else {
           residentProfile.hobbies = residentProfile.hobbies.filter(item => item !== val);
+        }
+        if (residentProfile.hobbies.length > 0 && DOM.errHobbies) {
+          DOM.errHobbies.classList.add('hidden-error');
+        }
+        saveAnswersToSession();
+      });
+    });
+  }
+
+  // Availability Multi-Select Cards (NEW REQUIRED!)
+  if (DOM.gridAvailability) {
+    DOM.gridAvailability.querySelectorAll('.availability-tile').forEach(tile => {
+      tile.addEventListener('click', () => {
+        tile.classList.toggle('selected');
+        const val = tile.getAttribute('data-value');
+        if (tile.classList.contains('selected')) {
+          if (!residentProfile.eventAvailability.includes(val)) residentProfile.eventAvailability.push(val);
+          triggerSoundEffect('TIME SYNCED!', tile.getBoundingClientRect().left, tile.getBoundingClientRect().top);
+        } else {
+          residentProfile.eventAvailability = residentProfile.eventAvailability.filter(item => item !== val);
+        }
+        if (residentProfile.eventAvailability.length > 0 && DOM.errAvailability) {
+          DOM.errAvailability.classList.add('hidden-error');
         }
         saveAnswersToSession();
       });
@@ -288,6 +320,7 @@ function setupEventListeners() {
   DOM.inputClassThought.addEventListener('input', saveAnswersToSession);
   DOM.inputOrgs.addEventListener('input', saveAnswersToSession);
   DOM.inputOtherHobby.addEventListener('input', saveAnswersToSession);
+  if (DOM.inputOtherAvailability) DOM.inputOtherAvailability.addEventListener('input', saveAnswersToSession);
   DOM.inputEventSuggestion.addEventListener('input', saveAnswersToSession);
   DOM.inputMessage.addEventListener('input', saveAnswersToSession);
 }
@@ -305,8 +338,8 @@ function handleNextScene(e) {
   
   if (validateScene(currentSceneIndex)) {
     collectCurrentSceneAnswers();
-    if (currentSceneIndex < 7) {
-      transitionToScene(currentSceneIndex + 1);
+    if (currentSceneIndex < 8) { // 11 total scenes (0 to 10)
+      transitionToScene(currentSceneIndex + 1, false);
     }
   }
 }
@@ -317,7 +350,7 @@ function handleBackScene() {
   transitionToScene(currentSceneIndex - 1, true);
 }
 
-// ===== 4 OVERLAPPING TRANSITION ENGINE =====
+// ===== 4 OVERLAPPING TRANSITION FAMILIES ENGINE =====
 function transitionToScene(targetSceneIndex, isBack = false) {
   isTransitioning = true;
   triggerImpactFlash();
@@ -325,51 +358,57 @@ function transitionToScene(targetSceneIndex, isBack = false) {
   const currentScene = document.querySelector(`[data-scene-index="${currentSceneIndex}"]`);
   const targetScene = document.querySelector(`[data-scene-index="${targetSceneIndex}"]`);
 
-  const styles = ['web-wipe', 'panel-slam', 'portal-expand', 'web-swing'];
-  const currentStyle = styles[transitionStyleIndex % styles.length];
-  transitionStyleIndex++;
+  // Map scene transitions to 4 distinct families
+  const transitionFamilies = ['pull', 'camera', 'mask', 'swing'];
+  const family = transitionFamilies[targetSceneIndex % transitionFamilies.length];
 
-  if (currentStyle === 'web-wipe') {
+  if (family === 'mask') {
     playWebTransition();
   } else {
     triggerScreenShake();
   }
 
+  // 120ms: Outgoing scene begins exit transition
   setTimeout(() => {
     if (currentScene) {
-      if (currentStyle === 'web-swing') {
+      if (family === 'pull') {
+        currentScene.classList.add(isBack ? 'scene-transition-pull-back-exit' : 'scene-transition-pull-exit');
+      } else if (family === 'mask') {
+        currentScene.classList.add('scene-transition-mask-exit');
+      } else if (family === 'camera') {
+        currentScene.classList.add('scene-transition-camera-exit');
+      } else if (family === 'swing') {
         currentScene.classList.add('scene-transition-swing-exit');
-      } else {
-        currentScene.classList.add('scene-exit');
       }
     }
   }, 120);
 
+  // 350ms: Target scene enters underneath in overlap
   setTimeout(() => {
     DOM.scenes.forEach(s => {
       if (s !== currentScene && s !== targetScene) {
-        s.classList.remove('active-scene', 'scene-exit', 'scene-enter', 'scene-transition-slam', 'scene-transition-portal', 'scene-transition-swing-exit', 'scene-transition-swing-enter');
+        s.className = 'scene';
       }
     });
     
     if (targetScene) {
       targetScene.classList.add('active-scene');
-      if (currentStyle === 'web-swing') {
+      if (family === 'pull') {
+        targetScene.classList.add(isBack ? 'scene-transition-pull-back-enter' : 'scene-transition-pull-enter');
+      } else if (family === 'mask') {
+        targetScene.classList.add('scene-transition-mask-enter');
+      } else if (family === 'camera') {
+        targetScene.classList.add('scene-transition-camera-enter');
+      } else if (family === 'swing') {
         targetScene.classList.add('scene-transition-swing-enter');
-      } else if (currentStyle === 'panel-slam') {
-        targetScene.classList.add('scene-transition-slam');
-      } else if (currentStyle === 'portal-expand') {
-        targetScene.classList.add('scene-transition-portal');
-      } else {
-        targetScene.classList.add('scene-enter');
       }
       currentSceneIndex = targetSceneIndex;
     }
 
-    if (targetSceneIndex > 0 && targetSceneIndex < 8) {
+    if (targetSceneIndex > 0 && targetSceneIndex < 9) {
       DOM.progressContainer.classList.remove('hidden');
       updateProgress(PROGRESS_MAP[targetSceneIndex]);
-    } else if (targetSceneIndex === 9) {
+    } else if (targetSceneIndex === 10) {
       DOM.progressContainer.classList.remove('hidden');
       updateProgress(100);
     } else {
@@ -377,10 +416,11 @@ function transitionToScene(targetSceneIndex, isBack = false) {
     }
   }, 350);
 
+  // 750ms: Cleanup animation classes and unlock interaction
   setTimeout(() => {
     DOM.webOverlay.classList.remove('web-wipe-active');
     if (currentScene) {
-      currentScene.classList.remove('active-scene', 'scene-exit', 'scene-transition-swing-exit');
+      currentScene.className = 'scene';
     }
     isTransitioning = false;
   }, 750);
@@ -390,7 +430,7 @@ function playWebTransition() {
   DOM.webOverlay.classList.add('web-wipe-active');
 }
 
-// ===== VALIDATION =====
+// ===== VALIDATION (REQUIRED FIELDS) =====
 function validateScene(sceneIndex) {
   let isValid = true;
   
@@ -429,6 +469,26 @@ function validateScene(sceneIndex) {
     }
   }
 
+  // Scene 4: Hobbies MUST be required!
+  if (sceneIndex === 4) {
+    if (!residentProfile.hobbies || residentProfile.hobbies.length === 0) {
+      if (DOM.errHobbies) DOM.errHobbies.classList.remove('hidden-error');
+      isValid = false;
+    } else {
+      if (DOM.errHobbies) DOM.errHobbies.classList.add('hidden-error');
+    }
+  }
+
+  // Scene 5: Event Availability MUST be required!
+  if (sceneIndex === 5) {
+    if (!residentProfile.eventAvailability || residentProfile.eventAvailability.length === 0) {
+      if (DOM.errAvailability) DOM.errAvailability.classList.remove('hidden-error');
+      isValid = false;
+    } else {
+      if (DOM.errAvailability) DOM.errAvailability.classList.add('hidden-error');
+    }
+  }
+
   if (!isValid) triggerScreenShake();
   return isValid;
 }
@@ -442,6 +502,7 @@ function collectCurrentSceneAnswers() {
   residentProfile.classThought = DOM.inputClassThought.value.trim();
   residentProfile.organizations = DOM.inputOrgs.value.trim();
   residentProfile.otherHobby = DOM.inputOtherHobby.value.trim();
+  if (DOM.inputOtherAvailability) residentProfile.otherAvailability = DOM.inputOtherAvailability.value.trim();
   residentProfile.eventSuggestion = DOM.inputEventSuggestion.value.trim();
   residentProfile.additionalMessage = DOM.inputMessage.value.trim();
   
@@ -469,7 +530,7 @@ function triggerFinishMission() {
   }
 
   collectCurrentSceneAnswers();
-  transitionToScene(8); // Verifying scene
+  transitionToScene(9); // Verifying scene
   
   submitResidentProfile(residentProfile);
 }
@@ -560,7 +621,7 @@ function runVerifyingLogSequence(isSuccess) {
     if (isSuccess) {
       triggerImpactFlash();
       renderFinalEnding();
-      transitionToScene(9); // Final reveal scene (Scene 9)
+      transitionToScene(10); // Final reveal scene (Scene 10)
       sessionStorage.removeItem('residentProfileData'); // Clear session on success ONLY
     } else {
       DOM.errorModal.classList.remove('hidden-modal');
@@ -602,6 +663,7 @@ function restoreAnswersFromSession() {
       DOM.inputClassThought.value = residentProfile.classThought || '';
       DOM.inputOrgs.value = residentProfile.organizations || '';
       DOM.inputOtherHobby.value = residentProfile.otherHobby || '';
+      if (DOM.inputOtherAvailability) DOM.inputOtherAvailability.value = residentProfile.otherAvailability || '';
       DOM.inputEventSuggestion.value = residentProfile.eventSuggestion || '';
       DOM.inputMessage.value = residentProfile.additionalMessage || '';
 
@@ -614,6 +676,12 @@ function restoreAnswersFromSession() {
       if (DOM.gridHobbies && Array.isArray(residentProfile.hobbies)) {
         DOM.gridHobbies.querySelectorAll('.hobby-chip').forEach(t => {
           if (residentProfile.hobbies.includes(t.getAttribute('data-value'))) t.classList.add('selected');
+        });
+      }
+
+      if (DOM.gridAvailability && Array.isArray(residentProfile.eventAvailability)) {
+        DOM.gridAvailability.querySelectorAll('.availability-tile').forEach(t => {
+          if (residentProfile.eventAvailability.includes(t.getAttribute('data-value'))) t.classList.add('selected');
         });
       }
 

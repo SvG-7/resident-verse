@@ -25,7 +25,7 @@ function doPost(e) {
     const sheet = getOrCreateSheet();
     let data = {};
 
-    // Support both URLSearchParams (e.parameter) and JSON body (e.postData.contents)
+    // Support both JSON body (e.postData.contents) and URLSearchParams (e.parameter)
     if (e && e.postData && e.postData.contents) {
       try {
         data = JSON.parse(e.postData.contents);
@@ -48,6 +48,13 @@ function doPost(e) {
     
     // Safely format multi-select array/string fields
     const hobbies = Array.isArray(data.hobbies) ? data.hobbies.join(", ") : sanitize(data.hobbies);
+    
+    // Event Availability (NEW FIELD!)
+    let availabilityStr = Array.isArray(data.eventAvailability) ? data.eventAvailability.join(", ") : sanitize(data.eventAvailability);
+    if (data.otherAvailability && sanitize(data.otherAvailability)) {
+      availabilityStr += (availabilityStr ? " | Other: " : "Other: ") + sanitize(data.otherAvailability);
+    }
+
     const interests = Array.isArray(data.interests) ? data.interests.join(", ") : sanitize(data.interests);
     const otherHobby = sanitize(data.otherHobby);
     const eventPreferences = Array.isArray(data.eventPreferences) ? data.eventPreferences.join(", ") : sanitize(data.eventPreferences);
@@ -65,6 +72,7 @@ function doPost(e) {
       classThought,
       organizations,
       hobbies,
+      availabilityStr,
       interests,
       otherHobby,
       eventPreferences,
@@ -105,6 +113,7 @@ function getOrCreateSheet() {
       "Class Thought",
       "Clubs / Orgs / Sports / Jobs",
       "Hobbies",
+      "Event Availability",
       "Powers / Interests",
       "Other Hobbies",
       "Preferred Community Events",
