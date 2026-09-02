@@ -6,7 +6,7 @@
  * ==========================================================================
  */
 
-// Global Sheet Configuration (Default tab name)
+// Global Sheet Configuration
 const SHEET_NAME = "Resident Responses";
 
 /**
@@ -23,9 +23,9 @@ function doPost(e) {
 
   try {
     const sheet = getOrCreateSheet();
-    let data;
+    let data = {};
 
-    // Parse incoming JSON body or Form parameters
+    // Support both URLSearchParams (e.parameter) and JSON body (e.postData.contents)
     if (e && e.postData && e.postData.contents) {
       try {
         data = JSON.parse(e.postData.contents);
@@ -34,11 +34,9 @@ function doPost(e) {
       }
     } else if (e && e.parameter) {
       data = e.parameter;
-    } else {
-      throw new Error("No data payload received.");
     }
 
-    // Format & sanitize incoming data values
+    // Extract & sanitize incoming fields
     const timestamp = new Date();
     const name = sanitize(data.name);
     const preferredName = sanitize(data.preferredName);
@@ -48,7 +46,7 @@ function doPost(e) {
     const classThought = sanitize(data.classThought);
     const organizations = sanitize(data.organizations);
     
-    // Process Array values safely (e.g. Hobbies, Interests, Event Preferences)
+    // Safely format multi-select array/string fields
     const hobbies = Array.isArray(data.hobbies) ? data.hobbies.join(", ") : sanitize(data.hobbies);
     const interests = Array.isArray(data.interests) ? data.interests.join(", ") : sanitize(data.interests);
     const otherHobby = sanitize(data.otherHobby);
@@ -90,7 +88,7 @@ function getOrCreateSheet() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   let sheet = ss.getSheetByName(SHEET_NAME);
 
-  // Fallback: If "Resident Responses" tab does not exist, use the active sheet or first sheet
+  // Fallback: If "Resident Responses" tab does not exist, use active sheet or first sheet
   if (!sheet) {
     sheet = ss.getActiveSheet() || ss.getSheets()[0];
   }
@@ -135,7 +133,7 @@ function sanitize(val) {
 }
 
 /**
- * JSON Response Formatter with CORS headers
+ * JSON Response Formatter
  */
 function createJsonResponse(status, message) {
   const response = {
@@ -149,7 +147,7 @@ function createJsonResponse(status, message) {
 }
 
 /**
- * Optional GET handler for testing endpoint in browser
+ * GET handler for testing endpoint in browser
  */
 function doGet(e) {
   return createJsonResponse("online", "Resident-Verse Apps Script Backend is Active.");

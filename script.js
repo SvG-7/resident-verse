@@ -5,7 +5,7 @@
    ========================================================================== */
 
 // ===== PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE =====
-const RESPONSE_ENDPOINT = "https://script.google.com/macros/s/AKfycbxmywRGxAtE8SxkXS8H-DfiLpEpWKvp9DrBQoSDmRi9cEfthiqLASf5Fw_zqRgUqjQD/exec";
+const RESPONSE_ENDPOINT = "PASTE_GOOGLE_APPS_SCRIPT_URL_HERE";
 
 // ===== STATE MANAGEMENT (NO ROOM NUMBER!) =====
 const residentProfile = {
@@ -480,9 +480,9 @@ function submitResidentProfile(profile) {
     timestamp: new Date().toISOString()
   };
 
-  console.log("FINAL FORM DATA", payload);
-  console.log("GOOGLE SCRIPT URL", RESPONSE_ENDPOINT);
-  console.log("SUBMISSION STARTED");
+  console.log("SUBMIT START");
+  console.log("FINAL DATA:", payload);
+  console.log("SCRIPT URL:", RESPONSE_ENDPOINT);
 
   const isEndpointConfigured = RESPONSE_ENDPOINT && 
     RESPONSE_ENDPOINT !== "PASTE_GOOGLE_APPS_SCRIPT_URL_HERE" &&
@@ -503,21 +503,23 @@ function submitResidentProfile(profile) {
     return;
   }
 
-  // Attempt POST request via fetch with text/plain (no-cors) to bypass preflight OPTIONS
+  // Format payload as URLSearchParams for 100% CORS-safe POST without preflight OPTIONS
+  const bodyParams = new URLSearchParams();
+  Object.entries(payload).forEach(([key, val]) => {
+    bodyParams.append(key, Array.isArray(val) ? val.join(", ") : String(val ?? ""));
+  });
+
   fetch(RESPONSE_ENDPOINT, {
     method: "POST",
     mode: "no-cors",
-    headers: {
-      "Content-Type": "text/plain;charset=utf-8"
-    },
-    body: JSON.stringify(payload)
+    body: bodyParams
   })
   .then(() => {
     console.log("⚡ TRANSMISSION SENT TO GOOGLE APPS SCRIPT ENDPOINT SUCCESSFULLY!");
     runVerifyingLogSequence(true);
   })
   .catch(err => {
-    console.error("❌ Submission transmission fetch error:", err);
+    console.error("SUBMISSION ERROR:", err);
     submissionInProgress = false;
     if (DOM.btnFinish) {
       DOM.btnFinish.disabled = false;
