@@ -6,7 +6,7 @@
  * ==========================================================================
  */
 
-// Global Sheet Configuration
+// Global Sheet Configuration (Default tab name)
 const SHEET_NAME = "Resident Responses";
 
 /**
@@ -25,10 +25,14 @@ function doPost(e) {
     const sheet = getOrCreateSheet();
     let data;
 
-    // Parse incoming JSON body or Form data
-    if (e.postData && e.postData.contents) {
-      data = JSON.parse(e.postData.contents);
-    } else if (e.parameter) {
+    // Parse incoming JSON body or Form parameters
+    if (e && e.postData && e.postData.contents) {
+      try {
+        data = JSON.parse(e.postData.contents);
+      } catch (jsonErr) {
+        data = e.parameter || {};
+      }
+    } else if (e && e.parameter) {
       data = e.parameter;
     } else {
       throw new Error("No data payload received.");
@@ -44,14 +48,15 @@ function doPost(e) {
     const classThought = sanitize(data.classThought);
     const organizations = sanitize(data.organizations);
     
-    // Process Array values safely (e.g. Interests, Event Preferences)
+    // Process Array values safely (e.g. Hobbies, Interests, Event Preferences)
+    const hobbies = Array.isArray(data.hobbies) ? data.hobbies.join(", ") : sanitize(data.hobbies);
     const interests = Array.isArray(data.interests) ? data.interests.join(", ") : sanitize(data.interests);
     const otherHobby = sanitize(data.otherHobby);
     const eventPreferences = Array.isArray(data.eventPreferences) ? data.eventPreferences.join(", ") : sanitize(data.eventPreferences);
     const eventSuggestion = sanitize(data.eventSuggestion);
     const additionalMessage = sanitize(data.additionalMessage);
 
-    // Append single new row to Google Sheet
+    // Append single new row to Google Sheet (1 row per resident!)
     sheet.appendRow([
       timestamp,
       name,
@@ -61,6 +66,7 @@ function doPost(e) {
       year,
       classThought,
       organizations,
+      hobbies,
       interests,
       otherHobby,
       eventPreferences,
@@ -84,8 +90,9 @@ function getOrCreateSheet() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   let sheet = ss.getSheetByName(SHEET_NAME);
 
+  // Fallback: If "Resident Responses" tab does not exist, use the active sheet or first sheet
   if (!sheet) {
-    sheet = ss.insertSheet(SHEET_NAME);
+    sheet = ss.getActiveSheet() || ss.getSheets()[0];
   }
 
   // Create Header Row if sheet is empty
@@ -99,14 +106,19 @@ function getOrCreateSheet() {
       "Year",
       "Class Thought",
       "Clubs / Orgs / Sports / Jobs",
-      "Interests",
+      "Hobbies",
+      "Powers / Interests",
       "Other Hobbies",
       "Preferred Community Events",
       "Event Suggestion",
       "Anything Else"
     ];
     sheet.appendRow(headers);
-    sheet.getRange(1, 1, 1, headers.length).setFontWeight("bold").setBackground("#121420").setFontColor("#00f0ff");
+    try {
+      sheet.getRange(1, 1, 1, headers.length).setFontWeight("bold").setBackground("#121420").setFontColor("#00f0ff");
+    } catch (styleErr) {
+      // Ignore styling errors if sheet doesn't support them
+    }
   }
 
   return sheet;

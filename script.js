@@ -1,7 +1,7 @@
 /* ==========================================================================
    RESIDENT-VERSE : SPIDER-MAN MULTIVERSE MOVIE TITLE ENGINE
    Features: Overlapping Web-Pull Transitions, Hobbies Scene, 3D Parallax,
-   Multi-Layer Cards, Google Sheets Submission.
+   Multi-Layer Cards, Production Google Sheets Submission System.
    ========================================================================== */
 
 // ===== PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE =====
@@ -30,7 +30,7 @@ const PROGRESS_MAP = {
   1: 15,  // Identity
   2: 30,  // Academics
   3: 45,  // Campus Alliances
-  4: 60,  // Hobbies & Side Quests (NEW!)
+  4: 60,  // Hobbies & Side Quests
   5: 75,  // Select Your Powers
   6: 90,  // Community Missions
   7: 95,  // Final Message
@@ -83,7 +83,7 @@ const DOM = {
   inputOrgs: document.getElementById('input-orgs'),
   netNodes: document.querySelectorAll('.net-node'),
 
-  // Hobbies Inputs (NEW!)
+  // Hobbies Inputs
   gridHobbies: document.getElementById('grid-hobbies'),
   
   // Powers Inputs
@@ -183,7 +183,7 @@ function setupEventListeners() {
     });
   });
 
-  // Hobbies Multi-Select Cards (NEW SCENE 4!)
+  // Hobbies Multi-Select Cards
   if (DOM.gridHobbies) {
     DOM.gridHobbies.querySelectorAll('.hobby-chip').forEach(tile => {
       tile.addEventListener('click', () => {
@@ -305,7 +305,7 @@ function handleNextScene(e) {
   
   if (validateScene(currentSceneIndex)) {
     collectCurrentSceneAnswers();
-    if (currentSceneIndex < 7) { // 10 total scenes (0 to 9)
+    if (currentSceneIndex < 7) {
       transitionToScene(currentSceneIndex + 1);
     }
   }
@@ -325,7 +325,6 @@ function transitionToScene(targetSceneIndex, isBack = false) {
   const currentScene = document.querySelector(`[data-scene-index="${currentSceneIndex}"]`);
   const targetScene = document.querySelector(`[data-scene-index="${targetSceneIndex}"]`);
 
-  // Cycle between 4 transition styles: Web Pull, Panel Slam, Portal Scale, Web Swing
   const styles = ['web-wipe', 'panel-slam', 'portal-expand', 'web-swing'];
   const currentStyle = styles[transitionStyleIndex % styles.length];
   transitionStyleIndex++;
@@ -336,7 +335,6 @@ function transitionToScene(targetSceneIndex, isBack = false) {
     triggerScreenShake();
   }
 
-  // 100-350ms: Web strand extends; 250ms: current scene starts sliding out
   setTimeout(() => {
     if (currentScene) {
       if (currentStyle === 'web-swing') {
@@ -347,7 +345,6 @@ function transitionToScene(targetSceneIndex, isBack = false) {
     }
   }, 120);
 
-  // 350-450ms: Target scene is already visible underneath and begins entering
   setTimeout(() => {
     DOM.scenes.forEach(s => {
       if (s !== currentScene && s !== targetScene) {
@@ -369,7 +366,6 @@ function transitionToScene(targetSceneIndex, isBack = false) {
       currentSceneIndex = targetSceneIndex;
     }
 
-    // Top progress bar updates
     if (targetSceneIndex > 0 && targetSceneIndex < 8) {
       DOM.progressContainer.classList.remove('hidden');
       updateProgress(PROGRESS_MAP[targetSceneIndex]);
@@ -381,7 +377,6 @@ function transitionToScene(targetSceneIndex, isBack = false) {
     }
   }, 350);
 
-  // 750-900ms: Cleanup transition overlays & unlock controls
   setTimeout(() => {
     DOM.webOverlay.classList.remove('web-wipe-active');
     if (currentScene) {
@@ -467,7 +462,11 @@ function updateProgress(percent) {
 function triggerFinishMission() {
   if (submissionInProgress) return;
   submissionInProgress = true;
-  DOM.btnFinish.disabled = true;
+  
+  if (DOM.btnFinish) {
+    DOM.btnFinish.disabled = true;
+    DOM.btnFinish.querySelector('.btn-text').textContent = "TRANSMITTING...";
+  }
 
   collectCurrentSceneAnswers();
   transitionToScene(8); // Verifying scene
@@ -476,30 +475,54 @@ function triggerFinishMission() {
 }
 
 function submitResidentProfile(profile) {
-  console.log("=================================================");
-  console.log("⚡ RESIDENT PROFILE TRANSMISSION INITIALIZED ⚡");
-  console.log(JSON.stringify(profile, null, 2));
-  console.log("=================================================");
+  const payload = {
+    ...profile,
+    timestamp: new Date().toISOString()
+  };
 
-  const isEndpointConfigured = RESPONSE_ENDPOINT && RESPONSE_ENDPOINT !== "PASTE_GOOGLE_APPS_SCRIPT_URL_HERE";
+  console.log("FINAL FORM DATA", payload);
+  console.log("GOOGLE SCRIPT URL", RESPONSE_ENDPOINT);
+  console.log("SUBMISSION STARTED");
+
+  const isEndpointConfigured = RESPONSE_ENDPOINT && 
+    RESPONSE_ENDPOINT !== "PASTE_GOOGLE_APPS_SCRIPT_URL_HERE" &&
+    RESPONSE_ENDPOINT.includes("script.google.com/macros/s/");
 
   if (!isEndpointConfigured) {
-    console.warn("Google Apps Script URL not configured yet. Simulating success for testing.");
-    runVerifyingLogSequence(true);
+    console.error("❌ CRITICAL ERROR: Google Apps Script Web App URL is NOT configured or invalid!");
+    console.error("Please replace RESPONSE_ENDPOINT in script.js with your Google Apps Script /exec URL.");
+    
+    setTimeout(() => {
+      submissionInProgress = false;
+      if (DOM.btnFinish) {
+        DOM.btnFinish.disabled = false;
+        DOM.btnFinish.querySelector('.btn-text').textContent = "FINISH MISSION";
+      }
+      runVerifyingLogSequence(false);
+    }, 1200);
     return;
   }
 
+  // Attempt POST request via fetch with text/plain (no-cors) to bypass preflight OPTIONS
   fetch(RESPONSE_ENDPOINT, {
     method: "POST",
     mode: "no-cors",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(profile)
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8"
+    },
+    body: JSON.stringify(payload)
   })
   .then(() => {
+    console.log("⚡ TRANSMISSION SENT TO GOOGLE APPS SCRIPT ENDPOINT SUCCESSFULLY!");
     runVerifyingLogSequence(true);
   })
   .catch(err => {
-    console.error("Submission transmission error:", err);
+    console.error("❌ Submission transmission fetch error:", err);
+    submissionInProgress = false;
+    if (DOM.btnFinish) {
+      DOM.btnFinish.disabled = false;
+      DOM.btnFinish.querySelector('.btn-text').textContent = "FINISH MISSION";
+    }
     runVerifyingLogSequence(false);
   });
 }
@@ -517,19 +540,28 @@ function runVerifyingLogSequence(isSuccess) {
   logLines.forEach(item => {
     setTimeout(() => {
       const el = document.getElementById(item.id);
-      if (el) el.classList.add('log-success');
+      if (el) {
+        if (isSuccess) {
+          el.classList.add('log-success');
+        } else {
+          el.classList.remove('log-success');
+        }
+      }
     }, item.delay);
   });
 
   setTimeout(() => {
     submissionInProgress = false;
-    DOM.btnFinish.disabled = false;
+    if (DOM.btnFinish) {
+      DOM.btnFinish.disabled = false;
+      DOM.btnFinish.querySelector('.btn-text').textContent = "FINISH MISSION";
+    }
 
     if (isSuccess) {
       triggerImpactFlash();
       renderFinalEnding();
       transitionToScene(9); // Final reveal scene (Scene 9)
-      sessionStorage.removeItem('residentProfileData'); // Clear session on success
+      sessionStorage.removeItem('residentProfileData'); // Clear session on success ONLY
     } else {
       DOM.errorModal.classList.remove('hidden-modal');
     }
