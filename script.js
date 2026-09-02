@@ -4,7 +4,7 @@
    Multi-Layer Cards, Production Google Sheets Submission System.
    ========================================================================== */
 
-// ===== PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE =====
+// ===== REAL GOOGLE APPS SCRIPT WEB APP URL =====
 const RESPONSE_ENDPOINT = "https://script.google.com/macros/s/AKfycbxmywRGxAtE8SxkXS8H-DfiLpEpWKvp9DrBQoSDmRi9cEfthiqLASf5Fw_zqRgUqjQD/exec";
 
 // ===== STATE MANAGEMENT (NO ROOM NUMBER!) =====
@@ -485,7 +485,7 @@ function submitResidentProfile(profile) {
   console.log("SCRIPT URL:", RESPONSE_ENDPOINT);
 
   const isEndpointConfigured = RESPONSE_ENDPOINT && 
-    RESPONSE_ENDPOINT !== "PASTE_GOOGLE_APPS_SCRIPT_URL_HERE" &&
+    !RESPONSE_ENDPOINT.includes("PASTE_GOOGLE_APPS_SCRIPT_URL_HERE") &&
     RESPONSE_ENDPOINT.includes("script.google.com/macros/s/");
 
   if (!isEndpointConfigured) {
@@ -503,16 +503,14 @@ function submitResidentProfile(profile) {
     return;
   }
 
-  // Format payload as URLSearchParams for 100% CORS-safe POST without preflight OPTIONS
-  const bodyParams = new URLSearchParams();
-  Object.entries(payload).forEach(([key, val]) => {
-    bodyParams.append(key, Array.isArray(val) ? val.join(", ") : String(val ?? ""));
-  });
-
+  // Send raw stringified JSON with text/plain to bypass CORS OPTIONS preflight and populate e.postData.contents
   fetch(RESPONSE_ENDPOINT, {
     method: "POST",
     mode: "no-cors",
-    body: bodyParams
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8"
+    },
+    body: JSON.stringify(payload)
   })
   .then(() => {
     console.log("⚡ TRANSMISSION SENT TO GOOGLE APPS SCRIPT ENDPOINT SUCCESSFULLY!");
